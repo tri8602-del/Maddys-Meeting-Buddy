@@ -1583,6 +1583,10 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
   import {
+    initializeAppCheck,
+    ReCaptchaEnterpriseProvider
+  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
+  import {
     getAI,
     getGenerativeModel,
     GoogleAIBackend
@@ -1598,6 +1602,11 @@
   };
 
   const firebaseApp = initializeApp(firebaseConfig);
+
+  const appCheck = initializeAppCheck(firebaseApp, {
+    provider: new ReCaptchaEnterpriseProvider("6LdvqbktAAAAAA3ve9-519LXitetSlwbJIaPSa8b"),
+    isTokenAutoRefreshEnabled: true
+  });
 
   const ai = getAI(firebaseApp, {
     backend: new GoogleAIBackend()
