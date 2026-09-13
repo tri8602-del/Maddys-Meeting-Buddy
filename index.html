@@ -358,7 +358,12 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 }
 </style>
 
-@font-face{font-family:"HelloBaby";src:url("fonts/hello-baby.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+
+
+<style id="papernotes-fonts">
+@font-face{font-family:"Papernotes";src:url("fonts/papernotes-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Papernotes";src:url("fonts/papernotes-bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+</style>
 </head>
 <body>
 <main class="app">
@@ -650,6 +655,44 @@ body{font-size:20px}
 }
 </style>
 
+
+<style id="papernotes-ui">
+body,
+.subtitle,
+.name-hint,
+.paragraph-card,
+.buddy-panel,
+.time-card,
+.drawing-panel,
+.header-time,
+.save-drawing,
+.drawing-note,
+.color-picker,
+.progress-info,
+.home,
+.nav,
+.buddy-button,
+.draw-button,
+.paragraph-number,
+.paragraph-text,
+.buddy-message,
+.header-time-label,
+.time-label{
+  font-family:"Papernotes",sans-serif !important;
+}
+body{font-size:20px}
+.subtitle{font-size:21px !important}
+.name-hint{font-size:17px !important}
+.progress-info{font-size:18px !important}
+.paragraph-number{font-size:22px !important;font-weight:700 !important}
+.paragraph-text{font-size:26px !important;line-height:1.55 !important}
+.buddy-message{font-size:20px !important}
+.header-time-label,.time-label{font-size:18px !important}
+.home,.nav,.buddy-button,.draw-button{font-size:19px !important}
+.save-drawing{font-size:18px !important}
+.drawing-note{font-size:17px !important}
+.color-picker{font-size:17px !important}
+</style>
 </body>
 </html>
 <style id="hello-baby-selection-font">
