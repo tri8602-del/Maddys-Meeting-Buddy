@@ -1873,12 +1873,17 @@ ${question}
 
       answerBox.textContent = answer;
 
-    } catch (error) {
+     } catch (error) {
 
       console.error("Buddy error:", error);
 
+      const errorDetails =
+        error?.code
+          ? `${error.code}: ${error.message || "No error message"}`
+          : (error?.message || String(error));
+
       answerBox.textContent =
-        "Hmm, Buddy couldn't connect right now. Let's try again in a minute. 🐶";
+        `Buddy error: ${errorDetails}`;
 
     } finally {
 
