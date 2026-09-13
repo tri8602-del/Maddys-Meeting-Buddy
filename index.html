@@ -1,1901 +1,303 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Maddy's Meeting Buddy</title>
-
   <style>
-
-    * {
-
-      box-sizing: border-box;
-
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7f4fb;color:#3d3548}
+    button,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100vh;padding:14px}
+    .screen{width:100%;max-width:900px;margin:0 auto}
+    .welcome{max-width:700px;margin:25px auto;background:#fff;border-radius:28px;padding:35px 22px;text-align:center;box-shadow:0 8px 30px rgba(60,45,75,.12)}
+    .welcome-buddy{font-size:82px}
+    h1{margin:5px 0 10px;font-size:31px}
+    .subtitle{max-width:520px;margin:0 auto 26px;color:#766d80;line-height:1.5}
+    .animal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:440px;margin:0 auto 24px}
+    .animal{border:2px solid #e7e0ed;background:#fcfbfd;border-radius:20px;padding:16px 8px;font-size:45px}
+    .animal.selected{border-color:#8d65ad;background:#f3eafa}
+    .animal-name{display:block;font-size:13px;margin-top:5px;color:#6d6377}
+    .primary{border:0;border-radius:16px;padding:14px 28px;background:#8d65ad;color:#fff;font-weight:700;font-size:17px}
+    .primary:disabled{opacity:.45;cursor:not-allowed}
+    .meeting-header,.card{background:#fff;border-radius:24px;box-shadow:0 5px 20px rgba(60,45,75,.08)}
+    .meeting-header{padding:20px 22px;margin-bottom:16px}
+    .top-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .meeting-type{font-size:13px;font-weight:700;letter-spacing:.08em;color:#8d65ad;text-transform:uppercase}
+    .home{border:0;background:#f3edf7;color:#5f5368;border-radius:12px;padding:10px 14px;font-weight:600}
+    .meeting-title{margin:10px 0 16px;font-size:25px}
+    .progress-info{display:flex;justify-content:space-between;color:#766d80;font-size:14px;margin-bottom:7px}
+    .progress-bar{height:10px;background:#ece7ef;border-radius:20px;overflow:hidden}
+    .progress-fill{height:100%;width:0;background:#8d65ad;transition:width .25s}
+    .meeting-content{display:grid;grid-template-columns:1fr 210px;gap:16px;align-items:start}
+    .paragraph-card{background:#fff;border-radius:24px;padding:26px;box-shadow:0 5px 20px rgba(60,45,75,.08);min-height:420px}
+    .section-label{display:inline-block;background:#f3eafa;color:#765292;padding:7px 11px;border-radius:10px;font-size:13px;font-weight:700;margin-bottom:15px}
+    .paragraph-number{font-size:15px;font-weight:700;color:#766d80;margin-bottom:12px}
+    .paragraph-text{font-size:20px;line-height:1.65}
+    .controls{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+    .nav{border:2px solid #e4dce9;background:#fff;color:#554b5e;border-radius:14px;padding:12px 16px;font-weight:600;min-width:120px}
+    .nav:disabled{opacity:.4;cursor:not-allowed}
+    .buddy-panel,.time-card,.drawing-panel{background:#fff;border-radius:24px;padding:20px;box-shadow:0 5px 20px rgba(60,45,75,.08);text-align:center}
+    .buddy-character{font-size:76px}
+    .buddy-name{font-size:17px;font-weight:700;margin-bottom:12px}
+    .buddy-message{min-height:55px;background:#f8f4fa;border-radius:14px;padding:12px;font-size:14px;line-height:1.4;color:#6c6272}
+    .buddy-button,.draw-button{width:100%;border:0;border-radius:13px;padding:12px;margin-top:8px;font-weight:600}
+    .buddy-button{background:#8d65ad;color:#fff}
+    .draw-button{background:#eee7f3;color:#574d61}
+    .time-card{margin-top:16px}
+    .time-label{font-size:12px;color:#817887;margin-bottom:5px}
+    .time-value{font-size:22px;font-weight:700}
+    .drawing-panel{display:none;margin-top:16px}
+    .drawing-panel.visible{display:block}
+    .drawing-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .clear{border:0;background:#eee7f3;color:#574d61;border-radius:10px;padding:8px 12px}
+    #drawingCanvas{width:100%;height:260px;border:2px dashed #d9cfdf;border-radius:16px;background:#fff;touch-action:none;display:block}
+    .drawing-note{font-size:12px;color:#817887}
+    #buddyOverlay{position:fixed;inset:0;background:rgba(40,30,50,.35);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+    #buddyBox{width:min(560px,100%);background:#fff;border-radius:28px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;text-align:center}
+    #closeBuddy{position:absolute;top:10px;right:16px;border:0;background:none;font-size:32px;color:#777}
+    .buddyEmoji{font-size:58px}
+    #buddyBox h2{margin:5px 0;color:#40394a;font-size:30px}
+    .buddyIntro{color:#777;font-size:17px;margin:0 0 18px}
+    #buddyQuestion{width:100%;border:2px solid #e5dff0;border-radius:16px;padding:15px;font-size:18px;resize:none;outline:none}
+    #sendBuddyQuestion{width:100%;margin-top:14px;padding:15px;border:0;border-radius:16px;background:#9163b6;color:#fff;font-size:18px;font-weight:600}
+    #buddyAnswer{display:none;margin-top:18px;padding:18px;background:#f7f4fa;border-radius:16px;color:#40394a;font-size:17px;line-height:1.5;text-align:left;white-space:pre-wrap}
+    @media(max-width:700px){
+      .app{padding:10px}.welcome{margin:12px auto;padding:28px 16px}.welcome-buddy{font-size:72px}h1{font-size:27px}
+      .animal{font-size:39px;padding:13px 7px}.meeting-content{grid-template-columns:1fr}.paragraph-card{padding:22px;min-height:auto}.paragraph-text{font-size:18px}
+      .buddy-panel{display:grid;grid-template-columns:auto 1fr;text-align:left;align-items:center;gap:10px}.buddy-character{grid-row:span 3}.buddy-name{margin:0}.buddy-message{margin:0}.buddy-button,.draw-button{width:auto;margin:0}
     }
-
-    body {
-
-      margin: 0;
-
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-      background: #f7f4fb;
-
-      color: #3d3548;
-
-    }
-
-    button {
-
-      font-family: inherit;
-
-    }
-
-    .app {
-
-      min-height: 100vh;
-
-      padding: 20px;
-
-    }
-
-    .screen {
-
-      width: 100%;
-
-      max-width: 900px;
-
-      margin: 0 auto;
-
-    }
-
-    /* -------------------------
-
-       WELCOME SCREEN
-
-    ------------------------- */
-
-    .welcome {
-
-      max-width: 700px;
-
-      margin: 40px auto;
-
-      background: white;
-
-      border-radius: 28px;
-
-      padding: 40px 28px;
-
-      text-align: center;
-
-      box-shadow: 0 8px 30px rgba(60, 45, 75, 0.12);
-
-    }
-
-    .welcome-buddy {
-
-      font-size: 90px;
-
-      margin-bottom: 10px;
-
-    }
-
-    h1 {
-
-      margin: 0 0 10px;
-
-      font-size: 32px;
-
-    }
-
-    .subtitle {
-
-      margin: 0 auto 30px;
-
-      max-width: 500px;
-
-      font-size: 17px;
-
-      line-height: 1.5;
-
-      color: #766d80;
-
-    }
-
-    .animal-grid {
-
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 14px;
-
-      max-width: 430px;
-
-      margin: 0 auto 28px;
-
-    }
-
-    .animal {
-
-      border: 2px solid #e7e0ed;
-
-      background: #fcfbfd;
-
-      border-radius: 20px;
-
-      padding: 18px 10px;
-
-      cursor: pointer;
-
-      font-size: 48px;
-
-      transition: transform 0.15s ease, border-color 0.15s ease;
-
-    }
-
-    .animal:hover {
-
-      transform: translateY(-3px);
-
-      border-color: #b79bd0;
-
-    }
-
-    .animal.selected {
-
-      border-color: #8d65ad;
-
-      background: #f3eafa;
-
-    }
-
-    .animal-name {
-
-      display: block;
-
-      font-size: 13px;
-
-      margin-top: 6px;
-
-      color: #6d6377;
-
-    }
-
-    .primary-button {
-
-      border: 0;
-
-      border-radius: 16px;
-
-      padding: 15px 30px;
-
-      font-size: 17px;
-
-      font-weight: 600;
-
-      background: #8d65ad;
-
-      color: white;
-
-      cursor: pointer;
-
-    }
-
-    .primary-button:disabled {
-
-      opacity: 0.45;
-
-      cursor: not-allowed;
-
-    }
-
-    /* -------------------------
-
-       MEETING SCREEN
-
-    ------------------------- */
-
-    .meeting-header {
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 20px 22px;
-
-      margin-bottom: 16px;
-
-      box-shadow: 0 5px 20px rgba(60, 45, 75, 0.08);
-
-    }
-
-    .top-row {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      gap: 12px;
-
-    }
-
-    .meeting-type {
-
-      font-size: 13px;
-
-      font-weight: 700;
-
-      letter-spacing: 0.08em;
-
-      color: #8d65ad;
-
-      text-transform: uppercase;
-
-    }
-
-    .home-button {
-
-      border: 0;
-
-      background: #f3edf7;
-
-      color: #5f5368;
-
-      border-radius: 12px;
-
-      padding: 10px 14px;
-
-      cursor: pointer;
-
-      font-size: 14px;
-
-      font-weight: 600;
-
-    }
-
-    .meeting-title {
-
-      margin: 10px 0 16px;
-
-      font-size: 25px;
-
-    }
-
-    .progress-info {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 10px;
-
-      font-size: 14px;
-
-      color: #766d80;
-
-      margin-bottom: 7px;
-
-    }
-
-    .progress-bar {
-
-      width: 100%;
-
-      height: 10px;
-
-      background: #ece7ef;
-
-      border-radius: 20px;
-
-      overflow: hidden;
-
-    }
-
-    .progress-fill {
-
-      height: 100%;
-
-      width: 0%;
-
-      background: #8d65ad;
-
-      border-radius: 20px;
-
-      transition: width 0.3s ease;
-
-    }
-
-    .meeting-content {
-
-      display: grid;
-
-      grid-template-columns: 1fr 210px;
-
-      gap: 16px;
-
-      align-items: start;
-
-    }
-
-    .paragraph-card {
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 28px;
-
-      box-shadow: 0 5px 20px rgba(60, 45, 75, 0.08);
-
-      min-height: 430px;
-
-    }
-
-    .section-label {
-
-      display: inline-block;
-
-      background: #f3eafa;
-
-      color: #765292;
-
-      padding: 7px 11px;
-
-      border-radius: 10px;
-
-      font-size: 13px;
-
-      font-weight: 700;
-
-      margin-bottom: 15px;
-
-    }
-
-    .paragraph-number {
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      color: #766d80;
-
-      margin-bottom: 12px;
-
-    }
-
-    .paragraph-text {
-
-      font-size: 20px;
-
-      line-height: 1.65;
-
-      color: #403747;
-
-    }
-
-    .controls {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 12px;
-
-      margin-top: 28px;
-
-    }
-
-    .nav-button {
-
-      border: 2px solid #e4dce9;
-
-      background: white;
-
-      color: #554b5e;
-
-      border-radius: 14px;
-
-      padding: 13px 18px;
-
-      font-size: 15px;
-
-      font-weight: 600;
-
-      cursor: pointer;
-
-      min-width: 120px;
-
-    }
-
-    .nav-button:hover:not(:disabled) {
-
-      border-color: #8d65ad;
-
-    }
-
-    .nav-button:disabled {
-
-      opacity: 0.4;
-
-      cursor: not-allowed;
-
-    }
-
-    /* -------------------------
-
-       BUDDY PANEL
-
-    ------------------------- */
-
-    .buddy-panel {
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 20px;
-
-      text-align: center;
-
-      box-shadow: 0 5px 20px rgba(60, 45, 75, 0.08);
-
-    }
-
-    .buddy-character {
-
-      font-size: 80px;
-
-      margin-bottom: 4px;
-
-    }
-
-    .buddy-name {
-
-      font-weight: 700;
-
-      font-size: 17px;
-
-      margin-bottom: 14px;
-
-    }
-
-    .buddy-message {
-
-      min-height: 55px;
-
-      background: #f8f4fa;
-
-      border-radius: 14px;
-
-      padding: 12px;
-
-      font-size: 14px;
-
-      line-height: 1.4;
-
-      color: #6c6272;
-
-      margin-bottom: 14px;
-
-    }
-
-    .buddy-button,
-
-    .draw-button {
-
-      width: 100%;
-
-      border: 0;
-
-      border-radius: 13px;
-
-      padding: 12px;
-
-      margin-top: 8px;
-
-      cursor: pointer;
-
-      font-size: 14px;
-
-      font-weight: 600;
-
-    }
-
-    .buddy-button {
-
-      background: #8d65ad;
-
-      color: white;
-
-    }
-
-    .draw-button {
-
-      background: #eee7f3;
-
-      color: #574d61;
-
-    }
-
-    .time-card {
-
-      margin-top: 16px;
-
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 17px;
-
-      box-shadow: 0 5px 20px rgba(60, 45, 75, 0.08);
-
-      text-align: center;
-
-    }
-
-    .time-label {
-
-      font-size: 12px;
-
-      color: #817887;
-
-      margin-bottom: 5px;
-
-    }
-
-    .time-value {
-
-      font-size: 22px;
-
-      font-weight: 700;
-
-    }
-
-    /* -------------------------
-
-       DRAWING PAD
-
-    ------------------------- */
-
-    .drawing-panel {
-
-      display: none;
-
-      margin-top: 16px;
-
-      background: white;
-
-      border-radius: 24px;
-
-      padding: 20px;
-
-      box-shadow: 0 5px 20px rgba(60, 45, 75, 0.08);
-
-    }
-
-    .drawing-panel.visible {
-
-      display: block;
-
-    }
-
-    .drawing-header {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      gap: 10px;
-
-      margin-bottom: 12px;
-
-    }
-
-    .drawing-title {
-
-      font-weight: 700;
-
-    }
-
-    .clear-button {
-
-      border: 0;
-
-      background: #eee7f3;
-
-      color: #574d61;
-
-      border-radius: 10px;
-
-      padding: 8px 12px;
-
-      cursor: pointer;
-
-    }
-
-    #drawingCanvas {
-
-      width: 100%;
-
-      height: 260px;
-
-      border: 2px dashed #d9cfdf;
-
-      border-radius: 16px;
-
-      background: #fff;
-
-      touch-action: none;
-
-      display: block;
-
-    }
-
-    .drawing-note {
-
-      margin: 9px 0 0;
-
-      font-size: 12px;
-
-      color: #817887;
-
-      text-align: center;
-
-    }
-
-    /* -------------------------
-
-       RESPONSIVE
-
-    ------------------------- */
-
-    @media (max-width: 700px) {
-
-      .app {
-
-        padding: 12px;
-
-      }
-
-      .welcome {
-
-        margin: 15px auto;
-
-        padding: 30px 18px;
-
-      }
-
-      .welcome-buddy {
-
-        font-size: 75px;
-
-      }
-
-      h1 {
-
-        font-size: 27px;
-
-      }
-
-      .animal-grid {
-
-        gap: 10px;
-
-      }
-
-      .animal {
-
-        font-size: 40px;
-
-        padding: 14px 8px;
-
-      }
-
-      .meeting-content {
-
-        grid-template-columns: 1fr;
-
-      }
-
-      .paragraph-card {
-
-        padding: 22px;
-
-        min-height: auto;
-
-      }
-
-      .paragraph-text {
-
-        font-size: 18px;
-
-      }
-
-      .buddy-panel {
-
-        display: grid;
-
-        grid-template-columns: auto 1fr;
-
-        text-align: left;
-
-        align-items: center;
-
-        gap: 10px;
-
-      }
-
-      .buddy-character {
-
-        grid-row: span 3;
-
-      }
-
-      .buddy-name {
-
-        margin: 0;
-
-      }
-
-      .buddy-message {
-
-        margin: 0;
-
-      }
-
-      .buddy-button,
-
-      .draw-button {
-
-        width: auto;
-
-        margin: 0;
-
-      }
-
-      .time-card {
-
-        text-align: center;
-
-      }
-
-    }
-
   </style>
-
 </head>
-
 <body>
-
-  <main class="app">
-
-    <!-- =========================
-
-         WELCOME SCREEN
-
-    ========================== -->
-
-    <section class="screen" id="welcomeScreen">
-
-      <div class="welcome">
-
-        <div class="welcome-buddy" id="welcomeBuddy">🐰</div>
-
-        <h1>Meet Your Meeting Buddy</h1>
-
-        <p class="subtitle">
-
-          Choose a little friend who can stay with you while you follow along
-
-          with the meeting.
-
-        </p>
-
-        <div class="animal-grid">
-
-          <button class="animal" data-animal="🐰" data-name="Bunny">
-
-            🐰
-
-            <span class="animal-name">Bunny</span>
-
-          </button>
-
-          <button class="animal" data-animal="🐱" data-name="Kitty">
-
-            🐱
-
-            <span class="animal-name">Kitty</span>
-
-          </button>
-
-          <button class="animal" data-animal="🦊" data-name="Fox">
-
-            🦊
-
-            <span class="animal-name">Fox</span>
-
-          </button>
-
-          <button class="animal" data-animal="🐻" data-name="Bear">
-
-            🐻
-
-            <span class="animal-name">Bear</span>
-
-          </button>
-
-          <button class="animal" data-animal="🐼" data-name="Panda">
-
-            🐼
-
-            <span class="animal-name">Panda</span>
-
-          </button>
-
-          <button class="animal" data-animal="🐶" data-name="Puppy">
-
-            🐶
-
-            <span class="animal-name">Puppy</span>
-
-          </button>
-
-        </div>
-
-        <button class="primary-button" id="startButton" disabled>
-
-          Choose a buddy
-
-        </button>
-
+<main class="app">
+  <section class="screen" id="welcomeScreen">
+    <div class="welcome">
+      <div class="welcome-buddy" id="welcomeBuddy">🐰</div>
+      <h1>Meet Your Meeting Buddy</h1>
+      <p class="subtitle">Choose a little friend who can stay with you while you follow along with the meeting.</p>
+      <div class="animal-grid">
+        <button class="animal" data-animal="🐰" data-name="Bunny">🐰<span class="animal-name">Bunny</span></button>
+        <button class="animal" data-animal="🐱" data-name="Kitty">🐱<span class="animal-name">Kitty</span></button>
+        <button class="animal" data-animal="🦊" data-name="Fox">🦊<span class="animal-name">Fox</span></button>
+        <button class="animal" data-animal="🐻" data-name="Bear">🐻<span class="animal-name">Bear</span></button>
+        <button class="animal" data-animal="🐼" data-name="Panda">🐼<span class="animal-name">Panda</span></button>
+        <button class="animal" data-animal="🐶" data-name="Puppy">🐶<span class="animal-name">Puppy</span></button>
       </div>
-
-    </section>
-
-    <!-- =========================
-
-         MEETING SCREEN
-
-    ========================== -->
-
-    <section class="screen" id="meetingScreen" style="display: none;">
-
-      <div class="meeting-header">
-
-        <div class="top-row">
-
-          <div class="meeting-type">
-
-            Sunday Meeting
-
-          </div>
-
-          <button class="home-button" id="homeButton">
-
-            ← Change Buddy
-
-          </button>
-
-        </div>
-
-        <h2 class="meeting-title">
-
-          Learning From Jehovah
-
-        </h2>
-
-        <div class="progress-info">
-
-          <span id="paragraphCounter">Paragraph 1 of 12</span>
-
-          <span id="percentComplete">8%</span>
-
-        </div>
-
-        <div class="progress-bar">
-
-          <div class="progress-fill" id="progressFill"></div>
-
-        </div>
-
-      </div>
-
-      <div class="meeting-content">
-
-        <article class="paragraph-card">
-
-          <div class="section-label" id="sectionLabel">
-
-            Watchtower Study
-
-          </div>
-
-          <div class="paragraph-number" id="paragraphNumber">
-
-            Paragraph 1
-
-          </div>
-
-          <div class="paragraph-text" id="paragraphText">
-
-          </div>
-
-          <div class="controls">
-
-            <button class="nav-button" id="previousButton">
-
-              ← Previous
-
-            </button>
-
-            <button class="nav-button" id="nextButton">
-
-              Next →
-
-            </button>
-
-          </div>
-
-        </article>
-
-        <aside>
-
-          <div class="buddy-panel">
-
-            <div class="buddy-character" id="meetingBuddy">
-
-              🐰
-
-            </div>
-
-            <div class="buddy-name" id="buddyName">
-
-              Bunny
-
-            </div>
-
-            <div class="buddy-message" id="buddyMessage">
-
-              I'm ready to learn with you!
-
-            </div>
-
-            <button class="buddy-button" id="buddyButton">
-
-              🐰 Talk to Buddy
-
-            </button>
-
-            <button class="draw-button" id="drawButton">
-
-              ✏️ Draw
-
-            </button>
-
-          </div>
-
-          <div class="time-card">
-
-            <div class="time-label">
-
-              Estimated time remaining
-
-            </div>
-
-            <div class="time-value" id="timeRemaining">
-
-              About 48 min
-
-            </div>
-
-          </div>
-
-        </aside>
-
-      </div>
-
-      <!-- DRAWING AREA -->
-
-      <div class="drawing-panel" id="drawingPanel">
-
-        <div class="drawing-header">
-
-          <div class="drawing-title">
-
-            ✏️ Meeting Sketchbook
-
-          </div>
-
-          <button class="clear-button" id="clearButton">
-
-            Clear
-
-          </button>
-
-        </div>
-
-        <canvas id="drawingCanvas"></canvas>
-
-        <p class="drawing-note">
-
-          Draw something you are thinking about while you listen.
-
-        </p>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <script>
-
-    /* =========================
-
-       SAMPLE MEETING DATA
-
-       This is temporary.
-
-       Later Firebase will supply
-
-       the real uploaded material.
-
-    ========================== */
-
-    const meetingParagraphs = [
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "Jehovah wants us to learn about him and to understand why his guidance is good for us."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "When we read the Bible carefully, we can see examples of people who trusted Jehovah and benefited from following his direction."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "Sometimes we may not immediately understand why Jehovah asks us to do something. We can still show trust while we continue learning."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "Prayer can help us ask for wisdom and help us think carefully about what we are learning."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "The people around us can also help us learn. Listening carefully during congregation meetings gives us opportunities to notice useful thoughts."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "When we find a Bible principle that helps us, we can think about how we might use it during the week."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "Learning is not just about remembering information. It is also about understanding how what we learn can affect our choices."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "A good question can help us look more closely at a Bible account and notice details we might otherwise miss."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "We can also share things we learn with other people. Explaining an idea can help us understand it better ourselves."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "Even when we are young, we can develop good habits of listening, thinking, asking questions, and applying what we learn."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "The goal is not simply to get through the meeting. The goal is to leave with something useful that we can remember and use."
-
-      },
-
-      {
-
-        section: "Watchtower Study",
-
-        text: "As we continue learning, Jehovah can help us grow in wisdom and become more confident in making good choices."
-
-      }
-
-    ];
-
-    /* =========================
-
-       APP STATE
-
-    ========================== */
-
-    let selectedAnimal = "🐰";
-
-    let selectedName = "Bunny";
-
-    let currentParagraph = 0;
-
-    const meetingLengthMinutes = 55;
-
-    /* =========================
-
-       ELEMENTS
-
-    ========================== */
-
-    const welcomeScreen = document.getElementById("welcomeScreen");
-
-    const meetingScreen = document.getElementById("meetingScreen");
-
-    const animals = document.querySelectorAll(".animal");
-
-    const welcomeBuddy = document.getElementById("welcomeBuddy");
-
-    const startButton = document.getElementById("startButton");
-
-    const meetingBuddy = document.getElementById("meetingBuddy");
-
-    const buddyName = document.getElementById("buddyName");
-
-    const buddyMessage = document.getElementById("buddyMessage");
-
-    const paragraphCounter = document.getElementById("paragraphCounter");
-
-    const percentComplete = document.getElementById("percentComplete");
-
-    const progressFill = document.getElementById("progressFill");
-
-    const sectionLabel = document.getElementById("sectionLabel");
-
-    const paragraphNumber = document.getElementById("paragraphNumber");
-
-    const paragraphText = document.getElementById("paragraphText");
-
-    const previousButton = document.getElementById("previousButton");
-
-    const nextButton = document.getElementById("nextButton");
-
-    const timeRemaining = document.getElementById("timeRemaining");
-
-    const homeButton = document.getElementById("homeButton");
-
-    const buddyButton = document.getElementById("buddyButton");
-
-    const drawButton = document.getElementById("drawButton");
-
-    const drawingPanel = document.getElementById("drawingPanel");
-
-    const clearButton = document.getElementById("clearButton");
-
-    const canvas = document.getElementById("drawingCanvas");
-
-    const drawingContext = canvas.getContext("2d");
-
-    /* =========================
-
-       CHOOSE BUDDY
-
-    ========================== */
-
-    animals.forEach(animal => {
-
-      animal.addEventListener("click", () => {
-
-        animals.forEach(item => {
-
-          item.classList.remove("selected");
-
-        });
-
-        animal.classList.add("selected");
-
-        selectedAnimal = animal.dataset.animal;
-
-        selectedName = animal.dataset.name;
-
-        welcomeBuddy.textContent = selectedAnimal;
-
-        startButton.disabled = false;
-
-        startButton.textContent = "Let's go!";
-
-      });
-
-    });
-
-    /* =========================
-
-       START MEETING
-
-    ========================== */
-
-    startButton.addEventListener("click", () => {
-
-      welcomeScreen.style.display = "none";
-
-      meetingScreen.style.display = "block";
-
-      meetingBuddy.textContent = selectedAnimal;
-
-      buddyName.textContent = selectedName;
-
-      currentParagraph = 0;
-
-      updateMeeting();
-
-    });
-
-    /* =========================
-
-       UPDATE MEETING
-
-    ========================== */
-
-    function updateMeeting() {
-
-      const paragraph = meetingParagraphs[currentParagraph];
-
-      const total = meetingParagraphs.length;
-
-      const number = currentParagraph + 1;
-
-      const percent = Math.round((number / total) * 100);
-
-      sectionLabel.textContent = paragraph.section;
-
-      paragraphNumber.textContent = `Paragraph ${number}`;
-
-      paragraphText.textContent = paragraph.text;
-
-      paragraphCounter.textContent =
-
-        `Paragraph ${number} of ${total}`;
-
-      percentComplete.textContent =
-
-        `${percent}%`;
-
-      progressFill.style.width =
-
-        `${percent}%`;
-
-      previousButton.disabled =
-
-        currentParagraph === 0;
-
-      nextButton.disabled =
-
-        currentParagraph === total - 1;
-
-      updateTimeRemaining();
-
-    }
-
-    /* =========================
-
-       TIME REMAINING
-
-    ========================== */
-
-    function updateTimeRemaining() {
-
-      const total = meetingParagraphs.length;
-
-      const remainingParagraphs =
-
-        total - currentParagraph - 1;
-
-      const minutesPerParagraph =
-
-        meetingLengthMinutes / total;
-
-      const estimatedMinutes =
-
-        Math.max(
-
-          0,
-
-          Math.round(remainingParagraphs * minutesPerParagraph)
-
-        );
-
-      if (estimatedMinutes === 0) {
-
-        timeRemaining.textContent =
-
-          "Almost finished! 🎉";
-
-      } else if (estimatedMinutes === 1) {
-
-        timeRemaining.textContent =
-
-          "About 1 min";
-
-      } else {
-
-        timeRemaining.textContent =
-
-          `About ${estimatedMinutes} min`;
-
-      }
-
-    }
-
-    /* =========================
-
-       NAVIGATION
-
-    ========================== */
-
-    previousButton.addEventListener("click", () => {
-
-      if (currentParagraph > 0) {
-
-        currentParagraph--;
-
-        updateMeeting();
-
-      }
-
-    });
-
-    nextButton.addEventListener("click", () => {
-
-      if (currentParagraph < meetingParagraphs.length - 1) {
-
-        currentParagraph++;
-
-        updateMeeting();
-
-      }
-
-    });
-
-    /* =========================
-
-       BUDDY BUTTON
-
-    ========================== */
-
-    const buddyMessages = [
-
-      "You're doing a great job listening! 🌟",
-
-      "I wonder what we'll learn next! 🐰",
-
-      "Keep going! We're learning together. 💜",
-
-      "You made it to another paragraph! 🎉",
-
-      "I found a good thought in this one! 👀"
-
-    ];
-
-    let buddyMessageIndex = 0;
-
-    buddyButton.addEventListener("click", () => {
-
-      buddyMessageIndex++;
-
-      if (buddyMessageIndex >= buddyMessages.length) {
-
-        buddyMessageIndex = 0;
-
-      }
-
-      buddyMessage.textContent =
-
-        buddyMessages[buddyMessageIndex];
-
-    });
-
-    /* =========================
-
-       HOME BUTTON
-
-    ========================== */
-
-    homeButton.addEventListener("click", () => {
-
-      meetingScreen.style.display = "none";
-
-      welcomeScreen.style.display = "block";
-
-      drawingPanel.classList.remove("visible");
-
-    });
-
-    /* =========================
-
-       DRAWING PAD
-
-    ========================== */
-
-    function resizeCanvas() {
-
-      const rect = canvas.getBoundingClientRect();
-
-      const pixelRatio = window.devicePixelRatio || 1;
-
-      canvas.width = rect.width * pixelRatio;
-
-      canvas.height = rect.height * pixelRatio;
-
-      drawingContext.scale(pixelRatio, pixelRatio);
-
-      drawingContext.lineWidth = 3;
-
-      drawingContext.lineCap = "round";
-
-      drawingContext.lineJoin = "round";
-
-    }
-
-    window.addEventListener("resize", () => {
-
-      if (drawingPanel.classList.contains("visible")) {
-
-        resizeCanvas();
-
-      }
-
-    });
-
-    drawButton.addEventListener("click", () => {
-
-      drawingPanel.classList.toggle("visible");
-
-      if (drawingPanel.classList.contains("visible")) {
-
-        resizeCanvas();
-
-      }
-
-    });
-
-    clearButton.addEventListener("click", () => {
-
-      const rect = canvas.getBoundingClientRect();
-
-      drawingContext.clearRect(
-
-        0,
-
-        0,
-
-        rect.width,
-
-        rect.height
-
-      );
-
-    });
-
-    let drawing = false;
-
-    canvas.addEventListener("pointerdown", event => {
-
-      drawing = true;
-
-      const rect = canvas.getBoundingClientRect();
-
-      drawingContext.beginPath();
-
-      drawingContext.moveTo(
-
-        event.clientX - rect.left,
-
-        event.clientY - rect.top
-
-      );
-
-      canvas.setPointerCapture(event.pointerId);
-
-    });
-
-    canvas.addEventListener("pointermove", event => {
-
-      if (!drawing) {
-
-        return;
-
-      }
-
-      const rect = canvas.getBoundingClientRect();
-
-      drawingContext.lineTo(
-
-        event.clientX - rect.left,
-
-        event.clientY - rect.top
-
-      );
-
-      drawingContext.stroke();
-
-    });
-
-    canvas.addEventListener("pointerup", () => {
-
-      drawing = false;
-
-    });
-
-    canvas.addEventListener("pointercancel", () => {
-
-      drawing = false;
-
-    });
-
-  </script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import {
-    initializeAppCheck,
-    ReCaptchaEnterpriseProvider
-  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js";
-  import {
-    getAI,
-    getGenerativeModel,
-    GoogleAIBackend
-  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-ai.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCNgS-U6-aYjIkZEIyYf_abnmTFRH-yf9U",
-    authDomain: "maddys-meeting-buddy.firebaseapp.com",
-    projectId: "maddys-meeting-buddy",
-    storageBucket: "maddys-meeting-buddy.firebasestorage.app",
-    messagingSenderId: "955057341005",
-    appId: "1:955057341005:web:9e834a1c120c22addb5204"
-  };
-
-  const firebaseApp = initializeApp(firebaseConfig);
-
-  const appCheck = initializeAppCheck(firebaseApp, {
-    provider: new ReCaptchaEnterpriseProvider("6LdvqbktAAAAAA3ve9-519LXitetSlwbJIaPSa8b"),
-    isTokenAutoRefreshEnabled: true
-  });
-
-  const ai = getAI(firebaseApp, {
-    backend: new GoogleAIBackend()
-  });
-
-  const buddyModel = getGenerativeModel(ai, {
-    model: "gemini-3.7-flash"
-  });
-
-  window.maddysFirebase = {
-    app: firebaseApp,
-    ai: ai,
-    buddyModel: buddyModel
-  };
-
-  /* ---------------------------------------------------------
-     MADDY'S MEETING BUDDY — ASK BUDDY
-     --------------------------------------------------------- */
-
-  const meetingMaterial = [
-    "Jehovah wants us to learn about him and to understand why his guidance is good for us.",
-    "When we read the Bible carefully, we can see examples of people who trusted Jehovah and benefited from following his direction.",
-    "Sometimes we may not immediately understand why Jehovah asks us to do something. We can still show trust while we continue learning.",
-    "Prayer can help us ask for wisdom and help us think carefully about what we are learning.",
-    "The people around us can also help us learn. Listening carefully during congregation meetings gives us opportunities to notice useful thoughts.",
-    "When we find a Bible principle that helps us, we can think about how we might use it during the week.",
-    "Learning is not just about remembering information. It is also about understanding how what we learn can affect our choices.",
-    "A good question can help us look more closely at a Bible account and notice details we might otherwise miss.",
-    "We can also share things we learn with other people. Explaining an idea can help us understand it better ourselves.",
-    "Even when we are young, we can develop good habits of listening, thinking, asking questions, and applying what we learn.",
-    "The goal is not simply to get through the meeting. The goal is to leave with something useful that we can remember and use.",
-    "As we continue learning, Jehovah can help us grow in wisdom and become more confident in making good choices."
-  ];
-
-  /* Create the Ask Buddy window */
-  const buddyOverlay = document.createElement("div");
-
-  buddyOverlay.innerHTML = `
-    <div id="buddyBox">
-      <button id="closeBuddy" aria-label="Close">×</button>
-
-      <div class="buddyEmoji">🐶</div>
-
-      <h2>Ask Buddy</h2>
-
-      <p class="buddyIntro">
-        Ask me something about today's meeting!
-      </p>
-
-      <textarea
-        id="buddyQuestion"
-        placeholder="What do you want to know?"
-        rows="3"
-      ></textarea>
-
-      <button id="sendBuddyQuestion">
-        Ask Buddy
-      </button>
-
-      <div id="buddyAnswer" class="buddyAnswer">
-        Your answer will appear here.
-      </div>
+      <button class="primary" id="startButton" disabled>Choose a buddy</button>
     </div>
-  `;
+  </section>
 
-  buddyOverlay.id = "buddyOverlay";
+  <section class="screen" id="meetingScreen" style="display:none">
+    <div class="meeting-header">
+      <div class="top-row">
+        <div class="meeting-type">Sunday Meeting</div>
+        <button class="home" id="homeButton">← Change Buddy</button>
+      </div>
+      <h2 class="meeting-title">Learning From Jehovah</h2>
+      <div class="progress-info"><span id="paragraphCounter"></span><span id="percentComplete"></span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
 
-  Object.assign(buddyOverlay.style, {
-    position: "fixed",
-    inset: "0",
-    background: "rgba(40,30,50,0.35)",
-    display: "none",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: "9999",
-    padding: "20px",
-    boxSizing: "border-box"
+    <div class="meeting-content">
+      <article class="paragraph-card">
+        <div class="section-label" id="sectionLabel">Watchtower Study</div>
+        <div class="paragraph-number" id="paragraphNumber"></div>
+        <div class="paragraph-text" id="paragraphText"></div>
+        <div class="controls">
+          <button class="nav" id="previousButton">← Previous</button>
+          <button class="nav" id="nextButton">Next →</button>
+        </div>
+      </article>
+      <aside>
+        <div class="buddy-panel">
+          <div class="buddy-character" id="meetingBuddy">🐰</div>
+          <div class="buddy-name" id="buddyName">Bunny</div>
+          <div class="buddy-message" id="buddyMessage">I'm ready to learn with you!</div>
+          <button class="buddy-button" id="buddyButton">💬 Ask Buddy</button>
+          <button class="draw-button" id="drawButton">✏️ Draw</button>
+        </div>
+        <div class="time-card">
+          <div class="time-label">Estimated time remaining</div>
+          <div class="time-value" id="timeRemaining"></div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="drawing-panel" id="drawingPanel">
+      <div class="drawing-header"><div><b>✏️ Meeting Sketchbook</b></div><button class="clear" id="clearButton">Clear</button></div>
+      <canvas id="drawingCanvas"></canvas>
+      <p class="drawing-note">Draw something you are thinking about while you listen.</p>
+    </div>
+  </section>
+</main>
+
+<div id="buddyOverlay">
+  <div id="buddyBox">
+    <button id="closeBuddy" aria-label="Close">×</button>
+    <div class="buddyEmoji" id="buddyEmoji">🐰</div>
+    <h2>Ask Buddy</h2>
+    <p class="buddyIntro">Ask me something about today's meeting!</p>
+    <textarea id="buddyQuestion" placeholder="What do you want to know?" rows="3"></textarea>
+    <button id="sendBuddyQuestion">Ask Buddy</button>
+    <div id="buddyAnswer"></div>
+  </div>
+</div>
+
+<script>
+const meetingParagraphs = [
+ {section:"Watchtower Study",text:"Jehovah wants us to learn about him and to understand why his guidance is good for us."},
+ {section:"Watchtower Study",text:"When we read the Bible carefully, we can see examples of people who trusted Jehovah and benefited from following his direction."},
+ {section:"Watchtower Study",text:"Sometimes we may not immediately understand why Jehovah asks us to do something. We can still show trust while we continue learning."},
+ {section:"Watchtower Study",text:"Prayer can help us ask for wisdom and help us think carefully about what we are learning."},
+ {section:"Watchtower Study",text:"The people around us can also help us learn. Listening carefully during congregation meetings gives us opportunities to notice useful thoughts."},
+ {section:"Watchtower Study",text:"When we find a Bible principle that helps us, we can think about how we might use it during the week."},
+ {section:"Watchtower Study",text:"Learning is not just about remembering information. It is also about understanding how what we learn can affect our choices."},
+ {section:"Watchtower Study",text:"A good question can help us look more closely at a Bible account and notice details we might otherwise miss."},
+ {section:"Watchtower Study",text:"We can also share things we learn with other people. Explaining an idea can help us understand it better ourselves."},
+ {section:"Watchtower Study",text:"Even when we are young, we can develop good habits of listening, thinking, asking questions, and applying what we learn."},
+ {section:"Watchtower Study",text:"The goal is not simply to get through the meeting. The goal is to leave with something useful that we can remember and use."},
+ {section:"Watchtower Study",text:"As we continue learning, Jehovah can help us grow in wisdom and become more confident in making good choices."}
+];
+
+let selectedAnimal="🐰", selectedName="Bunny", currentParagraph=0;
+const meetingLengthMinutes=55;
+const $=id=>document.getElementById(id);
+
+document.querySelectorAll(".animal").forEach(animal=>{
+  animal.addEventListener("click",()=>{
+    document.querySelectorAll(".animal").forEach(x=>x.classList.remove("selected"));
+    animal.classList.add("selected");
+    selectedAnimal=animal.dataset.animal;
+    selectedName=animal.dataset.name;
+    $("welcomeBuddy").textContent=selectedAnimal;
+    $("startButton").disabled=false;
+    $("startButton").textContent="Let's go!";
   });
+});
 
-  document.body.appendChild(buddyOverlay);
+$("startButton").addEventListener("click",()=>{
+  $("welcomeScreen").style.display="none";
+  $("meetingScreen").style.display="block";
+  $("meetingBuddy").textContent=selectedAnimal;
+  $("buddyName").textContent=selectedName;
+  $("buddyEmoji").textContent=selectedAnimal;
+  currentParagraph=0;
+  updateMeeting();
+});
 
-  const buddyBox = buddyOverlay.querySelector("#buddyBox");
+function updateMeeting(){
+  const p=meetingParagraphs[currentParagraph], total=meetingParagraphs.length, n=currentParagraph+1;
+  const percent=Math.round(n/total*100);
+  $("sectionLabel").textContent=p.section;
+  $("paragraphNumber").textContent=`Paragraph ${n}`;
+  $("paragraphText").textContent=p.text;
+  $("paragraphCounter").textContent=`Paragraph ${n} of ${total}`;
+  $("percentComplete").textContent=`${percent}%`;
+  $("progressFill").style.width=`${percent}%`;
+  $("previousButton").disabled=currentParagraph===0;
+  $("nextButton").disabled=currentParagraph===total-1;
+  const remaining=Math.max(0,Math.round((total-n)*(meetingLengthMinutes/total)));
+  $("timeRemaining").textContent=remaining===0?"Almost finished! 🎉":`About ${remaining} min`;
+}
 
-  Object.assign(buddyBox.style, {
-    width: "min(560px, 100%)",
-    background: "white",
-    borderRadius: "28px",
-    padding: "30px",
-    boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
-    position: "relative",
-    textAlign: "center",
-    boxSizing: "border-box"
-  });
+$("previousButton").addEventListener("click",()=>{if(currentParagraph>0){currentParagraph--;updateMeeting()}});
+$("nextButton").addEventListener("click",()=>{if(currentParagraph<meetingParagraphs.length-1){currentParagraph++;updateMeeting()}});
+$("homeButton").addEventListener("click",()=>{$("meetingScreen").style.display="none";$("welcomeScreen").style.display="block";$("drawingPanel").classList.remove("visible")});
 
-  const closeBuddy = buddyOverlay.querySelector("#closeBuddy");
+const buddyMessages=["You're doing a great job listening! 🌟","I wonder what we'll learn next!","Keep going! We're learning together. 💜","You made it to another paragraph! 🎉"];
+let buddyMessageIndex=0;
+$("buddyButton").addEventListener("click",()=>{ $("buddyOverlay").style.display="flex"; $("buddyEmoji").textContent=selectedAnimal; $("buddyQuestion").focus(); });
 
-  Object.assign(closeBuddy.style, {
-    position: "absolute",
-    top: "14px",
-    right: "18px",
-    border: "none",
-    background: "none",
-    fontSize: "32px",
-    color: "#777",
-    cursor: "pointer"
-  });
+$("closeBuddy").addEventListener("click",()=>{$("buddyOverlay").style.display="none"});
+$("buddyOverlay").addEventListener("click",e=>{if(e.target===$("buddyOverlay"))$("buddyOverlay").style.display="none"});
 
-  const buddyEmoji = buddyOverlay.querySelector(".buddyEmoji");
-
-  Object.assign(buddyEmoji.style, {
-    fontSize: "58px",
-    marginBottom: "5px"
-  });
-
-  const buddyTitle = buddyOverlay.querySelector("h2");
-
-  Object.assign(buddyTitle.style, {
-    margin: "5px 0",
-    color: "#40394a",
-    fontSize: "30px"
-  });
-
-  const buddyIntro = buddyOverlay.querySelector(".buddyIntro");
-
-  Object.assign(buddyIntro.style, {
-    color: "#777",
-    fontSize: "17px",
-    marginBottom: "18px"
-  });
-
-  const questionBox = buddyOverlay.querySelector("#buddyQuestion");
-
-  Object.assign(questionBox.style, {
-    width: "100%",
-    boxSizing: "border-box",
-    border: "2px solid #e5dff0",
-    borderRadius: "16px",
-    padding: "15px",
-    fontSize: "18px",
-    fontFamily: "inherit",
-    resize: "none",
-    outline: "none"
-  });
-
-  const askButton = buddyOverlay.querySelector("#sendBuddyQuestion");
-
-  Object.assign(askButton.style, {
-    width: "100%",
-    marginTop: "14px",
-    padding: "15px",
-    border: "none",
-    borderRadius: "16px",
-    background: "#9163b6",
-    color: "white",
-    fontSize: "18px",
-    fontWeight: "600",
-    cursor: "pointer"
-  });
-
-  const answerBox = buddyOverlay.querySelector("#buddyAnswer");
-
-  Object.assign(answerBox.style, {
-    marginTop: "18px",
-    padding: "18px",
-    background: "#f7f4fa",
-    borderRadius: "16px",
-    color: "#40394a",
-    fontSize: "17px",
-    lineHeight: "1.5",
-    textAlign: "left",
-    display: "none"
-  });
-
-  /* Find the existing Talk to Buddy button and turn it into Ask Buddy */
-  const existingButtons = Array.from(document.querySelectorAll("button"));
-
-  const oldBuddyButton = existingButtons.find(button =>
-    button.textContent.includes("Talk to Buddy")
-  );
-
-  if (oldBuddyButton) {
-    const newBuddyButton = oldBuddyButton.cloneNode(true);
-
-    newBuddyButton.textContent = "💬 Ask Buddy";
-
-    oldBuddyButton.replaceWith(newBuddyButton);
-
-    newBuddyButton.addEventListener("click", () => {
-      buddyOverlay.style.display = "flex";
-      questionBox.focus();
-    });
-  }
-
-  /* Close Buddy */
-  closeBuddy.addEventListener("click", () => {
-    buddyOverlay.style.display = "none";
-  });
-
-  buddyOverlay.addEventListener("click", (event) => {
-    if (event.target === buddyOverlay) {
-      buddyOverlay.style.display = "none";
-    }
-  });
-
-  /* Ask the AI */
-  askButton.addEventListener("click", async () => {
-
-    const question = questionBox.value.trim();
-
-    if (!question) {
-      answerBox.style.display = "block";
-      answerBox.textContent = "Ask me a question first! 🐶";
-      return;
-    }
-
-    answerBox.style.display = "block";
-    answerBox.textContent = "Let me look through today's meeting material… 🔎";
-
-    askButton.disabled = true;
-    askButton.textContent = "Thinking…";
-
-    const context = meetingMaterial
-      .map((paragraph, index) => `Paragraph ${index + 1}: ${paragraph}`)
-      .join("\n\n");
-
-    const prompt = `
-You are Buddy, a friendly meeting companion for a 7-year-old child.
-
-IMPORTANT RULE:
-You may ONLY answer using the meeting material provided below.
-
-Do NOT use:
-- general knowledge
-- information from previous meetings
-- information from the internet
-- information from your training that is not contained in the material below
-
-First, look for the answer in the paragraph material.
-
-If the answer is there, explain it simply and clearly for a 7-year-old.
-
-If the answer is not there, say:
-"I don't see the answer in today's meeting material. You could ask Mom about that one! 💜"
-
-Do not guess.
-Do not add outside information.
-
-TODAY'S MEETING MATERIAL:
-
-${context}
-
-MADDY'S QUESTION:
-
-${question}
-`;
-
-    try {
-
-      const result = await buddyModel.generateContent(prompt);
-
-      const response = result.response;
-
-      const answer = response.text();
-
-      answerBox.textContent = answer;
-
-     } catch (error) {
-
-      console.error("Buddy error:", error);
-
-      const errorDetails =
-        error?.code
-          ? `${error.code}: ${error.message || "No error message"}`
-          : (error?.message || String(error));
-
-      answerBox.textContent =
-        `Buddy error: ${errorDetails}`;
-
-    } finally {
-
-      askButton.disabled = false;
-      askButton.textContent = "Ask Buddy";
-
-    }
-  });
-
-  console.log("Maddy's Meeting Buddy: Firebase + Ask Buddy ready! 🐶");
+const drawingPanel=$("drawingPanel"), canvas=$("drawingCanvas"), ctx=canvas.getContext("2d");
+let drawing=false;
+function resizeCanvas(){
+  const r=canvas.getBoundingClientRect(), d=window.devicePixelRatio||1;
+  canvas.width=r.width*d; canvas.height=r.height*d;
+  ctx.setTransform(d,0,0,d,0,0);
+  ctx.lineWidth=3;ctx.lineCap="round";ctx.lineJoin="round";
+}
+$("drawButton").addEventListener("click",()=>{drawingPanel.classList.toggle("visible");if(drawingPanel.classList.contains("visible"))resizeCanvas()});
+window.addEventListener("resize",()=>{if(drawingPanel.classList.contains("visible"))resizeCanvas()});
+$("clearButton").addEventListener("click",()=>{const r=canvas.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height)});
+canvas.addEventListener("pointerdown",e=>{drawing=true;const r=canvas.getBoundingClientRect();ctx.beginPath();ctx.moveTo(e.clientX-r.left,e.clientY-r.top);canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!drawing)return;const r=canvas.getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke()});
+canvas.addEventListener("pointerup",()=>drawing=false);canvas.addEventListener("pointercancel",()=>drawing=false);
 </script>
 
-</body>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {initializeAppCheck,ReCaptchaEnterpriseProvider} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js";
+import {getAI,getGenerativeModel,GoogleAIBackend} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
 
+const firebaseConfig={
+  apiKey:"AIzaSyCNgS-U6-aYjIkZEIyYf_abnmTFRH-yf9U",
+  authDomain:"maddys-meeting-buddy.firebaseapp.com",
+  projectId:"maddys-meeting-buddy",
+  storageBucket:"maddys-meeting-buddy.firebasestorage.app",
+  messagingSenderId:"955057341005",
+  appId:"1:955057341005:web:9e834a1c120c22addb5204"
+};
+
+const firebaseApp=initializeApp(firebaseConfig);
+
+initializeAppCheck(firebaseApp,{
+  provider:new ReCaptchaEnterpriseProvider("6LdvqbktAAAAAA3ve9-519LXitetSlwbJIaPSa8b"),
+  isTokenAutoRefreshEnabled:true
+});
+
+// Firebase's current App Check guidance supports limited-use tokens.
+// Replay protection can remain disabled; this just makes the AI request use
+// a short-lived App Check token.
+const ai=getAI(firebaseApp,{
+  backend:new GoogleAIBackend(),
+  useLimitedUseAppCheckTokens:true
+});
+
+const buddyModel=getGenerativeModel(ai,{model:"gemini-3.7-flash"});
+
+const meetingMaterial=meetingParagraphs.map(p=>p.text);
+
+$("sendBuddyQuestion").addEventListener("click",async()=>{
+  const q=$("buddyQuestion").value.trim(), answer=$("buddyAnswer"), button=$("sendBuddyQuestion");
+  if(!q){answer.style.display="block";answer.textContent="Ask me a question first!";return}
+  answer.style.display="block";
+  answer.textContent="Let me look through today's meeting material… 🔎";
+  button.disabled=true;button.textContent="Thinking…";
+
+  const context=meetingMaterial.map((p,i)=>`Paragraph ${i+1}: ${p}`).join("\n\n");
+  const prompt=`You are Buddy, a friendly meeting companion for a 7-year-old child.
+
+HARD RULE: You may ONLY answer from TODAY'S MEETING MATERIAL below.
+Do not use general knowledge, previous meetings, the internet, or information from your training that is not in the material.
+Look at the current paragraph first. If the answer is not there, search the rest of today's material.
+If the answer is nowhere in today's material, say exactly:
+"I don't see the answer in today's meeting material. You could ask Mom about that one! 💜"
+Do not guess.
+
+TODAY'S MEETING MATERIAL:
+${context}
+
+CURRENT PARAGRAPH:
+Paragraph ${currentParagraph+1}: ${meetingMaterial[currentParagraph]}
+
+MADDY'S QUESTION:
+${q}`;
+
+  try{
+    const result=await buddyModel.generateContent(prompt);
+    answer.textContent=result.response.text();
+  }catch(error){
+    console.error("Buddy error:",error);
+    answer.textContent="Buddy couldn't connect right now. Please try again in a moment.";
+  }finally{
+    button.disabled=false;button.textContent="Ask Buddy";
+  }
+});
+</script>
+</body>
 </html>
