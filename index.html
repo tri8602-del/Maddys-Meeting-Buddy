@@ -288,12 +288,12 @@ h1,.meeting-title,.animal-name,.name-area label,.primary,.section-title{
 body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel,.header-time,.save-drawing,.drawing-note{
   font-family:"PleaseWrite",sans-serif;
 }
-.subtitle{font-size:18px}
-.name-hint{font-size:14px}
-.paragraph-text{font-family:"PleaseWrite",sans-serif;font-size:21px;line-height:1.6}
-.paragraph-number{font-family:"PleaseWrite",sans-serif;font-size:17px}
-.buddy-message{font-family:"PleaseWrite",sans-serif;font-size:16px}
-.time-label{font-family:"PleaseWrite",sans-serif;font-size:14px}
+.subtitle{font-size:20px}
+.name-hint{font-size:15px}
+.paragraph-text{font-family:"PleaseWrite",sans-serif;font-size:24px;line-height:1.55}
+.paragraph-number{font-family:"PleaseWrite",sans-serif;font-size:19px}
+.buddy-message{font-family:"PleaseWrite",sans-serif;font-size:18px}
+.time-label{font-family:"PleaseWrite",sans-serif;font-size:16px}
 
 .header-time{
   margin-top:11px;
@@ -304,7 +304,7 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
   color:#5e5369;
   font-family:"PleaseWrite",sans-serif;
 }
-.header-time-label{font-size:15px;color:#81758d}
+.header-time-label{font-size:16px;color:#81758d}
 .header-time strong{
   font-family:"SundayBest",sans-serif;
   font-size:20px;
@@ -358,6 +358,7 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 }
 </style>
 
+@font-face{font-family:"HelloBaby";src:url("fonts/hello-baby.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
 </head>
 <body>
 <main class="app">
@@ -593,3 +594,10 @@ canvas.addEventListener("pointercancel",()=>drawing=false);
 </script>
 </body>
 </html>
+<style id="hello-baby-selection-font">
+.animal-name,
+.name-area label{
+  font-family:"HelloBaby",sans-serif !important;
+  font-weight:400;
+}
+</style>
