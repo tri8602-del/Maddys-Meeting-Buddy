@@ -534,17 +534,28 @@ let drawing=false;
 let drawingColor=$("drawingColor").value;
 let canvasHasContent=false;
 
+const SKETCH_W=1275, SKETCH_H=1650;
 function resizeCanvas(){
-  const old=canvas.width&&canvas.height ? canvas.toDataURL() : null;
-  const r=canvas.getBoundingClientRect(),d=window.devicePixelRatio||1;
-  canvas.width=Math.max(1,Math.round(r.width*d));
-  canvas.height=Math.max(1,Math.round(r.height*d));
-  ctx.setTransform(d,0,0,d,0,0);
-  ctx.lineWidth=3;ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle=drawingColor;
-  if(old){
-    const img=new Image();
-    img.onload=()=>{ctx.drawImage(img,0,0,r.width,r.height)};
-    img.src=old;
+  if(canvas.width!==SKETCH_W || canvas.height!==SKETCH_H){
+    const old=canvas.width&&canvas.height ? canvas.toDataURL() : null;
+    canvas.width=SKETCH_W;
+    canvas.height=SKETCH_H;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.lineWidth=5;
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+    ctx.strokeStyle=drawingColor;
+    if(old){
+      const img=new Image();
+      img.onload=()=>{ctx.drawImage(img,0,0,SKETCH_W,SKETCH_H)};
+      img.src=old;
+    }
+  } else {
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.lineWidth=5;
+    ctx.lineCap="round";
+    ctx.lineJoin="round";
+    ctx.strokeStyle=drawingColor;
   }
 }
 $("drawButton").addEventListener("click",()=>{
@@ -554,7 +565,7 @@ $("drawButton").addEventListener("click",()=>{
 window.addEventListener("resize",()=>{if(drawingPanel.classList.contains("visible"))resizeCanvas()});
 $("drawingColor").addEventListener("input",e=>{drawingColor=e.target.value;ctx.strokeStyle=drawingColor});
 $("clearButton").addEventListener("click",()=>{
-  const r=canvas.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);canvasHasContent=false;
+  ctx.clearRect(0,0,SKETCH_W,SKETCH_H);canvasHasContent=false;
 });
 $("saveDrawingButton").addEventListener("click",async()=>{
   if(!canvasHasContent){alert("Draw something first!");return}
@@ -587,11 +598,58 @@ canvas.addEventListener("pointerdown",e=>{
 });
 canvas.addEventListener("pointermove",e=>{
   if(!drawing)return;
-  const r=canvas.getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();
+  const r=canvas.getBoundingClientRect(),sx=SKETCH_W/r.width,sy=SKETCH_H/r.height;ctx.lineTo((e.clientX-r.left)*sx,(e.clientY-r.top)*sy);ctx.stroke();
 });
 canvas.addEventListener("pointerup",()=>drawing=false);
 canvas.addEventListener("pointercancel",()=>drawing=false);
 </script>
+
+<style id="readability-and-sketch-size">
+/* Please Write Me a Song: larger everywhere it is used */
+body,
+.subtitle,
+.name-hint,
+.paragraph-card,
+.buddy-panel,
+.time-card,
+.drawing-panel,
+.header-time,
+.save-drawing,
+.drawing-note,
+.color-picker,
+.progress-info,
+.home,
+.nav,
+.buddy-button,
+.draw-button{
+  font-family:"PleaseWrite",sans-serif !important;
+}
+body{font-size:20px}
+.subtitle{font-size:21px !important}
+.name-hint{font-size:17px !important}
+.progress-info{font-size:17px !important}
+.paragraph-number{font-family:"PleaseWrite",sans-serif !important;font-size:21px !important}
+.paragraph-text{font-family:"PleaseWrite",sans-serif !important;font-size:26px !important;line-height:1.55 !important}
+.buddy-message{font-family:"PleaseWrite",sans-serif !important;font-size:20px !important}
+.header-time{font-family:"PleaseWrite",sans-serif !important}
+.header-time-label{font-size:18px !important}
+.time-label{font-family:"PleaseWrite",sans-serif !important;font-size:18px !important}
+.home,.nav,.buddy-button,.draw-button{font-size:18px !important}
+.save-drawing{font-size:17px !important}
+.drawing-note{font-size:16px !important}
+.color-picker{font-size:16px !important}
+
+/* Standard portrait sketch page: 8.5 x 11 in aspect ratio.
+   The saved PNG is 1275 x 1650 (150 dpi equivalent). */
+#drawingCanvas{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:8.5 / 11 !important;
+  display:block;
+  touch-action:none;
+}
+</style>
+
 </body>
 </html>
 <style id="hello-baby-selection-font">
