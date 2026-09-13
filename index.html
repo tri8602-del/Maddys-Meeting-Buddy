@@ -258,31 +258,43 @@ h1,.animal-name,.name-area label,.primary,.meeting-title,.section-title{font-fam
 </style>
 
 <style id="functionality-polish">
-/* Bigger, easier-to-read Sunday Best headings */
+/* Sunday Best stays playful for headings, but not oversized.
 h1,.meeting-title,.animal-name,.name-area label,.primary,.section-title{
   font-family:"SundayBest",sans-serif;
 }
 .meeting-title{
-  font-size:clamp(34px,4vw,46px);
-  line-height:1.08;
-  margin:12px 0 12px;
+  font-size:25px;
+  line-height:1.12;
+  margin:10px 0 14px;
 }
 .meeting-type{
   font-family:"SundayBest",sans-serif;
-  font-size:18px;
-  letter-spacing:.03em;
-  text-transform:none;
+  font-size:13px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
 }
 .section-label{
   font-family:"SundayBest",sans-serif;
-  font-size:17px;
+  font-size:13px;
   font-weight:400;
 }
 .buddy-name{
   font-family:"SundayBest",sans-serif;
-  font-size:25px;
-  line-height:1.1;
+  font-size:19px;
+  line-height:1.15;
 }
+
+/* Please Write Me a Song is the readable body font, made a little larger for Maddy. */
+body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel,.header-time,.save-drawing,.drawing-note{
+  font-family:"PleaseWrite",sans-serif;
+}
+.subtitle{font-size:18px}
+.name-hint{font-size:14px}
+.paragraph-text{font-family:"PleaseWrite",sans-serif;font-size:21px;line-height:1.6}
+.paragraph-number{font-family:"PleaseWrite",sans-serif;font-size:17px}
+.buddy-message{font-family:"PleaseWrite",sans-serif;font-size:16px}
+.time-label{font-family:"PleaseWrite",sans-serif;font-size:14px}
+
 .header-time{
   margin-top:11px;
   display:flex;
@@ -295,7 +307,7 @@ h1,.meeting-title,.animal-name,.name-area label,.primary,.section-title{
 .header-time-label{font-size:15px;color:#81758d}
 .header-time strong{
   font-family:"SundayBest",sans-serif;
-  font-size:23px;
+  font-size:20px;
   font-weight:400;
   color:#514262;
 }
@@ -543,12 +555,28 @@ $("drawingColor").addEventListener("input",e=>{drawingColor=e.target.value;ctx.s
 $("clearButton").addEventListener("click",()=>{
   const r=canvas.getBoundingClientRect();ctx.clearRect(0,0,r.width,r.height);canvasHasContent=false;
 });
-$("saveDrawingButton").addEventListener("click",()=>{
+$("saveDrawingButton").addEventListener("click",async()=>{
   if(!canvasHasContent){alert("Draw something first!");return}
-  const link=document.createElement("a");
-  link.download=`Maddys-Meeting-Sketch-${new Date().toISOString().slice(0,10)}.png`;
-  link.href=canvas.toDataURL("image/png");
-  document.body.appendChild(link);link.click();link.remove();
+  const filename=`Maddys-Meeting-Sketch-${new Date().toISOString().slice(0,10)}.png`;
+  canvas.toBlob(async(blob)=>{
+    if(!blob){alert("I couldn't create the image. Please try again.");return}
+    // On iPad/iPhone Safari, the share sheet is the most reliable way to
+    // get the PNG into Photos/Files. A normal download is the fallback.
+    try{
+      const file=new File([blob],filename,{type:"image/png"});
+      if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+        await navigator.share({files:[file],title:"Maddy's Meeting Sketch"});
+        return;
+      }
+    }catch(err){
+      if(err && err.name==="AbortError") return;
+    }
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.download=filename;link.href=url;
+    document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  },"image/png");
 });
 canvas.addEventListener("pointerdown",e=>{
   drawing=true;canvasHasContent=true;
