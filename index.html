@@ -765,5 +765,60 @@ body{font-size:20px}
 }
 </style>
 
+
+<style id="buddy-card-final-fix">
+.animal{
+  border:2px solid rgba(141,101,173,.18) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:column !important;
+  height:220px !important;
+}
+.animal-art{
+  display:block !important;
+  flex:0 0 170px !important;
+  width:calc(100% + 0px) !important;
+  height:170px !important;
+  min-height:170px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+}
+.animal-name{
+  flex:1 1 auto !important;
+  width:100% !important;
+  height:48px !important;
+  min-height:48px !important;
+  margin:0 !important;
+  padding:3px 4px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+}
+
+/* Bigger Papernotes on the buddy-selection screen only */
+.welcome .subtitle{
+  font-size:23px !important;
+}
+.welcome .name-area label{
+  font-size:23px !important;
+}
+.welcome #buddyNameInput{
+  font-family:"Papernotes",sans-serif !important;
+  font-size:23px !important;
+  line-height:1.2 !important;
+  padding:16px 18px !important;
+}
+.welcome .name-hint{
+  font-size:18px !important;
+}
+</style>
+
 </body>
 </html>
