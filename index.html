@@ -607,7 +607,10 @@ $("saveDrawingButton").addEventListener("click",async()=>{
 canvas.addEventListener("pointerdown",e=>{
   drawing=true;canvasHasContent=true;
   const r=canvas.getBoundingClientRect();
-  ctx.strokeStyle=drawingColor;ctx.beginPath();ctx.moveTo(e.clientX-r.left,e.clientY-r.top);
+  const sx=SKETCH_W/r.width, sy=SKETCH_H/r.height;
+  ctx.strokeStyle=drawingColor;
+  ctx.beginPath();
+  ctx.moveTo((e.clientX-r.left)*sx,(e.clientY-r.top)*sy);
   canvas.setPointerCapture(e.pointerId);
 });
 canvas.addEventListener("pointermove",e=>{
@@ -702,5 +705,65 @@ body{font-size:20px}
 .drawing-note{font-size:17px !important}
 .color-picker{font-size:17px !important}
 </style>
+
+<style id="final-buddy-and-font-polish">
+/* Papernotes: readable, friendly body/UI text */
+.welcome .subtitle,
+.welcome .name-area label,
+.welcome .name-hint,
+.welcome #buddyNameInput{
+  font-family:"Papernotes",sans-serif !important;
+}
+.welcome .subtitle{font-size:22px !important;line-height:1.4 !important}
+.welcome .name-area label{font-size:20px !important;font-weight:700 !important}
+.welcome .name-hint{font-size:16px !important}
+.welcome #buddyNameInput{font-size:19px !important}
+
+/* Buddy cards: identical image window + identical label band.
+   The artwork is cropped into a fixed box so no card can drift in height. */
+.animal-grid{
+  align-items:stretch !important;
+}
+.animal{
+  display:flex !important;
+  flex-direction:column !important;
+  height:220px !important;
+  min-height:220px !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+.animal-art{
+  flex:0 0 170px !important;
+  width:100% !important;
+  height:170px !important;
+  min-height:170px !important;
+  object-fit:cover !important;
+  object-position:50% 50% !important;
+  display:block !important;
+}
+.animal-name{
+  flex:1 1 auto !important;
+  height:50px !important;
+  min-height:50px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:4px 5px !important;
+  font-family:"HelloBaby",sans-serif !important;
+  font-size:17px !important;
+  font-weight:400 !important;
+  line-height:1.05 !important;
+  text-align:center !important;
+  background:#fff !important;
+  overflow:hidden !important;
+}
+.animal-name{
+  /* Keep two-word names centered without changing the card height. */
+  white-space:normal !important;
+}
+</style>
+
 </body>
 </html>
