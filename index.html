@@ -820,5 +820,76 @@ body{font-size:20px}
 }
 </style>
 
+
+<style id="buddy-card-actual-fix">
+/*
+  FINAL CARD AUDIT:
+  All ten source artworks are 300x412 and contain a small baked-in edge.
+  They are displayed in the same 170px-high landscape window. A uniform
+  5.2% scale removes the baked-in edge while preserving each character's
+  framing. The parent card clips the scaled image identically on all sides.
+*/
+.animal{
+  display:flex !important;
+  flex-direction:column !important;
+  width:100% !important;
+  height:220px !important;
+  min-height:220px !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+.animal-art{
+  display:block !important;
+  flex:0 0 170px !important;
+  width:100% !important;
+  height:170px !important;
+  min-height:170px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.052) !important;
+  transform-origin:center center !important;
+}
+.animal-name{
+  flex:0 0 48px !important;
+  width:100% !important;
+  height:48px !important;
+  min-height:48px !important;
+  margin:0 !important;
+  padding:3px 4px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  background:#fff !important;
+}
+
+/* A little more Papernotes readability on the buddy-selection screen.
+   Sunday Best and LOVE are deliberately untouched. */
+.welcome .subtitle{
+  font-family:"Papernotes",sans-serif !important;
+  font-size:24px !important;
+  line-height:1.4 !important;
+}
+.welcome .name-area label{
+  font-family:"Papernotes",sans-serif !important;
+  font-size:25px !important;
+  line-height:1.25 !important;
+}
+.welcome #buddyNameInput{
+  font-family:"Papernotes",sans-serif !important;
+  font-size:24px !important;
+  line-height:1.2 !important;
+}
+.welcome .name-hint{
+  font-family:"Papernotes",sans-serif !important;
+  font-size:19px !important;
+}
+</style>
+
 </body>
 </html>
