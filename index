@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maddy's Meeting Buddy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f7f4fb;
+      color: #3d3548;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .welcome {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      border-radius: 28px;
+      padding: 40px 28px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(60, 45, 75, 0.12);
+    }
+
+    .buddy {
+      font-size: 90px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      margin: 0 auto 30px;
+      max-width: 500px;
+      font-size: 17px;
+      line-height: 1.5;
+      color: #766d80;
+    }
+
+    .animal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 430px;
+      margin: 0 auto 28px;
+    }
+
+    .animal {
+      border: 2px solid #e7e0ed;
+      background: #fcfbfd;
+      border-radius: 20px;
+      padding: 18px 10px;
+      cursor: pointer;
+      font-size: 48px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .animal:hover {
+      transform: translateY(-3px);
+      border-color: #b79bd0;
+    }
+
+    .animal.selected {
+      border-color: #8d65ad;
+      background: #f3eafa;
+    }
+
+    .animal-name {
+      display: block;
+      font-size: 13px;
+      margin-top: 6px;
+      color: #6d6377;
+    }
+
+    .start-button {
+      border: 0;
+      border-radius: 16px;
+      padding: 15px 30px;
+      font-size: 17px;
+      font-weight: 600;
+      background: #8d65ad;
+      color: white;
+      cursor: pointer;
+    }
+
+    .start-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+    <section class="welcome">
+
+      <div class="buddy" id="buddy">🐰</div>
+
+      <h1>Meet Your Meeting Buddy</h1>
+
+      <p class="subtitle">
+        Choose a little friend who can stay with you while you follow along
+        with the meeting.
+      </p>
+
+      <div class="animal-grid">
+
+        <button class="animal" data-animal="🐰">
+          🐰
+          <span class="animal-name">Bunny</span>
+        </button>
+
+        <button class="animal" data-animal="🐱">
+          🐱
+          <span class="animal-name">Kitty</span>
+        </button>
+
+        <button class="animal" data-animal="🦊">
+          🦊
+          <span class="animal-name">Fox</span>
+        </button>
+
+        <button class="animal" data-animal="🐻">
+          🐻
+          <span class="animal-name">Bear</span>
+        </button>
+
+        <button class="animal" data-animal="🐼">
+          🐼
+          <span class="animal-name">Panda</span>
+        </button>
+
+        <button class="animal" data-animal="🐶">
+          🐶
+          <span class="animal-name">Puppy</span>
+        </button>
+
+      </div>
+
+      <button class="start-button" id="startButton" disabled>
+        Choose a buddy
+      </button>
+
+    </section>
+  </main>
+
+  <script>
+    const animals = document.querySelectorAll(".animal");
+    const buddy = document.getElementById("buddy");
+    const startButton = document.getElementById("startButton");
+
+    let selectedAnimal = null;
+
+    animals.forEach(animal => {
+      animal.addEventListener("click", () => {
+
+        animals.forEach(item => {
+          item.classList.remove("selected");
+        });
+
+        animal.classList.add("selected");
+
+        selectedAnimal = animal.dataset.animal;
+        buddy.textContent = selectedAnimal;
+
+        startButton.disabled = false;
+        startButton.textContent = "Let's go!";
+      });
+    });
+
+    startButton.addEventListener("click", () => {
+      alert("Your meeting buddy is ready! 🐰");
+    });
+  </script>
+
+</body>
+</html>
