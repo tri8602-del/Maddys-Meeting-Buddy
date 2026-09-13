@@ -1580,7 +1580,7 @@
 
   </script>
 
-  <script type="module">
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
   import {
     getAI,
@@ -1613,7 +1613,273 @@
     buddyModel: buddyModel
   };
 
-  console.log("Maddy's Meeting Buddy: Firebase connected!");
+  /* ---------------------------------------------------------
+     MADDY'S MEETING BUDDY — ASK BUDDY
+     --------------------------------------------------------- */
+
+  const meetingMaterial = [
+    "Jehovah wants us to learn about him and to understand why his guidance is good for us.",
+    "When we read the Bible carefully, we can see examples of people who trusted Jehovah and benefited from following his direction.",
+    "Sometimes we may not immediately understand why Jehovah asks us to do something. We can still show trust while we continue learning.",
+    "Prayer can help us ask for wisdom and help us think carefully about what we are learning.",
+    "The people around us can also help us learn. Listening carefully during congregation meetings gives us opportunities to notice useful thoughts.",
+    "When we find a Bible principle that helps us, we can think about how we might use it during the week.",
+    "Learning is not just about remembering information. It is also about understanding how what we learn can affect our choices.",
+    "A good question can help us look more closely at a Bible account and notice details we might otherwise miss.",
+    "We can also share things we learn with other people. Explaining an idea can help us understand it better ourselves.",
+    "Even when we are young, we can develop good habits of listening, thinking, asking questions, and applying what we learn.",
+    "The goal is not simply to get through the meeting. The goal is to leave with something useful that we can remember and use.",
+    "As we continue learning, Jehovah can help us grow in wisdom and become more confident in making good choices."
+  ];
+
+  /* Create the Ask Buddy window */
+  const buddyOverlay = document.createElement("div");
+
+  buddyOverlay.innerHTML = `
+    <div id="buddyBox">
+      <button id="closeBuddy" aria-label="Close">×</button>
+
+      <div class="buddyEmoji">🐶</div>
+
+      <h2>Ask Buddy</h2>
+
+      <p class="buddyIntro">
+        Ask me something about today's meeting!
+      </p>
+
+      <textarea
+        id="buddyQuestion"
+        placeholder="What do you want to know?"
+        rows="3"
+      ></textarea>
+
+      <button id="sendBuddyQuestion">
+        Ask Buddy
+      </button>
+
+      <div id="buddyAnswer" class="buddyAnswer">
+        Your answer will appear here.
+      </div>
+    </div>
+  `;
+
+  buddyOverlay.id = "buddyOverlay";
+
+  Object.assign(buddyOverlay.style, {
+    position: "fixed",
+    inset: "0",
+    background: "rgba(40,30,50,0.35)",
+    display: "none",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: "9999",
+    padding: "20px",
+    boxSizing: "border-box"
+  });
+
+  document.body.appendChild(buddyOverlay);
+
+  const buddyBox = buddyOverlay.querySelector("#buddyBox");
+
+  Object.assign(buddyBox.style, {
+    width: "min(560px, 100%)",
+    background: "white",
+    borderRadius: "28px",
+    padding: "30px",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+    position: "relative",
+    textAlign: "center",
+    boxSizing: "border-box"
+  });
+
+  const closeBuddy = buddyOverlay.querySelector("#closeBuddy");
+
+  Object.assign(closeBuddy.style, {
+    position: "absolute",
+    top: "14px",
+    right: "18px",
+    border: "none",
+    background: "none",
+    fontSize: "32px",
+    color: "#777",
+    cursor: "pointer"
+  });
+
+  const buddyEmoji = buddyOverlay.querySelector(".buddyEmoji");
+
+  Object.assign(buddyEmoji.style, {
+    fontSize: "58px",
+    marginBottom: "5px"
+  });
+
+  const buddyTitle = buddyOverlay.querySelector("h2");
+
+  Object.assign(buddyTitle.style, {
+    margin: "5px 0",
+    color: "#40394a",
+    fontSize: "30px"
+  });
+
+  const buddyIntro = buddyOverlay.querySelector(".buddyIntro");
+
+  Object.assign(buddyIntro.style, {
+    color: "#777",
+    fontSize: "17px",
+    marginBottom: "18px"
+  });
+
+  const questionBox = buddyOverlay.querySelector("#buddyQuestion");
+
+  Object.assign(questionBox.style, {
+    width: "100%",
+    boxSizing: "border-box",
+    border: "2px solid #e5dff0",
+    borderRadius: "16px",
+    padding: "15px",
+    fontSize: "18px",
+    fontFamily: "inherit",
+    resize: "none",
+    outline: "none"
+  });
+
+  const askButton = buddyOverlay.querySelector("#sendBuddyQuestion");
+
+  Object.assign(askButton.style, {
+    width: "100%",
+    marginTop: "14px",
+    padding: "15px",
+    border: "none",
+    borderRadius: "16px",
+    background: "#9163b6",
+    color: "white",
+    fontSize: "18px",
+    fontWeight: "600",
+    cursor: "pointer"
+  });
+
+  const answerBox = buddyOverlay.querySelector("#buddyAnswer");
+
+  Object.assign(answerBox.style, {
+    marginTop: "18px",
+    padding: "18px",
+    background: "#f7f4fa",
+    borderRadius: "16px",
+    color: "#40394a",
+    fontSize: "17px",
+    lineHeight: "1.5",
+    textAlign: "left",
+    display: "none"
+  });
+
+  /* Find the existing Talk to Buddy button and turn it into Ask Buddy */
+  const existingButtons = Array.from(document.querySelectorAll("button"));
+
+  const oldBuddyButton = existingButtons.find(button =>
+    button.textContent.includes("Talk to Buddy")
+  );
+
+  if (oldBuddyButton) {
+    const newBuddyButton = oldBuddyButton.cloneNode(true);
+
+    newBuddyButton.textContent = "💬 Ask Buddy";
+
+    oldBuddyButton.replaceWith(newBuddyButton);
+
+    newBuddyButton.addEventListener("click", () => {
+      buddyOverlay.style.display = "flex";
+      questionBox.focus();
+    });
+  }
+
+  /* Close Buddy */
+  closeBuddy.addEventListener("click", () => {
+    buddyOverlay.style.display = "none";
+  });
+
+  buddyOverlay.addEventListener("click", (event) => {
+    if (event.target === buddyOverlay) {
+      buddyOverlay.style.display = "none";
+    }
+  });
+
+  /* Ask the AI */
+  askButton.addEventListener("click", async () => {
+
+    const question = questionBox.value.trim();
+
+    if (!question) {
+      answerBox.style.display = "block";
+      answerBox.textContent = "Ask me a question first! 🐶";
+      return;
+    }
+
+    answerBox.style.display = "block";
+    answerBox.textContent = "Let me look through today's meeting material… 🔎";
+
+    askButton.disabled = true;
+    askButton.textContent = "Thinking…";
+
+    const context = meetingMaterial
+      .map((paragraph, index) => `Paragraph ${index + 1}: ${paragraph}`)
+      .join("\n\n");
+
+    const prompt = `
+You are Buddy, a friendly meeting companion for a 7-year-old child.
+
+IMPORTANT RULE:
+You may ONLY answer using the meeting material provided below.
+
+Do NOT use:
+- general knowledge
+- information from previous meetings
+- information from the internet
+- information from your training that is not contained in the material below
+
+First, look for the answer in the paragraph material.
+
+If the answer is there, explain it simply and clearly for a 7-year-old.
+
+If the answer is not there, say:
+"I don't see the answer in today's meeting material. You could ask Mom about that one! 💜"
+
+Do not guess.
+Do not add outside information.
+
+TODAY'S MEETING MATERIAL:
+
+${context}
+
+MADDY'S QUESTION:
+
+${question}
+`;
+
+    try {
+
+      const result = await buddyModel.generateContent(prompt);
+
+      const response = result.response;
+
+      const answer = response.text();
+
+      answerBox.textContent = answer;
+
+    } catch (error) {
+
+      console.error("Buddy error:", error);
+
+      answerBox.textContent =
+        "Hmm, Buddy couldn't connect right now. Let's try again in a minute. 🐶";
+
+    } finally {
+
+      askButton.disabled = false;
+      askButton.textContent = "Ask Buddy";
+
+    }
+  });
+
+  console.log("Maddy's Meeting Buddy: Firebase + Ask Buddy ready! 🐶");
 </script>
 
 </body>
