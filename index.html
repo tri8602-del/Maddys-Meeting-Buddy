@@ -1580,6 +1580,42 @@
 
   </script>
 
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import {
+    getAI,
+    getGenerativeModel,
+    GoogleAIBackend
+  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCNgS-U6-aYjIkZEIyYf_abnmTFRH-yf9U",
+    authDomain: "maddys-meeting-buddy.firebaseapp.com",
+    projectId: "maddys-meeting-buddy",
+    storageBucket: "maddys-meeting-buddy.firebasestorage.app",
+    messagingSenderId: "955057341005",
+    appId: "1:955057341005:web:9e834a1c120c22addb5204"
+  };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+
+  const ai = getAI(firebaseApp, {
+    backend: new GoogleAIBackend()
+  });
+
+  const buddyModel = getGenerativeModel(ai, {
+    model: "gemini-3.7-flash"
+  });
+
+  window.maddysFirebase = {
+    app: firebaseApp,
+    ai: ai,
+    buddyModel: buddyModel
+  };
+
+  console.log("Maddy's Meeting Buddy: Firebase connected!");
+</script>
+
 </body>
 
 </html>
