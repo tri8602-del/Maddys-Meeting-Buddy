@@ -416,6 +416,125 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
  .song-overlay-title{font-size:25px}
 }
 </style>
+
+<style id="horizontal-meeting-tools">
+/* Keep the meeting companion and controls in a compact horizontal strip above
+   the material. This gives the actual meeting content the full iPad width. */
+#meetingScreen .meeting-content{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:14px !important;
+}
+#meetingScreen .meeting-content > aside{
+  order:-1 !important;
+  width:100% !important;
+}
+#meetingScreen .buddy-panel{
+  width:100% !important;
+  max-width:920px !important;
+  margin:0 auto !important;
+  padding:10px 16px !important;
+  min-height:116px !important;
+  display:grid !important;
+  grid-template-columns:92px minmax(170px,1fr) auto auto !important;
+  grid-template-rows:auto 1fr !important;
+  column-gap:14px !important;
+  row-gap:3px !important;
+  align-items:center !important;
+  text-align:left !important;
+}
+#meetingScreen .buddy-character{
+  grid-column:1 !important;
+  grid-row:1 / span 2 !important;
+  width:92px !important;
+  height:100px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#meetingScreen .buddy-character .buddy-art{
+  width:78px !important;
+  height:98px !important;
+  object-fit:fill !important;
+}
+#meetingScreen .buddy-name{
+  grid-column:2 !important;
+  grid-row:1 !important;
+  margin:0 !important;
+  align-self:end !important;
+  font-size:21px !important;
+}
+#meetingScreen .buddy-message{
+  grid-column:2 !important;
+  grid-row:2 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:6px 10px !important;
+  font-size:17px !important;
+  line-height:1.2 !important;
+}
+#meetingScreen .buddy-button,#meetingScreen .draw-button{
+  width:auto !important;
+  min-width:132px !important;
+  margin:0 !important;
+  padding:11px 14px !important;
+  white-space:nowrap !important;
+  justify-self:stretch !important;
+}
+#meetingScreen .buddy-button{grid-column:3 !important;grid-row:1 / span 2 !important}
+#meetingScreen .draw-button{grid-column:4 !important;grid-row:1 / span 2 !important}
+#meetingScreen .paragraph-card{
+  width:100% !important;
+  max-width:920px !important;
+  margin:0 auto !important;
+}
+#paragraphText .listen-for{
+  margin:20px 0 4px !important;
+  padding:14px 16px !important;
+  background:#f6effa !important;
+  border-left:5px solid #8d65ad !important;
+  border-radius:0 16px 16px 0 !important;
+  line-height:1.45 !important;
+}
+#paragraphText .listen-for-title{
+  font-family:"SundayBest",sans-serif !important;
+  font-size:21px !important;
+  line-height:1.15 !important;
+  margin-bottom:5px !important;
+  color:#4a4052 !important;
+}
+@media(max-width:620px){
+  #meetingScreen .buddy-panel{
+    grid-template-columns:76px minmax(0,1fr) !important;
+    grid-template-rows:auto auto auto !important;
+    padding:10px 12px !important;
+  }
+  #meetingScreen .buddy-character{grid-column:1 !important;grid-row:1 / span 3 !important;width:76px !important;height:92px !important}
+  #meetingScreen .buddy-character .buddy-art{width:66px !important;height:86px !important}
+  #meetingScreen .buddy-name{grid-column:2 !important;grid-row:1 !important}
+  #meetingScreen .buddy-message{grid-column:2 !important;grid-row:2 !important}
+  #meetingScreen .buddy-button{grid-column:2 !important;grid-row:3 !important;justify-self:start !important}
+  #meetingScreen .draw-button{grid-column:2 !important;grid-row:3 !important;justify-self:end !important}
+}
+</style>
+
+<style id="cbs-and-song-refinements">
+#paragraphText .cbs-section{margin:0 0 28px;padding:0 0 4px;border-bottom:2px solid #eee7f3}
+#paragraphText .cbs-section:last-child{margin-bottom:0;border-bottom:0}
+#paragraphText .cbs-section h4{margin:0 0 14px;padding-bottom:7px}
+#paragraphText .cbs-story .cbs-discussion{margin-top:20px}
+#paragraphText .cbs-section .review-list{margin-top:0}
+#songOverlayTitle:empty,#songOverlaySubtitle:empty{display:none}
+#songBox{padding:12px}
+#songSheetImage{border-radius:6px;box-shadow:none}
+#songOverlay .song-sheet-wrap{background:transparent;padding:0}
+#songOverlay .song-external-link{margin-top:10px}
+#songOverlay .song-note{margin-top:8px}
+</style>
+
+<style id="cbs-reference-refinement">
+#paragraphText .cbs-reference{font-family:"Papernotes",sans-serif;font-size:17px;color:#766d80;background:#f8f4fa;border-radius:14px;padding:11px 14px;margin:0 0 18px;line-height:1.45}
+</style>
 </head>
 <body>
 <main class="app">
@@ -442,7 +561,7 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 <div class="meeting-header">
 <div class="top-row"><div class="meeting-type">Christian Life and Ministry</div><button class="home" id="homeButton">← Change Buddy</button></div>
 <h2 class="meeting-title" id="meetingTitle">Jeremiah 34–35</h2>
-<div class="meeting-date" id="meetingDate">September 14–20, 2026</div>
+<div class="meeting-date" id="meetingDate">September 15, 2026</div>
 <div class="progress-info"><span id="paragraphCounter"></span><span id="percentComplete"></span></div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 <div class="header-time"><span class="header-time-label" id="timeLabel">Time remaining</span><strong id="timeRemaining"></strong></div>
@@ -487,7 +606,7 @@ const meetingParts=[
    "Jer 34:7—What archaeological evidence supports the events described in this verse? (it “Archaeology” ¶27-28)",
    "What spiritual gems from this week’s Bible reading would you like to share?"
  ],html:`<div class="material-block"><p><strong>Jer 34:7</strong>—What archaeological evidence supports the events described in this verse? <em>(it “Archaeology” ¶27-28)</em></p></div><div class="material-block"><p>What spiritual gems from this week’s Bible reading would you like to share?</p></div>`},
- {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,kind:"answer",html:`<div class="material-block"><strong>Jeremiah 35:1-14</strong></div><div class="material-block">This is the Bible-reading assignment for the meeting. The workbook does not print the passage itself; it gives the reference <strong>Jer 35:1-14</strong> and the teaching-study reference <strong>(th study 5)</strong>.</div>`},
+ {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,kind:"answer",html:`<div class="material-block"><strong>Jeremiah 35:1-14</strong></div><div class="material-block">This is the Bible-reading assignment for the meeting. The workbook does not print the passage itself; it gives the reference <strong>Jer 35:1-14</strong> and the teaching-study reference <strong>(th study 5)</strong>.</div><div class="listen-for"><div class="listen-for-title">🎧 Listen for this</div><div>What did the Rechabites do when Jeremiah offered them wine—and why?</div></div>`},
  {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,kind:"answer",html:`<div class="material-block"><strong>HOUSE TO HOUSE.</strong> Offer a Bible study.</div>`},
  {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,kind:"answer",html:`<div class="material-block"><strong>HOUSE TO HOUSE.</strong> Offer a Bible study.</div><div class="material-block">Feature a video from our Teaching Toolbox.</div>`},
  {section:"Apply Yourself to the Field Ministry",title:"Following Up",minutes:3,kind:"answer",html:`<div class="material-block"><strong>INFORMAL WITNESSING.</strong> Offer a Bible study to a person who previously expressed concern about a current event.</div>`},
@@ -495,7 +614,7 @@ const meetingParts=[
  {section:"Living as Christians",title:"Song 121 — We Need Self-Control",minutes:0,kind:"song",song:121,html:`<div class="material-block">Use the lead sheet to follow along with the congregation as you sing.</div>`},
  {section:"Living as Christians",title:"Self-Control Helps Us to Obey",minutes:6,kind:"questions",questions:["What did you learn from this video about how to overcome negative thoughts?"],html:`<div class="material-block">Negative thinking can weaken our resolve to do what is right. How important it is, then, to do our best to control such thoughts! But how can we succeed?</div><div class="material-block"><strong>VIDEO:</strong> <em>Pursue What Builds Loyalty—Self-Control.</em></div><div class="material-block">After the video, the audience considers:</div><div class="review-question"><strong>What did you learn from this video about how to overcome negative thoughts?</strong></div>`},
  {section:"Living as Christians",title:"Organizational Accomplishments for September",minutes:9,kind:"answer",html:`<div class="material-block"><strong>Discussion.</strong></div><div class="material-block">Play the video. Then ask the audience the questions that appear at the end of the video.</div>`},
- {section:"Living as Christians",title:"Congregation Bible Study",minutes:30,kind:"cbs",html:`<h4>The Story — Joseph: “He Resisted Temptation”</h4><div class="story-text"><p>As a young man, Joseph was beloved and favored—by Jacob, his father, and by Jehovah, his God. But that did not mean that Joseph had an easy life. Rather, he faced great animosity. When Jacob singled him out and gave him special treatment, Joseph’s half-brothers grew jealous and spiteful. When Jehovah sent him prophetic dreams to foretell that the family would one day bow down to Joseph, his brothers’ hatred only intensified.</p><p>One day, when Joseph was about 17 years old, Jacob sent him on a journey of several days to check on his brothers’ welfare. They viciously attacked him and threw him into a dried-up cistern. They coldly ignored his cries for help. Although they had talked of murdering him, they decided instead to sell him to some passing traders. Later, the brothers misled Jacob, convincing him that his beloved Joseph had been killed by a wild animal. In truth, Joseph was taken far south to Egypt, where he was sold as a slave to Potiphar, an official in Pharaoh’s government.</p><p>It would have been easy for Joseph to give in to despair. Instead, he showed courage and worked hard. Thus, we read: “Jehovah was with him.” Jehovah saw to it that Joseph met with success after success. Potiphar entrusted him with the care of his entire household.</p><p>But trouble was brewing. “Joseph grew to be well-built and handsome,” and that did not escape the notice of Potiphar’s wife. She did not hide her interest. She even said: “Lie down with me.” What would Joseph do? His family was far away. He was a slave, mere property for his owners to treat however they chose. This woman surely had the power to make his life miserable. Was Joseph tempted to give in to her? Would he have the courage to say no?</p><p>The Bible answers: “He refused.” Joseph told her that he would not betray her husband, who trusted him fully. More important, Joseph spoke these words: “How could I commit this great badness and actually sin against God?” Joseph’s love for his Father, Jehovah, gave him the courage to say no firmly. But Potiphar’s wife did not give up. She persisted “day after day.”</p><p>One day when there were no other servants nearby, she grabbed Joseph by his clothing and demanded: “Lie down with me!” Joseph broke free and fled. But she held on to his garment. Later, she showed it to Potiphar and claimed that Joseph had tried to rape her. Furious, Potiphar had Joseph thrown into prison.</p><p>Now he was deep in a pitlike prison. For a time, his feet were in fetters and his neck was in irons. (Ps. 105:17, 18) Joseph might easily have despaired. Had Jehovah abandoned him? No! And Joseph never lost trust in his God. He worked hard in prison, and Jehovah blessed him. Before long, he was entrusted with great responsibility there. He kept enduring courageously, year after year.</p><p>Because of Joseph’s faith and courage, he remained useful to Jehovah. In time, God sent a pair of prophetic dreams to Pharaoh and enabled Joseph to explain them. Joseph told the king that the dreams foretold seven years of plenty followed by seven years of famine. Deeply impressed, Pharaoh entrusted Joseph to handle the approaching crisis. He made Joseph a powerful ruler in the land, second only to Pharaoh himself. As it turned out, Joseph was able to save from starvation not only the Egyptians but also his own family. When his brothers came to Egypt for food, they unknowingly bowed down to their younger brother. The dream Jehovah gave Joseph in his youth had come true. But his brothers also proved that, with time, they had become better men. The brother they once hated saved them, their father, and the future nation of Israel—all because he showed courage and maintained his faith in Jehovah.</p></div><h4>Review Questions</h4><div class="review-list"><div class="review-question"><strong>1. What supports the accuracy of this account about Joseph’s life in Egypt?</strong><span>(g 11/10 15 ¶2)</span></div><div class="review-question"><strong>2. How did Joseph know that Jehovah would consider adultery an act of “great badness”?</strong><span>(Gen. 39:9; w22.08 26 ¶2)</span></div><div class="review-question"><strong>3. Why did Jehovah allow Joseph to become prime minister of Egypt?</strong><span>(w96 5/1 11 ¶4)</span></div><div class="review-question"><strong>4. What indicates that Joseph’s faith never wavered, even at 110 years of age?</strong><span>(Gen. 50:25, 26; w07 6/1 28 ¶10-11)</span></div><div class="review-question"><strong>What do Joseph’s dealings with his brothers teach you about how to react when you are mistreated by a fellow Christian?</strong><span>(Gen. 45:4, 5; 50:19-21)</span></div><div class="review-question"><strong>Even when Joseph was far from home, he was loyal to Jehovah. How can his example help us while at school, while traveling, or while using a smartphone or another device?</strong></div><div class="review-question"><strong>How might you imitate Joseph’s courage in your life?</strong></div><div class="review-question"><strong>What does this account teach me about Jehovah?</strong></div><div class="review-question"><strong>How does this account tie in with Jehovah’s purposes?</strong></div><div class="review-question"><strong>What would I like to ask Joseph in the resurrection?</strong></div></div>`},
+ {section:"Living as Christians",title:"Congregation Bible Study",minutes:30,kind:"cbs",html:`<div class="cbs-section cbs-story"><h4>The Story</h4><div class="cbs-reference"><strong>Read the Bible account:</strong> Genesis 37:1-36; 39:1-23; 41:1–45:28</div><div class="story-text"><p>As a young man, Joseph was beloved and favored—by Jacob, his father, and by Jehovah, his God. But that did not mean that Joseph had an easy life. Rather, he faced great animosity. When Jacob singled him out and gave him special treatment, Joseph’s half-brothers grew jealous and spiteful. When Jehovah sent him prophetic dreams to foretell that the family would one day bow down to Joseph, his brothers’ hatred only intensified.</p><p>One day, when Joseph was about 17 years old, Jacob sent him on a journey of several days to check on his brothers’ welfare. They viciously attacked him and threw him into a dried-up cistern. They coldly ignored his cries for help. Although they had talked of murdering him, they decided instead to sell him to some passing traders. Later, the brothers misled Jacob, convincing him that his beloved Joseph had been killed by a wild animal. In truth, Joseph was taken far south to Egypt, where he was sold as a slave to Potiphar, an official in Pharaoh’s government.</p><p>It would have been easy for Joseph to give in to despair. Instead, he showed courage and worked hard. Thus, we read: “Jehovah was with him.” Jehovah saw to it that Joseph met with success after success. Potiphar entrusted him with the care of his entire household.</p><p>But trouble was brewing. “Joseph grew to be well-built and handsome,” and that did not escape the notice of Potiphar’s wife. She did not hide her interest. She even said: “Lie down with me.” What would Joseph do? His family was far away. He was a slave, mere property for his owners to treat however they chose. This woman surely had the power to make his life miserable. Was Joseph tempted to give in to her? Would he have the courage to say no?</p><p>The Bible answers: “He refused.” Joseph told her that he would not betray her husband, who trusted him fully. More important, Joseph spoke these words: “How could I commit this great badness and actually sin against God?” Joseph’s love for his Father, Jehovah, gave him the courage to say no firmly. But Potiphar’s wife did not give up. She persisted “day after day.”</p><p>One day when there were no other servants nearby, she grabbed Joseph by his clothing and demanded: “Lie down with me!” Joseph broke free and fled. But she held on to his garment. Later, she showed it to Potiphar and claimed that Joseph had tried to rape her. Furious, Potiphar had Joseph thrown into prison.</p><p>Now he was deep in a pitlike prison. For a time, his feet were in fetters and his neck was in irons. (Ps. 105:17, 18) Joseph might easily have despaired. Had Jehovah abandoned him? No! And Joseph never lost trust in his God. He worked hard in prison, and Jehovah blessed him. Before long, he was entrusted with great responsibility there. He kept enduring courageously, year after year.</p><p>Because of Joseph’s faith and courage, he remained useful to Jehovah. In time, God sent a pair of prophetic dreams to Pharaoh and enabled Joseph to explain them. Joseph told the king that the dreams foretold seven years of plenty followed by seven years of famine. Deeply impressed, Pharaoh entrusted Joseph to handle the approaching crisis. He made Joseph a powerful ruler in the land, second only to Pharaoh himself. As it turned out, Joseph was able to save from starvation not only the Egyptians but also his own family. When his brothers came to Egypt for food, they unknowingly bowed down to their younger brother. The dream Jehovah gave Joseph in his youth had come true. But his brothers also proved that, with time, they had become better men. The brother they once hated saved them, their father, and the future nation of Israel—all because he showed courage and maintained his faith in Jehovah.</p></div><div class="review-question cbs-discussion"><strong>For discussion: In what ways did Joseph show courage?</strong></div></div><div class="cbs-section"><h4>Dig Deeper</h4><div class="review-list"><div class="review-question"><strong>1. What supports the accuracy of this account about Joseph’s life in Egypt?</strong><span>(g 11/10 15 ¶2)</span></div><div class="review-question"><strong>2. How did Joseph know that Jehovah would consider adultery an act of “great badness”?</strong><span>(Gen. 39:9; w22.08 26 ¶2)</span></div><div class="review-question"><strong>3. Why did Jehovah allow Joseph to become prime minister of Egypt?</strong><span>(w96 5/1 11 ¶4)</span></div><div class="review-question"><strong>4. What indicates that Joseph’s faith never wavered, even at 110 years of age?</strong><span>(Gen. 50:25, 26; w07 6/1 28 ¶10-11)</span></div></div></div><div class="cbs-section"><h4>Reflect on the Lessons</h4><div class="review-list"><div class="review-question"><strong>What do Joseph’s dealings with his brothers teach you about how to react when you are mistreated by a fellow Christian?</strong><span>(Gen. 45:4, 5; 50:19-21)</span></div><div class="review-question"><strong>Even when Joseph was far from home, he was loyal to Jehovah. How can his example help us . . . while at school? while traveling? while using a smartphone or another device?</strong></div><div class="review-question"><strong>How might you imitate Joseph’s courage in your life?</strong></div></div></div><div class="cbs-section"><h4>Meditate on the Bigger Picture</h4><div class="review-list"><div class="review-question"><strong>What does this account teach me about Jehovah?</strong></div><div class="review-question"><strong>How does this account tie in with Jehovah’s purposes?</strong></div><div class="review-question"><strong>What would I like to ask Joseph in the resurrection?</strong></div></div></div>`},
  {section:"Closing",title:"Concluding Comments",minutes:3,kind:"normal",html:`<div class="material-block"><strong>Concluding Comments</strong> <em>(3 min.)</em></div>`,song:28}
 ];
 
@@ -507,7 +626,7 @@ let renderedPart=-1;
 
 let selectedAnimal=localStorage.getItem("mmb_animal")||"";
 let selectedName=localStorage.getItem("mmb_name")||"";
-const answerStoreKey="mmb_answers_jeremiah34-35_2026-09-14";
+const answerStoreKey="mmb_answers_jeremiah34-35_2026-09-15";
 let answers={};
 try{answers=JSON.parse(localStorage.getItem(answerStoreKey)||"{}");}catch(e){answers={};}
 
@@ -579,7 +698,7 @@ function renderQuestionAnswers(){
 function renderSongButton(p){
   if(!p.song) return;
   const target=$("paragraphText");
-  const btn=document.createElement("button"); btn.className="song-action"; btn.type="button"; btn.textContent=`🎼 View Song ${p.song} Lead Sheet`;
+  const btn=document.createElement("button"); btn.className="song-action"; btn.type="button"; btn.textContent=`🎼 View Song ${p.song}`;
   btn.addEventListener("click",()=>openSong(p.song));
   target.prepend(btn);
 }
@@ -588,9 +707,11 @@ function openSong(song){
   const overlay=$("songOverlay"),img=$("songSheetImage"),title=$("songOverlayTitle"),sub=$("songOverlaySubtitle"),link=$("songExternalLink"),note=$("songOverlayNote");
   overlay.classList.add("visible");overlay.setAttribute("aria-hidden","false");
   link.style.display="none";note.textContent="";
-  if(song===28){title.textContent="Song 28 — Gaining Jehovah’s Friendship";sub.textContent="Lead sheet from the uploaded Sing Out Joyfully songbook.";img.src=SONG_28_IMAGE;img.alt="Song 28 lead sheet";}
-  else if(song===121){title.textContent="Song 121 — We Need Self-Control";sub.textContent="Lead sheet from the uploaded Sing Out Joyfully songbook.";img.src=SONG_121_IMAGE;img.alt="Song 121 lead sheet";}
-  else if(song===161){title.textContent="Song 161 — To Do Your Will Is My Delight";sub.textContent="The uploaded songbook is an older edition and does not contain Song 161.";img.src=SONG_161_IMAGE;img.alt="Song 161 lead sheet";link.href=SONG_161_PAGE;link.style.display="inline-block";note.textContent="If the lead-sheet image does not load, use the official JW.org page.";}
+  img.onerror=null;
+  img.onload=()=>{link.style.display="none";note.textContent="";};
+  if(song===28){title.textContent="";sub.textContent="";img.src=SONG_28_IMAGE;img.alt="Song 28";}
+  else if(song===121){title.textContent="";sub.textContent="";img.src=SONG_121_IMAGE;img.alt="Song 121";}
+  else if(song===161){title.textContent="";sub.textContent="";img.onerror=()=>{link.href=SONG_161_PAGE;link.style.display="inline-block";note.textContent="Open the official song page.";};img.src=SONG_161_IMAGE;img.alt="Song 161";}
 }
 function closeSong(){const o=$("songOverlay");o.classList.remove("visible");o.setAttribute("aria-hidden","true");}
 
