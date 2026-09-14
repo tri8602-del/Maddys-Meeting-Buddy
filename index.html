@@ -535,6 +535,60 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 <style id="cbs-reference-refinement">
 #paragraphText .cbs-reference{font-family:"Papernotes",sans-serif;font-size:17px;color:#766d80;background:#f8f4fa;border-radius:14px;padding:11px 14px;margin:0 0 18px;line-height:1.45}
 </style>
+
+<style id="compact-meeting-layout">
+#meetingScreen{padding:12px 16px 18px!important}
+#meetingScreen .meeting-header{max-width:1100px!important;padding:14px 18px 12px!important;margin-bottom:12px!important;border-radius:22px}
+#meetingScreen .top-row{margin-bottom:2px}
+#meetingScreen .meeting-heading-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+#meetingScreen .meeting-title{margin:4px 0 2px!important;font-size:30px!important;line-height:1.08!important}
+#meetingScreen .meeting-date{font-family:"Papernotes",sans-serif;font-size:17px;color:#766d80;line-height:1.2}
+#meetingScreen .progress-info{margin-top:8px;margin-bottom:5px}
+#meetingScreen .header-status-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px;min-height:25px}
+#meetingScreen .header-time{margin-top:0!important;justify-content:flex-start!important}
+#meetingScreen .schedule-status{font-family:"PleaseWrite",sans-serif;font-size:15px;color:#6f6477;text-align:right}
+#meetingScreen .meeting-schedule-summary{font-family:"Papernotes",sans-serif;font-size:12px;color:#81758d;margin-top:1px}
+#meetingScreen .buddy-strip{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:10px;padding:8px 10px;background:#f8f4fa;border-radius:17px}
+#meetingScreen .buddy-strip-identity{display:flex;align-items:center;min-width:0;gap:10px;flex:1}
+#meetingScreen .buddy-strip .buddy-character{height:72px;width:72px;flex:0 0 72px;display:flex;align-items:center;justify-content:center}
+#meetingScreen .buddy-strip .buddy-character .buddy-art{width:64px!important;height:70px!important;object-fit:contain}
+#meetingScreen .buddy-copy{min-width:0}
+#meetingScreen .buddy-name{font-family:"HelloBaby",sans-serif!important;font-size:19px!important;line-height:1.1;margin:0 0 3px!important}
+#meetingScreen .buddy-message{min-height:0!important;padding:0!important;background:transparent!important;font-family:"Papernotes",sans-serif!important;font-size:15px!important;line-height:1.25!important;color:#6c6272;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#meetingScreen .buddy-strip-actions{display:flex;gap:8px;flex:0 0 auto}
+#meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{width:auto!important;margin:0!important;padding:10px 16px!important;border-radius:12px!important;white-space:nowrap}
+#meetingScreen .meeting-content{display:block!important;max-width:1100px!important;margin:0 auto!important}
+#meetingScreen .paragraph-card{padding:22px!important;min-height:0!important;max-width:none!important}
+#meetingScreen .controls{margin-top:22px}
+@media(max-width:700px){
+  #meetingScreen{padding:8px 10px 14px!important}
+  #meetingScreen .meeting-header{padding:12px!important;margin-bottom:10px!important}
+  #meetingScreen .meeting-title{font-size:27px!important}
+  #meetingScreen .meeting-date{font-size:15px}
+  #meetingScreen .header-status-row{align-items:flex-start}
+  #meetingScreen .schedule-status{font-size:13px}
+  #meetingScreen .buddy-strip{gap:8px;padding:7px}
+  #meetingScreen .buddy-strip .buddy-character{height:62px;width:62px;flex-basis:62px}
+  #meetingScreen .buddy-strip .buddy-character .buddy-art{width:55px!important;height:60px!important}
+  #meetingScreen .buddy-message{font-size:13px!important}
+  #meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{padding:9px 10px!important}
+}
+@media(max-width:520px){
+  #meetingScreen .buddy-strip{align-items:center}
+  #meetingScreen .buddy-strip-identity{flex-basis:52%}
+  #meetingScreen .buddy-strip-actions{gap:5px}
+  #meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{font-size:13px;padding:8px 9px!important}
+}
+</style>
+
+<style id="meeting-header-final-tighten">
+#meetingScreen .meeting-header{overflow:hidden}
+@media(max-width:700px){
+  #meetingScreen .header-status-row{gap:8px}
+  #meetingScreen .timeRemaining{font-size:18px}
+  #meetingScreen .meeting-schedule-summary{font-size:11px}
+}
+</style>
 </head>
 <body>
 <main class="app">
@@ -560,24 +614,21 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 <section class="screen" id="meetingScreen" style="display:none">
 <div class="meeting-header">
 <div class="top-row"><div class="meeting-type">Christian Life and Ministry</div><button class="home" id="homeButton">← Change Buddy</button></div>
-<h2 class="meeting-title" id="meetingTitle">Jeremiah 34–35</h2>
-<div class="meeting-date" id="meetingDate">September 15, 2026</div>
+<div class="meeting-heading-row"><div><h2 class="meeting-title" id="meetingTitle">Jeremiah 34–35</h2><div class="meeting-date" id="meetingDate">September 14–20, 2026</div></div></div>
 <div class="progress-info"><span id="paragraphCounter"></span><span id="percentComplete"></span></div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-<div class="header-time"><span class="header-time-label" id="timeLabel">Time remaining</span><strong id="timeRemaining"></strong></div>
-<div class="schedule-status" id="scheduleStatus"></div><div class="meeting-schedule-summary" id="meetingScheduleSummary"></div>
+<div class="header-status-row"><div class="header-time"><span class="header-time-label" id="timeLabel">Time remaining</span><strong id="timeRemaining"></strong></div><div class="schedule-status" id="scheduleStatus"></div></div>
+<div class="meeting-schedule-summary" id="meetingScheduleSummary"></div>
+<div class="buddy-strip">
+  <div class="buddy-strip-identity"><div class="buddy-character" id="meetingBuddy"></div><div class="buddy-copy"><div class="buddy-name" id="buddyName">Buddy</div><div class="buddy-message" id="buddyMessage"></div></div></div>
+  <div class="buddy-strip-actions"><button class="buddy-button" id="buddyButton">💬 Ask Buddy</button><button class="draw-button" id="drawButton">✏️ Draw</button></div>
+</div>
 </div>
 <div class="meeting-content">
 <article class="paragraph-card">
 <div class="section-label" id="sectionLabel">Treasures From God’s Word</div><div class="paragraph-number" id="paragraphNumber"></div><h3 class="part-title" id="partTitle"></h3><div class="paragraph-text" id="paragraphText"></div><div id="answerArea"></div>
 <div class="controls"><button class="nav" id="previousButton">← Previous</button><button class="nav" id="nextButton">Next →</button></div>
 </article>
-<aside>
-<div class="buddy-panel">
-<div class="buddy-character" id="meetingBuddy"></div><div class="buddy-name" id="buddyName">Buddy</div>
-<div class="buddy-message" id="buddyMessage"></div><button class="buddy-button" id="buddyButton">💬 Ask Buddy</button><button class="draw-button" id="drawButton">✏️ Draw</button>
-</div>
-</aside>
 </div>
 <div class="drawing-panel" id="drawingPanel">
 <div class="drawing-header"><button class="home" id="backFromDrawing">← Back to Meeting</button><div><b>✏️ Meeting Sketchbook</b></div><div class="drawing-tools">
@@ -623,7 +674,8 @@ const meetingParts=[
  {section:"Closing",title:"Concluding Comments",minutes:3,kind:"normal",html:`<div class="material-block"><strong>Concluding Comments</strong> <em>(3 min.)</em></div>`,song:28}
 ];
 
-const meetingStartMinutes=19*60;
+const meetingStartDate=new Date(2026,8,15,19,0,0);
+const meetingEndDate=new Date(meetingStartDate.getTime()+84*60*1000);
 const scheduledMinutes=meetingParts.reduce((s,p)=>s+p.minutes,0);
 let currentParagraph=Number(localStorage.getItem("mmb_current_part")||0);
 if(!Number.isInteger(currentParagraph)||currentParagraph<0||currentParagraph>=meetingParts.length) currentParagraph=0;
@@ -631,18 +683,19 @@ let renderedPart=-1;
 
 let selectedAnimal=localStorage.getItem("mmb_animal")||"";
 let selectedName=localStorage.getItem("mmb_name")||"";
-const answerStoreKey="mmb_answers_jeremiah34-35_2026-09-15";
+const answerStoreKey="mmb_answers_jeremiah34-35_week-of-2026-09-14";
 let answers={};
 try{answers=JSON.parse(localStorage.getItem(answerStoreKey)||"{}");}catch(e){answers={};}
 
-function minutesSinceMidnight(d){return d.getHours()*60+d.getMinutes()+d.getSeconds()/60}
 function schedulePosition(){
   const now=new Date();
-  const elapsed=minutesSinceMidnight(now)-meetingStartMinutes;
+  const elapsed=(now.getTime()-meetingStartDate.getTime())/60000;
   let cumulative=0;
   for(let i=0;i<meetingParts.length;i++){
     const p=meetingParts[i];
-    if(p.minutes>0 && elapsed>=cumulative && elapsed<cumulative+p.minutes) return {index:i,elapsed,until:Math.ceil(cumulative+p.minutes-elapsed),partElapsed:elapsed-cumulative,partRemaining:Math.ceil(cumulative+p.minutes-elapsed)};
+    if(p.minutes>0 && elapsed>=cumulative && elapsed<cumulative+p.minutes){
+      return {index:i,elapsed,until:Math.ceil(cumulative+p.minutes-elapsed),partElapsed:elapsed-cumulative,partRemaining:Math.ceil(cumulative+p.minutes-elapsed)};
+    }
     cumulative+=p.minutes;
   }
   return {index:Math.max(0,meetingParts.length-1),elapsed,until:0,partElapsed:0,partRemaining:0};
@@ -745,7 +798,7 @@ function updateMeeting(){
   const currentScheduled=meetingParts[pos.index];
   $("meetingScheduleSummary").textContent=`Scheduled meeting: 7:00 PM–8:24 PM · ${scheduledMinutes} timed minutes`;
   if(pos.elapsed<0){
-    $("timeLabel").textContent="Meeting starts at";$("timeRemaining").textContent="7:00 PM";$("scheduleStatus").textContent="Ready for the meeting 💜";
+    $("timeLabel").textContent="Meeting starts";$("timeRemaining").textContent="Tuesday at 7:00 PM";$("scheduleStatus").textContent="Ready for the meeting 💜";
   } else if(pos.elapsed>=scheduledMinutes){
     $("timeLabel").textContent="Meeting time";$("timeRemaining").textContent="Finished 🎉";$("scheduleStatus").textContent="The scheduled timed portions ended at about 8:24 PM.";
   } else {
