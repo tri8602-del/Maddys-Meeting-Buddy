@@ -421,20 +421,21 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 </main>
 <div id="buddyOverlay"><div id="buddyBox"><button aria-label="Close" id="closeBuddy">×</button><div class="buddyEmoji" id="buddyEmoji"></div><h2 id="buddyDialogTitle">Ask Buddy</h2><p class="buddyIntro" id="buddyDialogIntro"></p><textarea id="buddyQuestion" placeholder="What do you want to know?" rows="3"></textarea><button id="sendBuddyQuestion">Ask Buddy</button><div id="buddyAnswer">Buddy's question-answering feature is taking a little nap for now. We'll bring it back soon! 🌙</div></div></div>
 <script>
+const $ = id => document.getElementById(id);
 const meetingParts=[
- {section:"Opening",title:"Opening Comments",minutes:1,text:"Opening Comments — 1 minute"},
- {section:"Treasures From God’s Word",title:"Jehovah Rewards Faithful Obedience",minutes:10,text:"Many Jews obeyed Jehovah only when they needed his help. The Rechabites adhered closely to Jehonadab’s command. Jehovah rewarded the Rechabites for their faithful obedience."},
- {section:"Treasures From God’s Word",title:"Spiritual Gems",minutes:10,text:"Jeremiah 34:7 — What archaeological evidence supports the events described in this verse? What spiritual gems from this week’s Bible reading would you like to share?"},
- {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,text:"Jeremiah 35:1–14. Bible reading — 4 minutes."},
- {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,text:"HOUSE TO HOUSE. Offer a Bible study. — Love People lesson 3, point 3."},
- {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,text:"HOUSE TO HOUSE. Offer a Bible study. Feature a video from our Teaching Toolbox. — Love People lesson 3, point 5."},
- {section:"Apply Yourself to the Field Ministry",title:"Following Up",minutes:3,text:"INFORMAL WITNESSING. Offer a Bible study to a person who previously expressed concern about a current event. — Love People lesson 7, point 4."},
- {section:"Apply Yourself to the Field Ministry",title:"Making Disciples",minutes:4,text:"Discussion with a Bible student. Tell your student about the Bible study campaign. Ask if he knows anyone who might be interested in studying the Bible. — Teaching study 11."},
- {section:"Living as Christians",title:"Song 121",minutes:0,text:"Song 121"},
- {section:"Living as Christians",title:"Self-Control Helps Us to Obey",minutes:6,text:"Discussion. Negative thinking can weaken our resolve to do what is right. How important it is, then, to do our best to control such thoughts! But how can we succeed? Play the video dramatization Pursue What Builds Loyalty—Self-Control. Then discuss what was learned about overcoming negative thoughts."},
- {section:"Living as Christians",title:"Organizational Accomplishments for September",minutes:9,text:"Discussion. Play the video. Then ask the questions that appear at the end of the video."},
- {section:"Living as Christians",title:"Congregation Bible Study",minutes:30,text:"Walk Courageously With God — chapter 8: Joseph — He Resisted Temptation. Read the Bible account: Genesis 37:1–36; 39:1–23; 41:1–45:28. Discussion: In what ways did Joseph show courage?"},
- {section:"Closing",title:"Concluding Comments",minutes:3,text:"Concluding Comments — 3 minutes. Song 28 and prayer."}
+ {section:"Opening",title:"Opening Comments",minutes:1,text:"Opening Comments — 1 minute. The meeting opens with Song 161 and prayer."},
+ {section:"Treasures From God’s Word",title:"Jehovah Rewards Faithful Obedience",minutes:10,text:"Jeremiah 34:8-11 shows that many Jews obeyed Jehovah only when they needed his help. In contrast, the Rechabites closely followed the command their forefather Jehonadab had given them (Jeremiah 35:5, 6). Jehovah rewarded the Rechabites for their faithful obedience (Jeremiah 35:18, 19). Ask yourself: Am I resolved to obey Jehovah even when I feel I could avoid the consequences of disobedience?"},
+ {section:"Treasures From God’s Word",title:"Spiritual Gems",minutes:10,text:"Jeremiah 34:7 — The workbook asks: What archaeological evidence supports the events described in this verse? Then consider: What spiritual gems from this week’s Bible reading would you like to share?"},
+ {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,text:"Jeremiah 35:1–14. Listen for what the Rechabites did when Jeremiah offered them wine, and notice how their response demonstrated their obedience to Jehonadab."},
+ {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,text:"HOUSE TO HOUSE. Offer a Bible study. The assignment uses Love People lesson 3, point 3."},
+ {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,text:"HOUSE TO HOUSE. Offer a Bible study and feature a video from the Teaching Toolbox. The assignment uses Love People lesson 3, point 5."},
+ {section:"Apply Yourself to the Field Ministry",title:"Following Up",minutes:3,text:"INFORMAL WITNESSING. Offer a Bible study to someone who previously expressed concern about a current event. The assignment uses Love People lesson 7, point 4."},
+ {section:"Apply Yourself to the Field Ministry",title:"Making Disciples",minutes:4,text:"Discussion with a Bible student. Tell the student about the Bible study campaign and ask whether the student knows anyone who might be interested in studying the Bible. The assignment uses Teaching Study 11."},
+ {section:"Living as Christians",title:"Song 121",minutes:0,text:"Song 121 — use this time to follow along with the congregation as you sing."},
+ {section:"Living as Christians",title:"Self-Control Helps Us to Obey",minutes:6,text:"Negative thinking can weaken our resolve to do what is right. The meeting asks: How can we succeed in controlling such thoughts? A video dramatization, Pursue What Builds Loyalty—Self-Control, is played, followed by discussion about what the video teaches about overcoming negative thoughts."},
+ {section:"Living as Christians",title:"Organizational Accomplishments for September",minutes:9,text:"Watch the Organizational Accomplishments video for September. Afterward, the audience discusses the questions shown at the end of the video."},
+ {section:"Living as Christians",title:"Congregation Bible Study",minutes:30,text:"Walk Courageously With God — chapter 8, Joseph: He Resisted Temptation. Read the Bible account: Genesis 37:1–36; 39:1–23; 41:1–45:28. Joseph faced hatred from his brothers, was sold into slavery, and later resisted Potiphar’s wife. Even when he was imprisoned unjustly, he continued trusting Jehovah and working hard. In time, Jehovah used Joseph to help save many from famine. Discussion: In what ways did Joseph show courage?"},
+ {section:"Closing",title:"Concluding Comments",minutes:3,text:"Concluding Comments — 3 minutes. The meeting concludes with Song 28 and prayer."}
 ];
 const meetingStartMinutes=19*60;
 const scheduledMinutes=meetingParts.reduce((s,p)=>s+p.minutes,0);
@@ -483,6 +484,9 @@ $("buddyButton").addEventListener("click",()=>{
 });
 $("closeBuddy").addEventListener("click",()=>$("buddyOverlay").style.display="none");
 $("buddyOverlay").addEventListener("click",e=>{if(e.target===$("buddyOverlay"))$("buddyOverlay").style.display="none"});
+$("closeBuddy").addEventListener("pointerup",()=>$("buddyOverlay").style.display="none");
+$("buddyOverlay").addEventListener("pointerup",e=>{if(e.target===$("buddyOverlay"))$("buddyOverlay").style.display="none"});
+
 
 const drawingPanel=$("drawingPanel"),canvas=$("drawingCanvas"),ctx=canvas.getContext("2d");
 let drawing=false;
@@ -513,11 +517,12 @@ function resizeCanvas(){
     ctx.strokeStyle=drawingColor;
   }
 }
-$("drawButton").addEventListener("click",()=>{
-  drawingPanel.classList.toggle("visible");
-  if(drawingPanel.classList.contains("visible"))setTimeout(resizeCanvas,0);
+$("drawButton").addEventListener("click",e=>{
+  e.preventDefault();
+  drawingPanel.classList.add("visible");
+  setTimeout(resizeCanvas,0);
 });
-$("backFromDrawing").addEventListener("click",()=>drawingPanel.classList.remove("visible"));
+$("backFromDrawing").addEventListener("click",e=>{e.preventDefault();drawingPanel.classList.remove("visible")});
 window.addEventListener("resize",()=>{if(drawingPanel.classList.contains("visible"))resizeCanvas()});
 $("drawingColor").addEventListener("input",e=>{drawingColor=e.target.value;ctx.strokeStyle=drawingColor});
 $("clearButton").addEventListener("click",()=>{
