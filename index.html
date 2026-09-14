@@ -330,7 +330,7 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
         <div class="heading">
           <div class="kicker" id="sectionLabel">Opening</div>
           <h2>Jeremiah 34–35</h2>
-          <div class="meta">September 14–20, 2026 · Midweek Meeting</div>
+          <div class="meta">September 14–20, 2026 · Jeremiah 34–35</div>
         </div>
         <div class="part-chip"><strong id="paragraphCounter">Part 1 of 16</strong><span id="dashboardTime">Ready</span></div>
         <div class="buddy-strip">
@@ -441,14 +441,19 @@ function closeSong(){ $("songOverlay").classList.remove("show"); }
 
 
 const meetingParts = [
-  {section:"Opening",title:"Opening Comments",minutes:1,kind:"normal",song:161,
-    listen:"Listen for the song and the opening comments so you know what this meeting is about.",
-    buddy:"I’m right here. Let’s stand in our hearts for song 161.",
+  {section:"Opening",title:"Song 161 and Opening Comments",minutes:1,kind:"normal",song:161,
+    listen:"Stand ready for song 161, then listen to the opening comments.",
+    buddy:"This meeting is Jeremiah 34 and 35. I’ll stay with you the whole way.",
     html:`<div class="material-block"><strong>Song 161 and Prayer</strong></div><div class="material-block">Opening Comments <em>(1 min.)</em></div>`},
   {section:"Treasures From God’s Word",title:"Jehovah Rewards Faithful Obedience",minutes:10,kind:"answer",
     listen:"How were the Rechabites different from many of the other Jews?",
     buddy:"This part is about keeping a promise even when it is hard.",
-    html:`<div class="material-block"><ul><li>Many Jews obeyed Jehovah only when they needed his help <strong>(Jer 34:8-11)</strong></li><li>The Rechabites adhered closely to Jehonadab’s command <strong>(Jer 35:5, 6)</strong></li><li>Jehovah rewarded the Rechabites for their faithful obedience <strong>(Jer 35:18, 19)</strong></li></ul></div><div class="ask-yourself"><strong>ASK YOURSELF:</strong> “Am I resolved to obey Jehovah, even if at times I feel I could avoid the consequences of disobedience?”</div>`},
+    html:`<div class="material-block"><ul>
+<li>Many Jews obeyed Jehovah only when they needed his help <strong>(Jer 34:8-11)</strong></li>
+<li>The Rechabites adhered closely to Jehonadab’s command <strong>(Jer 35:5, 6)</strong></li>
+<li>Jehovah rewarded the Rechabites for their faithful obedience <strong>(Jer 35:18, 19)</strong></li>
+</ul></div>
+<div class="ask-yourself"><strong>ASK YOURSELF:</strong> “Am I resolved to obey Jehovah, even if at times I feel I could avoid the consequences of disobedience?”</div>`},
   {section:"Treasures From God’s Word",title:"Spiritual Gems",minutes:10,kind:"questions",
     listen:"What is one gem you can share from this week’s Bible reading?",
     buddy:"If you hear a little treasure in the comments, write it down.",
@@ -456,19 +461,22 @@ const meetingParts = [
       "Jer 34:7—What archaeological evidence supports the events described in this verse?",
       "What spiritual gems from this week’s Bible reading would you like to share?"
     ],
-    html:`<div class="material-block"><p><strong>Jer 34:7</strong>—What archaeological evidence supports the events described in this verse?</p></div><div class="material-block"><p>What spiritual gems from this week’s Bible reading would you like to share?</p></div>`},
+    html:`<div class="material-block"><p><strong>Jer 34:7</strong>—What archaeological evidence supports the events described in this verse?</p></div>
+<div class="material-block"><p>What spiritual gems from this week’s Bible reading would you like to share?</p></div>`},
   {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,kind:"answer",
     listen:"What did the Rechabites do when Jeremiah offered them wine—and why?",
     buddy:"Follow the reader. This is Jeremiah 35:1-14.",
-    html:`<div class="material-block"><strong>Jeremiah 35:1-14</strong></div><div class="material-block">This is the Bible-reading assignment. The teaching-study reference is <strong>th study 5</strong>.</div>`},
+    html:`<div class="material-block"><strong>Jeremiah 35:1-14</strong> <em>(th study 5)</em></div>
+<div class="material-block">This is the Bible-reading assignment for the meeting.</div>`},
   {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,kind:"answer",
     listen:"How does the student start a conversation and offer a Bible study?",
     buddy:"Watch how they begin. A kind hello can open a door.",
     html:`<div class="material-block"><strong>HOUSE TO HOUSE.</strong> Offer a Bible study.</div>`},
   {section:"Apply Yourself to the Field Ministry",title:"Starting a Conversation",minutes:2,kind:"answer",
     listen:"How do they use a video from the Teaching Toolbox?",
-    buddy:"Videos can help someone see the Bible is for them.",
-    html:`<div class="material-block"><strong>HOUSE TO HOUSE.</strong> Offer a Bible study.</div><div class="material-block">Feature a video from our Teaching Toolbox.</div>`},
+    buddy:"Videos can help someone see that the Bible is for them.",
+    html:`<div class="material-block"><strong>HOUSE TO HOUSE.</strong> Offer a Bible study.</div>
+<div class="material-block">Feature a video from our Teaching Toolbox.</div>`},
   {section:"Apply Yourself to the Field Ministry",title:"Following Up",minutes:3,kind:"answer",
     listen:"How do they kindly follow up with someone who was worried about the news?",
     buddy:"When someone is worried, we can offer hope from the Bible.",
@@ -478,38 +486,62 @@ const meetingParts = [
     buddy:"Making disciples means helping someone else learn too.",
     html:`<div class="material-block">Discussion with a Bible student. Tell your student about the Bible study campaign. Ask if he knows anyone who might be interested in studying the Bible.</div>`},
   {section:"Living as Christians",title:"Song 121 — We Need Self-Control",minutes:0,kind:"song",song:121,
-    listen:"Sing with the congregation. Notice the words about self-control.",
-    buddy:"This is a singing part. You can follow the words or just listen.",
-    html:`<div class="material-block">Use the song page to follow along with the congregation as you sing.</div>`},
+    listen:"Follow the notes while the congregation sings. Notice the words about self-control.",
+    buddy:"This is a singing part. You can follow the music or just listen.",
+    html:`<div class="material-block">Use the lead sheet to follow the notes while everyone sings.</div>`},
   {section:"Living as Christians",title:"Self-Control Helps Us to Obey",minutes:6,kind:"questions",
     listen:"What helps us push away a negative thought?",
     buddy:"Self-control is like a quiet superpower. Watch the video closely.",
     questions:["What did you learn from this video about how to overcome negative thoughts?"],
-    html:`<div class="material-block">Negative thinking can weaken our resolve to do what is right. How important it is, then, to do our best to control such thoughts!</div><div class="material-block"><strong>VIDEO:</strong> <em>Pursue What Builds Loyalty—Self-Control.</em></div>`},
+    html:`<div class="material-block">Negative thinking can weaken our resolve to do what is right. How important it is, then, to do our best to control such thoughts!</div>
+<div class="material-block"><strong>VIDEO:</strong> <em>Pursue What Builds Loyalty—Self-Control.</em></div>`},
   {section:"Living as Christians",title:"Organizational Accomplishments for September",minutes:9,kind:"answer",
     listen:"What happy work did Jehovah’s people get done this month?",
     buddy:"This video shows how our brothers and sisters around the world are busy in the work.",
-    html:`<div class="material-block"><strong>Discussion.</strong></div><div class="material-block">Play the video. Then listen for the questions at the end.</div>`},
-  {section:"Congregation Bible Study",title:"The Story",minutes:30,kind:"cbs",
+    html:`<div class="material-block"><strong>Discussion.</strong></div>
+<div class="material-block">Play the video. Then listen for the questions at the end.</div>`},
+  {section:"Congregation Bible Study",title:"He Resisted Temptation — Joseph",minutes:30,kind:"cbs",
     listen:"In what ways did Joseph show courage?",
-    buddy:"This is Joseph’s story. Listen for the times he chose what was right.",
-    html:`<div class="cbs-reference"><strong>Read the Bible account:</strong> Genesis 37:1-36; 39:1-23; 41:1–45:28</div><div class="story-text"><p>As a young man, Joseph was beloved and favored—by Jacob, his father, and by Jehovah, his God. But that did not mean that Joseph had an easy life. His half-brothers grew jealous. When Jehovah sent Joseph dreams that the family would one day bow down to him, their hatred only grew.</p><p>When Joseph was about 17, Jacob sent him to check on his brothers. They threw him into a dried-up cistern and then sold him to passing traders. They let Jacob think a wild animal had killed him. Joseph was taken to Egypt and sold as a slave to Potiphar.</p><p>Joseph did not give up. He worked hard, and “Jehovah was with him.” Potiphar trusted him with the whole household.</p><p>Potiphar’s wife wanted Joseph to do something very wrong. Joseph refused. He said: “How could I commit this great badness and actually sin against God?” She kept asking, day after day. One day she grabbed his garment. Joseph ran away. Then she lied, and Joseph was thrown into prison.</p><p>Even in prison Joseph kept trusting Jehovah and working hard. Later Jehovah helped him explain Pharaoh’s dreams: seven years of plenty, then seven years of famine. Pharaoh made Joseph a powerful ruler. Joseph stored food, and when the famine came he saved Egypt—and his own family. The brothers who once hated him bowed down to him, just as the dream had said. Joseph forgave them and kept faith in Jehovah.</p></div><div class="review-question cbs-discussion"><strong>For discussion: In what ways did Joseph show courage?</strong></div>`},
+    buddy:"This is chapter 8 of Walk Courageously With God. Listen for the times Joseph chose what was right.",
+    html:`<div class="cbs-reference"><strong>Walk Courageously With God, chapter 8</strong><br>Read the Bible account: Genesis 37:1-36; 39:1-23; 41:1–45:28</div>
+<div class="story-text">
+<p>As a young man, Joseph was beloved and favored—by Jacob, his father, and by Jehovah, his God. But that did not mean that Joseph had an easy life. His half-brothers grew jealous. When Jehovah sent Joseph dreams that the family would one day bow down to him, their hatred only grew.</p>
+<p>When Joseph was about 17, Jacob sent him to check on his brothers. They threw him into a dried-up cistern and then sold him. They let Jacob think a wild animal had killed him. Joseph was taken to Egypt and sold as a slave to Potiphar.</p>
+<p>Joseph did not give up. He worked hard, and “Jehovah was with him.” Potiphar trusted him with the whole household.</p>
+<p>Potiphar’s wife wanted Joseph to do something very wrong. Joseph refused. He said: “How could I commit this great badness and actually sin against God?” She kept asking, day after day. One day she grabbed his garment. Joseph ran away. Then she lied, and Joseph was thrown into prison.</p>
+<p>Even in prison Joseph kept trusting Jehovah and working hard. Later Jehovah helped him explain Pharaoh’s dreams: seven years of plenty, then seven years of famine. Pharaoh made Joseph a powerful ruler. Joseph stored food, and when the famine came he saved Egypt—and his own family. The brothers who once hated him bowed down to him, just as the dream had said. Joseph forgave them and kept faith in Jehovah.</p>
+</div>
+<div class="review-question cbs-discussion"><strong>For discussion:</strong> In what ways did Joseph show courage?</div>`},
   {section:"Congregation Bible Study",title:"Dig Deeper",minutes:0,kind:"cbs",
     listen:"Pick one review question and try to answer it in your own words.",
     buddy:"These questions help us look a little closer at Joseph’s life.",
-    html:`<div class="review-list"><div class="review-question"><strong>1. What supports the accuracy of this account about Joseph’s life in Egypt?</strong></div><div class="review-question"><strong>2. How did Joseph know that Jehovah would consider adultery an act of “great badness”?</strong><span>Genesis 39:9</span></div><div class="review-question"><strong>3. Why did Jehovah allow Joseph to become prime minister of Egypt?</strong></div><div class="review-question"><strong>4. What indicates that Joseph’s faith never wavered, even at 110 years of age?</strong><span>Genesis 50:25, 26</span></div></div>`},
+    html:`<div class="review-list">
+<div class="review-question"><strong>1. What supports the accuracy of this account about Joseph’s life in Egypt?</strong></div>
+<div class="review-question"><strong>2. How did Joseph know that Jehovah would consider adultery an act of “great badness”?</strong><span>Genesis 39:9</span></div>
+<div class="review-question"><strong>3. Why did Jehovah allow Joseph to become prime minister of Egypt?</strong></div>
+<div class="review-question"><strong>4. What indicates that Joseph’s faith never wavered, even at 110 years of age?</strong><span>Genesis 50:25, 26</span></div>
+</div>`},
   {section:"Congregation Bible Study",title:"Reflect on the Lessons",minutes:0,kind:"cbs",
     listen:"How can you copy Joseph when someone is unkind, or when you are away from home?",
     buddy:"Joseph was loyal even when nobody from his family could see him.",
-    html:`<div class="review-list"><div class="review-question"><strong>What do Joseph’s dealings with his brothers teach you about how to react when you are mistreated?</strong></div><div class="review-question"><strong>Even when Joseph was far from home, he was loyal to Jehovah. How can his example help at school, while traveling, or while using a phone?</strong></div><div class="review-question"><strong>How might you imitate Joseph’s courage in your life?</strong></div></div>`},
+    html:`<div class="review-list">
+<div class="review-question"><strong>What do Joseph’s dealings with his brothers teach you about how to react when you are mistreated?</strong></div>
+<div class="review-question"><strong>Even when Joseph was far from home, he was loyal to Jehovah. How can his example help at school, while traveling, or while using a phone?</strong></div>
+<div class="review-question"><strong>How might you imitate Joseph’s courage in your life?</strong></div>
+</div>`},
   {section:"Congregation Bible Study",title:"Meditate on the Bigger Picture",minutes:0,kind:"cbs",
     listen:"What does this account teach you about Jehovah?",
     buddy:"Every Bible story teaches us something about Jehovah himself.",
-    html:`<div class="review-list"><div class="review-question"><strong>What does this account teach me about Jehovah?</strong></div><div class="review-question"><strong>How does this account tie in with Jehovah’s purposes?</strong></div><div class="review-question"><strong>What would I like to ask Joseph in the resurrection?</strong></div></div>`},
+    html:`<div class="review-list">
+<div class="review-question"><strong>What does this account teach me about Jehovah?</strong></div>
+<div class="review-question"><strong>How does this account tie in with Jehovah’s purposes?</strong></div>
+<div class="review-question"><strong>What would I like to ask Joseph in the resurrection?</strong></div>
+</div>`},
   {section:"Closing",title:"Concluding Comments",minutes:3,kind:"normal",song:28,
     listen:"Listen for the concluding comments, then sing song 28.",
     buddy:"You did it. Let’s finish with song 28 and a grateful heart.",
-    html:`<div class="material-block"><strong>Concluding Comments</strong> <em>(3 min.)</em></div><div class="material-block"><strong>Song 28 and Prayer</strong></div>`}
+    html:`<div class="material-block"><strong>Concluding Comments</strong> <em>(3 min.)</em></div>
+<div class="material-block"><strong>Song 28 and Prayer</strong></div>`}
 ];
 
 const meetingStartDate = new Date(2026,8,15,19,0,0);
