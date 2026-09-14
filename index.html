@@ -817,6 +817,107 @@ body,.subtitle,.name-hint,.paragraph-card,.buddy-panel,.time-card,.drawing-panel
 }
 </style>
 
+
+<style id="mmb-final-final-header">
+/* Final dashboard composition — based on the approved visual mockup. */
+#meetingScreen{padding:10px 14px 18px!important;background:#eee8fa!important}
+#meetingScreen .meeting-header{
+  position:relative!important;
+  box-sizing:border-box!important;
+  width:min(1120px,100%)!important;
+  max-width:1120px!important;
+  min-height:205px!important;
+  margin:0 auto 10px!important;
+  padding:14px 18px 14px!important;
+  border-radius:25px!important;
+  background:#fff!important;
+  display:grid!important;
+  grid-template-columns:300px minmax(0,1fr) 260px!important;
+  grid-template-rows:30px 1fr!important;
+  column-gap:22px!important;
+  row-gap:0!important;
+  overflow:hidden!important;
+  box-shadow:0 5px 18px rgba(90,65,110,.08)!important;
+}
+#meetingScreen .top-row{grid-column:1/-1!important;grid-row:1!important;display:flex!important;align-items:center!important;justify-content:space-between!important;margin:0!important;min-height:30px!important}
+#meetingScreen .meeting-type{font-family:"SundayBest",sans-serif!important;font-size:13px!important;letter-spacing:.06em!important;color:#8763a6!important}
+#meetingScreen .home{font-family:"HelloBaby",sans-serif!important;font-size:16px!important;padding:9px 15px!important;border-radius:14px!important;background:#f2ebf7!important;color:#574d61!important;border:0!important}
+
+/* Left column */
+#meetingScreen .buddy-strip{display:contents!important}
+#meetingScreen .buddy-strip-identity{
+  grid-column:1!important;grid-row:2!important;
+  display:flex!important;align-items:center!important;gap:16px!important;
+  min-width:0!important;margin:0!important;padding:5px 0!important;
+  background:transparent!important;
+}
+#meetingScreen .buddy-strip .buddy-character{width:150px!important;height:158px!important;flex:0 0 150px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#meetingScreen .buddy-strip .buddy-character .buddy-art{width:142px!important;height:150px!important;object-fit:fill!important;border-radius:20px!important}
+#meetingScreen .buddy-copy{min-width:0!important}
+#meetingScreen .buddy-name{font-family:"HelloBaby",sans-serif!important;font-size:27px!important;line-height:1!important;margin:0 0 8px!important;color:#403747!important}
+#meetingScreen .buddy-message{font-family:"Papernotes",sans-serif!important;font-size:18px!important;line-height:1.22!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;min-height:0!important;padding:0!important;background:transparent!important;color:#6d6374!important}
+
+/* Center column */
+#meetingScreen .meeting-heading-row{
+  grid-column:2!important;grid-row:2!important;align-self:stretch!important;
+  display:flex!important;flex-direction:column!important;justify-content:center!important;
+  min-width:0!important;margin:0!important;
+}
+#meetingScreen .meeting-title{font-family:"SundayBest",sans-serif!important;font-size:48px!important;line-height:.95!important;margin:0 0 4px!important;color:#3d3548!important;white-space:nowrap!important}
+#meetingScreen .meeting-date{font-family:"Papernotes",sans-serif!important;font-size:18px!important;line-height:1.05!important;margin:0 0 15px!important;color:#81758d!important}
+#meetingScreen .progress-info{display:none!important}
+#meetingScreen .progress-bar{position:static!important;width:100%!important;height:13px!important;margin:0 0 10px!important;border-radius:99px!important;background:#eeeaf2!important;overflow:hidden!important}
+#meetingScreen .progress-fill{height:100%!important;border-radius:99px!important;background:#9066ad!important}
+#meetingScreen .dashboard-time{margin:0!important;font-family:"Papernotes",sans-serif!important;font-size:20px!important;line-height:1.05!important;color:#6f6477!important}
+#meetingScreen .header-status-row,#meetingScreen .meeting-schedule-summary{display:none!important}
+
+/* Right column */
+#meetingScreen .buddy-strip-actions{
+  grid-column:3!important;grid-row:2!important;
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;
+  gap:12px!important;margin:0!important;padding:0!important;
+}
+#meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{
+  width:100%!important;min-width:0!important;height:62px!important;
+  margin:0!important;padding:10px 14px!important;border-radius:17px!important;
+  font-family:"HelloBaby",sans-serif!important;font-size:18px!important;line-height:1!important;
+  white-space:nowrap!important;border:0!important;
+}
+#meetingScreen .buddy-strip-actions .buddy-button{background:#9066ad!important;color:#fff!important}
+#meetingScreen .buddy-strip-actions .draw-button{background:#f0eaf5!important;color:#574d61!important}
+
+/* Reading area — keep it compact and make navigation easy to reach. */
+#meetingScreen .meeting-content{display:flex!important;flex-direction:column!important;gap:8px!important;max-width:1120px!important;margin:0 auto!important}
+#meetingScreen .paragraph-card{max-width:1120px!important;width:100%!important;margin:0 auto!important;padding:18px 22px 10px!important;min-height:0!important;box-sizing:border-box!important}
+#meetingScreen .controls{position:sticky!important;bottom:8px!important;z-index:20!important;display:flex!important;justify-content:space-between!important;gap:12px!important;margin:12px -4px 0!important;padding:10px 4px 2px!important;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 30%)!important}
+#meetingScreen .nav{min-width:140px!important;padding:12px 18px!important;font-size:17px!important}
+
+@media(max-width:900px){
+  #meetingScreen .meeting-header{grid-template-columns:270px minmax(0,1fr) 220px!important;column-gap:16px!important}
+  #meetingScreen .buddy-strip .buddy-character{width:130px!important;height:150px!important;flex-basis:130px!important}
+  #meetingScreen .buddy-strip .buddy-character .buddy-art{width:122px!important;height:142px!important}
+  #meetingScreen .buddy-name{font-size:24px!important}
+  #meetingScreen .buddy-message{font-size:16px!important}
+  #meetingScreen .meeting-title{font-size:42px!important}
+  #meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{font-size:16px!important}
+}
+@media(max-width:700px){
+  #meetingScreen .meeting-header{min-height:0!important;grid-template-columns:110px minmax(0,1fr)!important;grid-template-rows:30px auto auto!important;column-gap:12px!important;padding:10px 12px!important}
+  #meetingScreen .top-row{grid-column:1/-1!important;grid-row:1!important}
+  #meetingScreen .buddy-strip-identity{grid-column:1!important;grid-row:2/4!important;flex-direction:column!important;justify-content:center!important;text-align:center!important;gap:4px!important}
+  #meetingScreen .buddy-strip .buddy-character{width:98px!important;height:105px!important;flex-basis:105px!important}
+  #meetingScreen .buddy-strip .buddy-character .buddy-art{width:92px!important;height:100px!important}
+  #meetingScreen .buddy-name{font-size:20px!important}
+  #meetingScreen .buddy-message{font-size:13px!important}
+  #meetingScreen .meeting-heading-row{grid-column:2!important;grid-row:2!important}
+  #meetingScreen .meeting-title{font-size:31px!important;white-space:normal!important}
+  #meetingScreen .meeting-date{font-size:14px!important;margin-bottom:8px!important}
+  #meetingScreen .progress-bar{height:9px!important;margin-bottom:7px!important}
+  #meetingScreen .dashboard-time{font-size:16px!important}
+  #meetingScreen .buddy-strip-actions{grid-column:2!important;grid-row:3!important;flex-direction:row!important;justify-content:flex-end!important;gap:8px!important}
+  #meetingScreen .buddy-strip-actions .buddy-button,#meetingScreen .buddy-strip-actions .draw-button{height:42px!important;width:110px!important;font-size:13px!important}
+}
+</style>
 </head>
 <body>
 <main class="app">
@@ -991,9 +1092,15 @@ function renderSongButton(p){
 }
 
 function openSong(song){
-  const overlay=$("songOverlay"),img=$("songSheetImage"),link=$("songExternalLink"),note=$("songOverlayNote");
   const pages={28:SONG_28_PAGE,121:SONG_121_PAGE,161:SONG_161_PAGE};
-  const images={28:SONG_28_IMAGE,121:SONG_121_IMAGE,161:SONG_161_IMAGE};
+  // Song 161's current JW.org lead-sheet asset does not reliably load inside GitHub Pages/Safari.
+  // Open the official song page directly instead; JW.org displays the current lead sheet there.
+  if(song===161){
+    window.open(pages[161],"_blank","noopener");
+    return;
+  }
+  const overlay=$("songOverlay"),img=$("songSheetImage"),link=$("songExternalLink"),note=$("songOverlayNote");
+  const images={28:SONG_28_IMAGE,121:SONG_121_IMAGE};
   overlay.classList.add("visible");overlay.setAttribute("aria-hidden","false");
   link.style.display="none";note.textContent="";img.onerror=null;
   img.onload=()=>{link.style.display="none";note.textContent="";};
