@@ -236,6 +236,46 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
   margin-top:4px;
   padding:12px 14px;
   font-size:18px;
+  position:relative;
+  overflow:visible;
+}
+.heard .box{font-size:18px;border:none;background:transparent;width:auto;height:auto}
+.heard.on{
+  border-color:#f2c14e;
+  background:#fff8e6;
+  color:#8a5a00;
+}
+.star-chip{
+  display:flex;align-items:center;gap:6px;
+  background:#fff8e6;border:2px solid #f2c14e;color:#8a5a00;
+  border-radius:999px;padding:8px 12px;font-weight:800;white-space:nowrap;
+}
+.star-chip span{color:#f2c14e;font-size:18px}
+.secret-chip{
+  border:2px dashed #c9b4e4;background:#f7f1fd;color:var(--lilac-deep);
+  border-radius:999px;padding:8px 12px;font-weight:800;white-space:nowrap;
+}
+.secret-chip.found{
+  border-style:solid;border-color:#f2c14e;background:#fff8e6;color:#8a5a00;
+}
+#secretOverlay .sheet{text-align:center}
+#secretOverlay .solid{width:100%;margin-top:12px}
+.star-pop{
+  position:fixed;pointer-events:none;z-index:80;font-size:28px;
+  animation:starPop 900ms ease-out forwards;
+}
+@keyframes starPop{
+  0%{transform:translate(0,0) scale(.4) rotate(0deg);opacity:0}
+  20%{opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(40deg);opacity:0}
+}
+.heard.just{
+  animation:heardPulse .45s ease;
+}
+@keyframes heardPulse{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.04)}
+  100%{transform:scale(1)}
 }
 .heard{
   display:flex;align-items:center;gap:10px;border:2px solid var(--line);
@@ -352,6 +392,8 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
           <div class="meta">September 14–20, 2026 · Jeremiah 34–35</div>
         </div>
         <div class="part-chip"><strong id="paragraphCounter">Part 1 of 16</strong><span id="dashboardTime">Ready</span></div>
+        <div class="star-chip" id="starChip" title="Stars collected tonight"><span>★</span> <strong id="starCount">0</strong></div>
+        <button class="secret-chip" id="secretChip" type="button">Secret word</button>
         <div class="buddy-strip">
           <div class="buddy-face" id="meetingBuddy"></div>
           <div class="buddy-copy">
@@ -369,15 +411,15 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
       <article class="page">
         <div class="section-label" id="pageSection"></div>
         <h2 class="part-title" id="partTitle"></h2>
-        <div id="listenBox" class="listen-for" hidden>
-          <div class="listen-for-title">Listen for this</div>
-          <div id="listenText"></div>
-          <div class="listen-hint">When you hear it, tap the big button.</div>
-          <button class="heard" id="heardButton" type="button"><span class="box">✓</span> I heard it!</button>
-        </div>
         <div id="songSlot"></div>
         <div class="material" id="paragraphText"></div>
         <div id="answerArea"></div>
+        <div id="listenBox" class="listen-for" hidden>
+          <div class="listen-for-title">Listen for this</div>
+          <div id="listenText"></div>
+          <div class="listen-hint">When you hear it, tap the star.</div>
+          <button class="heard" id="heardButton" type="button"><span class="box">☆</span> I heard it!</button>
+        </div>
         <div class="heard-row">
           <button class="ghost" id="recapButton" type="button">Ride-home recap</button>
         </div>
@@ -427,6 +469,14 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
   </div>
 </div>
 
+<div class="overlay" id="secretOverlay">
+  <div class="sheet">
+    <button class="close-x" id="closeSecret" type="button" aria-label="Close">×</button>
+    <h2 id="secretTitle">Secret word</h2>
+    <p id="secretBody" class="material-block">Keep your ears open during the meeting. If you hear the secret word, come back and tap the button.</p>
+    <button class="solid" id="secretHeardBtn" type="button">I heard it!</button>
+  </div>
+</div>
 <div class="overlay" id="buddyOverlay">
   <div class="sheet">
     <button class="close-x" id="closeBuddy" type="button" aria-label="Close">×</button>
@@ -695,12 +745,85 @@ function renderAnswers(p){
   });
 }
 
+const SECRET_WORD = "Azekah";
+const secretKey = "mmb_secret_azekah_week-of-2026-09-14";
+let secretFound = localStorage.getItem(secretKey) === "1";
+
+const buddyCheers = [
+  "Yes! You caught that. I’m proud of you.",
+  "I heard it too. Good ears!",
+  "Star for you. You’re really listening.",
+  "That was the important bit. Nice catch.",
+  "We make a good team."
+];
+function buddySay(msg){
+  const el = $("buddyMessage");
+  if(!el) return;
+  el.textContent = `${selectedName}: ${msg}`;
+}
+function paintSecretChip(){
+  const chip = $("secretChip");
+  if(!chip) return;
+  chip.classList.toggle("found", secretFound);
+  chip.textContent = secretFound ? "Found: Azekah ★" : "Secret word";
+}
+function openSecret(){
+  if(secretFound){
+    $("secretTitle").textContent = "You found it!";
+    $("secretBody").textContent = "The secret word was Azekah — one of the last two cities still standing.";
+    $("secretHeardBtn").hidden = true;
+  } else {
+    $("secretTitle").textContent = "Secret word";
+    $("secretBody").textContent = "Keep listening. If you hear the secret city, tap the button.";
+    $("secretHeardBtn").hidden = false;
+  }
+  $("secretOverlay").classList.add("show");
+}
+function closeSecret(){ $("secretOverlay").classList.remove("show"); }
+function markSecretFound(){
+  secretFound = true;
+  localStorage.setItem(secretKey, "1");
+  paintSecretChip();
+  $("secretTitle").textContent = "You found it!";
+  $("secretBody").textContent = "Azekah! That was the secret word. The soldiers could not see its signals anymore.";
+  $("secretHeardBtn").hidden = true;
+  buddySay("You found the secret word. Azekah!");
+  burstStars($("secretChip"));
+}
+
+function starTotal(){
+  return Object.values(heard).filter(Boolean).length;
+}
+function updateStarChip(){
+  const n = starTotal();
+  if($("starCount")) $("starCount").textContent = n;
+}
+function burstStars(el){
+  const r = el.getBoundingClientRect();
+  const cx = r.left + r.width/2;
+  const cy = r.top + r.height/2;
+  for(let i=0;i<7;i++){
+    const s = document.createElement("div");
+    s.className = "star-pop";
+    s.textContent = "★";
+    const dx = (Math.random()*160-80);
+    const dy = -40-Math.random()*90;
+    s.style.left = cx+"px";
+    s.style.top = cy+"px";
+    s.style.setProperty("--dx", dx+"px");
+    s.style.setProperty("--dy", dy+"px");
+    s.style.color = ["#f2c14e","#ff8fab","#7c5cbf","#5aa9e6"][i%4];
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),950);
+  }
+}
 function updateHeardButton(){
   const on = !!heard[currentParagraph];
   $("heardButton").classList.toggle("on", on);
   $("heardButton").innerHTML = on
-    ? '<span class="box">✓</span> I heard this'
-    : '<span class="box"></span> I heard this';
+    ? '<span class="box">★</span> You heard it!'
+    : '<span class="box">☆</span> I heard it!';
+  updateStarChip();
 }
 
 function updateMeeting(force){
@@ -712,7 +835,11 @@ function updateMeeting(force){
   $("partTitle").textContent = p.title;
   $("paragraphText").innerHTML = p.html;
   $("paragraphCounter").textContent = `Part ${n} of ${total}`;
-  $("buddyMessage").textContent = `${selectedName} here. ${p.buddy||"I’ll stay with you."}`;
+  if(currentParagraph===0 && !secretFound){
+    $("buddyMessage").textContent = `${selectedName} here. Listen with me. Tonight’s secret word is a city.`;
+  } else {
+    $("buddyMessage").textContent = `${selectedName} here. ${p.buddy||"I’ll stay with you."}`;
+  }
   if(p.listen){
     $("listenBox").hidden = false;
     $("listenText").textContent = p.listen;
@@ -749,7 +876,24 @@ $("heardButton").addEventListener("click",()=>{
   heard[currentParagraph] = !heard[currentParagraph];
   saveHeard();
   updateHeardButton();
+  const btn = $("heardButton");
+  btn.classList.remove("just");
+  void btn.offsetWidth;
+  btn.classList.add("just");
+  if(heard[currentParagraph]){
+    burstStars(btn);
+    const line = buddyCheers[currentParagraph % buddyCheers.length];
+    buddySay(line);
+  } else {
+    buddySay("That’s okay. We can listen again.");
+  }
 });
+
+$("secretChip").addEventListener("click", openSecret);
+$("closeSecret").addEventListener("click", closeSecret);
+$("secretOverlay").addEventListener("click", e=>{ if(e.target===$("secretOverlay")) closeSecret(); });
+$("secretHeardBtn").addEventListener("click", markSecretFound);
+paintSecretChip();
 
 /* Hold-to-home, 2 seconds */
 let holdTimer=null;
