@@ -791,5 +791,107 @@ body{font-size:20px}
 #backFromDrawing{margin-right:auto!important}
 @media(max-width:760px){.part-title{font-size:24px}.meeting-date{font-size:16px}.schedule-status{font-size:15px}}
 </style>
+
+<script id="mmb-selection-repair">
+/* Maddy's Meeting Buddy — selection/start repair */
+(function () {
+  const $ = id => document.getElementById(id);
+  const cards = Array.from(document.querySelectorAll(".animal"));
+  const nameInput = $("buddyNameInput");
+  const startButton = $("startButton");
+
+  let selectedAnimal = localStorage.getItem("mmb_animal") || "";
+  let selectedName = localStorage.getItem("mmb_name") || "";
+
+  function setArt(animal) {
+    const source = document.querySelector('.animal[data-animal="' + animal + '"] img');
+    if (!source) return "";
+    return source.outerHTML
+      .replace(/\s+class="animal-art"/, ' class="buddy-art"')
+      .replace(/class="animal-art"/, 'class="buddy-art"');
+  }
+
+  function markSelected() {
+    cards.forEach(card => {
+      card.classList.toggle("selected", card.dataset.animal === selectedAnimal);
+      card.setAttribute("aria-pressed", card.dataset.animal === selectedAnimal ? "true" : "false");
+    });
+  }
+
+  function updateStart() {
+    const hasAnimal = !!selectedAnimal;
+    const hasName = !!nameInput.value.trim();
+    startButton.disabled = !(hasAnimal && hasName);
+    startButton.textContent = hasAnimal && hasName ? "Meet My Buddy" : "Choose a buddy";
+  }
+
+  function showMeeting() {
+    selectedName = nameInput.value.trim();
+    if (!selectedAnimal || !selectedName) {
+      updateStart();
+      return;
+    }
+
+    localStorage.setItem("mmb_animal", selectedAnimal);
+    localStorage.setItem("mmb_name", selectedName);
+
+    $("welcomeScreen").style.display = "none";
+    $("meetingScreen").style.display = "block";
+
+    $("buddyName").textContent = selectedName;
+    $("meetingBuddy").innerHTML = setArt(selectedAnimal);
+    $("buddyMessage").textContent =
+      "I'm " + selectedName + "! I'll be right here with you for the meeting. 💜";
+
+    if (typeof updateMeeting === "function") updateMeeting();
+    window.scrollTo(0, 0);
+  }
+
+  cards.forEach(card => {
+    card.addEventListener("click", function () {
+      selectedAnimal = this.dataset.animal || "";
+      markSelected();
+      updateStart();
+    });
+  });
+
+  nameInput.addEventListener("input", updateStart);
+
+  startButton.addEventListener("click", showMeeting);
+
+  $("homeButton").addEventListener("click", function () {
+    $("meetingScreen").style.display = "none";
+    $("welcomeScreen").style.display = "block";
+    nameInput.value = selectedName;
+    markSelected();
+    updateStart();
+    window.scrollTo(0, 0);
+  });
+
+  $("buddyButton").addEventListener("click", function () {
+    $("buddyOverlay").style.display = "flex";
+    $("buddyDialogTitle").textContent = "Ask " + selectedName;
+    $("buddyDialogIntro").textContent = selectedName + " is here with you.";
+  });
+
+  /* Restore the saved buddy on launch. */
+  if (selectedAnimal && selectedName) {
+    nameInput.value = selectedName;
+    markSelected();
+    updateStart();
+    $("welcomeScreen").style.display = "none";
+    $("meetingScreen").style.display = "block";
+    $("buddyName").textContent = selectedName;
+    $("meetingBuddy").innerHTML = setArt(selectedAnimal);
+    $("buddyMessage").textContent =
+      "I'm " + selectedName + "! I'll be right here with you for the meeting. 💜";
+    if (typeof updateMeeting === "function") updateMeeting();
+  } else {
+    markSelected();
+    updateStart();
+  }
+})();
+</script>
+
 </body>
 </html>
