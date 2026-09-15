@@ -105,6 +105,24 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
   display:inline-block;margin-top:18px;padding:8px 12px;border-radius:999px;
   background:rgba(255,255,255,.7);color:var(--muted);font-size:13px;
 }
+.shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+@media(min-width:720px){.shop-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+.shop-item{
+  background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px;text-align:left;
+}
+.shop-item.on{border-color:#f2c14e;background:#fff8e6}
+.shop-item.owned{border-color:#c9b4e4}
+.shop-item .ico{font-size:34px;line-height:1}
+.shop-item h3{margin:6px 0 2px;font-family:"Fredoka",sans-serif;font-size:18px}
+.shop-item p{margin:0 0 10px;color:var(--muted);font-size:14px}
+.shop-buddy{position:relative;width:140px;height:140px;margin:10px 0 6px;border-radius:24px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+.shop-buddy img,.buddy-face img{width:100%;height:100%;object-fit:cover}
+.acc-layer{position:absolute;inset:0;pointer-events:none}
+.acc-hat{position:absolute;top:-6px;left:50%;transform:translateX(-50%);font-size:42px}
+.acc-held{position:absolute;right:4px;bottom:6px;font-size:30px}
+.acc-badge{position:absolute;left:6px;bottom:6px;font-size:26px}
+.acc-frame{position:absolute;inset:0;border:6px solid #f2c14e;border-radius:22px;box-shadow:inset 0 0 0 2px #fff}
+
 .pre-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .pre-row .ghosty{
   border:2px solid #d7c7ee;background:#fff;border-radius:16px;
@@ -253,7 +271,7 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
   background:var(--wash);border-radius:18px;padding:8px 10px;
 }
 .buddy-face{
-  width:72px;height:72px;border-radius:18px;overflow:hidden;flex:0 0 72px;background:#fff;
+  position:relative;width:72px;height:72px;border-radius:18px;overflow:hidden;flex:0 0 72px;background:#fff;
 }
 .buddy-face img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
 .buddy-copy{min-width:0;flex:1}
@@ -485,8 +503,22 @@ h1,h2,.display{font-family:"Fredoka","Nunito",sans-serif;font-weight:600}
       <button class="primary" id="startButton" disabled>Choose a buddy</button>
       <div class="pre-row">
         <button class="ghosty" id="playGamesButton" type="button">Play before the meeting</button>
+        <button class="ghosty" id="openShopWelcome" type="button">★ Star shop</button>
       </div>
       <div class="week-chip">Jeremiah 34–35 · September 14–20, 2026</div>
+    </div>
+  </section>
+
+  <section class="screen" id="shopScreen">
+    <div class="games-wrap">
+      <div class="games-top">
+        <button class="ghost" id="shopHome" type="button">← Back</button>
+        <div class="star-chip"><span>★</span> <strong id="shopWallet">0</strong> stars</div>
+      </div>
+      <h1 style="font-size:32px;margin:8px 0 4px">Star shop</h1>
+      <p class="subtitle" style="text-align:left;max-width:none">Spend stars on things for your buddy. Tap an item you already own to put it on.</p>
+      <div class="shop-buddy" id="shopBuddyPreview"></div>
+      <div class="shop-grid" id="shopGrid"></div>
     </div>
   </section>
 
@@ -825,6 +857,101 @@ try{heard=JSON.parse(localStorage.getItem(heardKey)||"{}");}catch(e){heard={};}
 
 function saveAnswers(){localStorage.setItem(answerKeyName,JSON.stringify(answers));}
 function saveHeard(){localStorage.setItem(heardKey,JSON.stringify(heard));}
+
+const walletKey="mmb2_star_wallet";
+const ownedKey="mmb2_shop_owned";
+const wearKey="mmb2_shop_wearing";
+let starWallet=Number(localStorage.getItem(walletKey)||0);
+if(!Number.isFinite(starWallet)||starWallet<0) starWallet=0;
+if(!localStorage.getItem("mmb2_wallet_migrated")){
+  const heardStars=Object.values(heard).filter(Boolean).length;
+  if(starWallet===0 && heardStars) starWallet=heardStars;
+  localStorage.setItem("mmb2_wallet_migrated","1");
+  localStorage.setItem(walletKey, String(starWallet));
+}
+let shopOwned=[];
+try{shopOwned=JSON.parse(localStorage.getItem(ownedKey)||"[]");}catch(e){shopOwned=[];}
+let shopWear=JSON.parse(localStorage.getItem(wearKey)||"{}");
+if(!shopWear||typeof shopWear!=="object") shopWear={};
+
+const SHOP = [
+  {id:"bow", slot:"hat", name:"Ribbon bow", ico:"🎀", cost:5, blurb:"A bow for meeting nights."},
+  {id:"daisy", slot:"hat", name:"Daisy crown", ico:"🌼", cost:8, blurb:"Tiny flowers on top."},
+  {id:"party", slot:"hat", name:"Party hat", ico:"🥳", cost:10, blurb:"For a star-heavy night."},
+  {id:"glasses", slot:"badge", name:"Smart glasses", ico:"🤓", cost:6, blurb:"Ready to listen."},
+  {id:"starsticker", slot:"badge", name:"Star sticker", ico:"⭐", cost:4, blurb:"Show off a star."},
+  {id:"heart", slot:"held", name:"Heart balloon", ico:"🎈", cost:7, blurb:"A quiet little balloon."},
+  {id:"bamboo", slot:"held", name:"Snack", ico:"🍡", cost:5, blurb:"A treat after the meeting."},
+  {id:"frame", slot:"frame", name:"Gold frame", ico:"🖼️", cost:12, blurb:"Fancy picture frame."}
+];
+
+function saveShop(){
+  localStorage.setItem(walletKey, String(starWallet));
+  localStorage.setItem(ownedKey, JSON.stringify(shopOwned));
+  localStorage.setItem(wearKey, JSON.stringify(shopWear));
+}
+function earnStars(n){
+  starWallet += n;
+  saveShop();
+  updateStarChip();
+  paintShop();
+}
+function accessoryHTML(){
+  const hat = SHOP.find(i=>i.id===shopWear.hat);
+  const held = SHOP.find(i=>i.id===shopWear.held);
+  const badge = SHOP.find(i=>i.id===shopWear.badge);
+  const frame = shopWear.frame;
+  return `<div class="acc-layer">
+    ${frame?'<div class="acc-frame"></div>':''}
+    ${hat?`<div class="acc-hat">${hat.ico}</div>`:''}
+    ${held?`<div class="acc-held">${held.ico}</div>`:''}
+    ${badge?`<div class="acc-badge">${badge.ico}</div>`:''}
+  </div>`;
+}
+function paintShop(){
+  if($("shopWallet")) $("shopWallet").textContent = starWallet;
+  if($("shopBuddyPreview") && selectedAnimal){
+    $("shopBuddyPreview").innerHTML = animalArt(selectedAnimal)+accessoryHTML();
+  }
+  if(!$("shopGrid")) return;
+  $("shopGrid").innerHTML = SHOP.map(item=>{
+    const owned = shopOwned.includes(item.id);
+    const on = shopWear[item.slot]===item.id || (item.slot==="frame" && shopWear.frame===item.id);
+    const label = owned ? (on ? "Wearing" : "Put on") : "Buy · "+item.cost+" ★";
+    return `<article class="shop-item${owned?" owned":""}${on?" on":""}" data-item="${item.id}">
+      <div class="ico">${item.ico}</div><h3>${item.name}</h3><p>${item.blurb}</p>
+      <button class="solid" type="button">${label}</button>
+    </article>`;
+  }).join("");
+  $("shopGrid").querySelectorAll("[data-item]").forEach(card=>{
+    card.querySelector("button").addEventListener("click", ()=> buyOrWear(card.dataset.item));
+  });
+}
+function buyOrWear(id){
+  const item = SHOP.find(i=>i.id===id);
+  if(!item) return;
+  if(!shopOwned.includes(id)){
+    if(starWallet < item.cost){
+      if($("shopWallet")) $("shopWallet").parentElement.animate([{transform:"scale(1)"},{transform:"scale(1.08)"},{transform:"scale(1)"}],{duration:280});
+      return;
+    }
+    starWallet -= item.cost;
+    shopOwned.push(id);
+  }
+  if(item.slot==="frame"){
+    shopWear.frame = shopWear.frame===id ? null : id;
+  } else {
+    shopWear[item.slot] = shopWear[item.slot]===id ? null : id;
+  }
+  saveShop();
+  paintBuddy();
+  paintShop();
+  updateStarChip();
+}
+function openShop(){
+  paintShop();
+  showScreen("shopScreen");
+}
 function akey(part,q){return part+":"+q;}
 
 function animalArt(animal){
@@ -859,10 +986,10 @@ document.querySelectorAll(".animal").forEach(card=>{
 $("buddyNameInput").addEventListener("input", updateStart);
 
 function paintBuddy(){
-  const html = animalArt(selectedAnimal);
+  const html = animalArt(selectedAnimal) + accessoryHTML();
   $("meetingBuddy").innerHTML = html;
-  $("buddyEmoji").innerHTML = html;
-  $("buddyName").textContent = selectedName;
+  if($("buddyEmoji")) $("buddyEmoji").innerHTML = html;
+  if($("buddyName")) $("buddyName").textContent = selectedName;
 }
 
 function showMeeting(){
@@ -877,6 +1004,12 @@ function showMeeting(){
 }
 $("startButton").addEventListener("click", showMeeting);
 $("playGamesButton").addEventListener("click", ()=> showScreen("gamesScreen"));
+$("openShopWelcome").addEventListener("click", openShop);
+$("shopHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
+$("starChip").addEventListener("click", openShop);
+$("starChip").style.cursor="pointer";
+updateStarChip();
+
 $("gamesHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
 $("gameBackPicker").addEventListener("click", ()=>{
   $("gamePlay").hidden = true;
@@ -967,6 +1100,7 @@ function pickGame(i, btn){
 }
 $("gameNext").addEventListener("click", ()=>{
   if(gameIdx+1>=GAMES[gameId].qs.length){
+    earnStars(2);
     $("gamePlay").hidden = true;
     $("gamePicker").style.display = "";
     return;
@@ -1090,8 +1224,9 @@ function renderCrossword(){
     });
   });
   const done = Object.keys(xwPlaced).length===XW.words.length;
+  if(done && !window._xwPaid){ window._xwPaid=true; earnStars(3); }
   $("wordFeedback").textContent = done
-    ? "You filled the whole puzzle. These words will show up tonight."
+    ? "You filled the whole puzzle. +3 stars. These words will show up tonight."
     : (xwWord && xwClue ? "If that word fits the clue, it will lock in." : "Pick a word, then pick a clue.");
 }
 function tryPlace(){
@@ -1143,8 +1278,9 @@ function renderStory(){
     });
   });
   const done = Object.keys(storyPlaced).length===STORY.text.length;
+  if(done && !window._storyPaid){ window._storyPaid=true; earnStars(2); }
   $("wordFeedback").textContent = done
-    ? "That’s tonight’s meeting in five sentences."
+    ? "That’s tonight’s meeting in five sentences. +2 stars."
     : "Tap a word from the bank, then tap a blank.";
 }
 function tryStory(){
@@ -1201,8 +1337,9 @@ function renderTimeline(){
   $("timeCards").innerHTML = leftover.map(s=>`<button class="tcard" draggable="true" data-idx="${s.idx}"><img src="${s.img}" alt=""><span>${s.title}</span></button>`).join("");
   wireTimeline();
   const n = Object.keys(timePlaced).length;
+  if(n===JOSEPH_PATH.length && !window._timePaid){ window._timePaid=true; earnStars(3); }
   $("timeFeedback").textContent = n===JOSEPH_PATH.length
-    ? "That’s Joseph’s whole path. You’ll hear this in the Congregation Bible Study."
+    ? "That’s Joseph’s whole path. +3 stars."
     : "Drag a picture onto the next empty step. If it doesn’t belong there, it comes back.";
 }
 function trySlot(idx, slot){
@@ -1347,10 +1484,10 @@ function markSecretFound(){
 }
 
 function starTotal(){
-  return Object.values(heard).filter(Boolean).length;
+  return starWallet;
 }
 function updateStarChip(){
-  const n = starTotal();
+  const n = starWallet;
   if($("starCount")) $("starCount").textContent = n;
 }
 function burstStars(el){
@@ -1437,6 +1574,7 @@ $("heardButton").addEventListener("click",()=>{
   btn.classList.add("just");
   if(heard[currentParagraph]){
     burstStars(btn);
+    earnStars(1);
     const line = buddyCheers[currentParagraph % buddyCheers.length];
     buddySay(line);
   } else {
