@@ -1164,7 +1164,7 @@ function pickGame(i, btn){
 }
 $("gameNext").addEventListener("click", ()=>{
   if(gameIdx+1>=GAMES[gameId].qs.length){
-    payGame(gameMisses);
+    payGame('quiz', gameMisses);
     $("gamePlay").hidden = true;
     $("gamePicker").style.display = "";
     return;
@@ -1289,7 +1289,7 @@ function renderCrossword(){
     });
   });
   const done = Object.keys(xwPlaced).length===XW.words.length;
-  if(done && !window._xwPaid){ window._xwPaid=true; payGame(xwMisses); }
+  if(done && !window._xwPaid){ window._xwPaid=true; payGame('crossword', xwMisses); }
   $("wordFeedback").textContent = done
     ? "Puzzle done."
     : (xwWord && xwClue ? "If that word fits the clue, it will lock in." : "Pick a word, then pick a clue.");
@@ -1345,7 +1345,7 @@ function renderStory(){
     });
   });
   const done = Object.keys(storyPlaced).length===STORY.text.length;
-  if(done && !window._storyPaid){ window._storyPaid=true; payGame(storyMisses||0); }
+  if(done && !window._storyPaid){ window._storyPaid=true; payGame('story', storyMisses||0); }
   $("wordFeedback").textContent = done
     ? "That’s tonight’s meeting in five sentences."
     : "Tap a word from the bank, then tap a blank.";
@@ -1406,7 +1406,7 @@ function renderTimeline(){
   $("timeCards").innerHTML = leftover.map(s=>`<button class="tcard" draggable="true" data-idx="${s.idx}"><img src="${s.img}" alt=""><span>${s.title}</span></button>`).join("");
   wireTimeline();
   const n = Object.keys(timePlaced).length;
-  if(n===JOSEPH_PATH.length && !window._timePaid){ window._timePaid=true; payGame(timeMisses); }
+  if(n===JOSEPH_PATH.length && !window._timePaid){ window._timePaid=true; payGame('timeline', timeMisses); }
   $("timeFeedback").textContent = n===JOSEPH_PATH.length
     ? "That’s Joseph’s whole path."
     : "Drop a picture on a number. Wrong spots bounce back.";
@@ -1576,10 +1576,26 @@ function starsForMisses(misses){
   if(misses<=4) return 1;
   return 0;
 }
-function payGame(misses){
-  const n=starsForMisses(misses);
-  if(n){ earnStars(n); starToast("+"+n+" star"+(n===1?"":"s")+" in your wallet"); }
-  else starToast("No stars this time — try again slower");
+const gameStarKey="mmb2_game_stars_2026-09-14";
+let gameStarsEarned={};
+try{gameStarsEarned=JSON.parse(localStorage.getItem(gameStarKey)||"{}");}catch(e){gameStarsEarned={};}
+function saveGameStars(){localStorage.setItem(gameStarKey, JSON.stringify(gameStarsEarned));}
+function payGame(gameKey, misses){
+  const run=starsForMisses(misses);
+  const already=Number(gameStarsEarned[gameKey]||0);
+  const room=Math.max(0, 3-already);
+  const add=Math.min(run, room);
+  if(add){
+    gameStarsEarned[gameKey]=already+add;
+    saveGameStars();
+    earnStars(add);
+    const left=3-(already+add);
+    starToast(left ? ("+"+add+" star"+(add===1?"":"s")+" · "+left+" left in this game") : ("+"+add+" star"+(add===1?"":"s")+" · this game is maxed"));
+  } else if(already>=3){
+    starToast("This game already gave 3 stars");
+  } else {
+    starToast("No stars this time — try again slower");
+  }
 }
 
 function burstStars(el){
