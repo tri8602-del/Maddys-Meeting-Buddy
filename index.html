@@ -5,43 +5,19 @@
 <script>
 window.selectedAnimal="shepherd";
 window.selectedName="Brutus";
+/* Thin wrappers only. Every button is bound exactly ONCE in the main script
+   (see "MEETING FLOW" below). Do not add click delegation or inline onclick
+   handlers here: stacking them made one tap run Next two or three times. */
 window.startMeeting=function(){
-  document.querySelectorAll(".screen").forEach(function(s){
-    s.classList.toggle("active", s.id==="meetingScreen");
-  });
-  try{ window.scrollTo(0,0); }catch(e){}
-  var fill=window.showMeeting||window.afterStartMeeting;
-  if(typeof fill==="function"){
-    try{ fill(); }catch(err){ console.log(err); }
-  } else {
-    setTimeout(window.startMeeting, 50);
+  if(typeof window.showMeeting==="function"){
+    try{ window.showMeeting(); }catch(err){ console.log(err); }
   }
 };
 window.openShop=function(){
-  document.querySelectorAll(".screen").forEach(function(s){
-    s.classList.toggle("active", s.id==="shopScreen");
-  });
   if(typeof window.afterOpenShop==="function"){
     try{ window.afterOpenShop(); }catch(err){ console.log(err); }
   }
 };
-document.addEventListener("click", function(e){
-  var btn=e.target && e.target.closest && e.target.closest("button");
-  var id=btn && btn.id;
-  if(id==="startButton"){ e.preventDefault(); window.startMeeting(); }
-  if(id==="nextButton"){ e.preventDefault(); if(window.goPart) window.goPart(1); }
-  if(id==="previousButton"){ e.preventDefault(); if(window.goPart) window.goPart(-1); }
-  if(id==="songDone"){ e.preventDefault(); if(window.goPart) window.goPart(1); }
-  if(id==="openShopWelcome" || id==="meetShop" || id==="starChip"){ e.preventDefault(); window.openShop(); }
-  if(id==="shopHome"){
-    document.querySelectorAll(".screen").forEach(function(s){
-      s.classList.toggle("active", s.id==="meetingScreen");
-    });
-  }
-  if(id==="meetShop" || id==="openShopWelcome" || id==="starChip"){
-    /* handled above */
-  }
-});
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -696,6 +672,8 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
   min-width:140px;border:2px solid var(--line);background:#fff;color:#554866;
   border-radius:16px;padding:12px 16px;font-weight:800;
 }
+.nav{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+#songDone{touch-action:manipulation}
 .nav:disabled{opacity:.35;cursor:not-allowed}
 
 /* overlays */
@@ -777,7 +755,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
         <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
         <div class="brutus-name">Brutus</div>
       </div>
-      <button class="primary" id="startButton" type="button" onclick="window.startMeeting()">Start the meeting</button>
+      <button class="primary" id="startButton" type="button">Start the meeting</button>
       <div class="pre-row">
         <button class="ghosty" id="openShopWelcome" type="button">★ Star shop</button>
       </div>
@@ -957,8 +935,8 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       </article>
     </div>
     <div class="meet-nav">
-      <button class="nav" id="previousButton" type="button" onclick="window.goPart&&window.goPart(-1)">← Previous</button>
-      <button class="nav" id="nextButton" type="button" onclick="window.goPart&&window.goPart(1)">Next →</button>
+      <button class="nav" id="previousButton" type="button">← Previous</button>
+      <button class="nav" id="nextButton" type="button">Next →</button>
     </div>
   </section>
 
@@ -1093,6 +1071,8 @@ function openSong(num){
     if(img){ img.removeAttribute("src"); img.hidden=true; img.style.display="none"; }
     if(lyr){ lyr.hidden=!SONG_LYRICS[num]; lyr.innerHTML=SONG_LYRICS[num]||""; }
   }
+  const done=$("songDone");
+  if(done) done.textContent = currentParagraph>=meetingParts.length-1 ? "Done ✓" : "Done — next part →";
   $("songOverlay").classList.add("show");
 }
 function closeSong(){ $("songOverlay").classList.remove("show"); }
@@ -1403,8 +1383,29 @@ const partKey = "mmb2_part_"+WEEK.id;
 const answerKeyName = "mmb2_answers_"+WEEK.id;
 const heardKey = "mmb2_heard_"+WEEK.id;
 
-let currentParagraph = Number(localStorage.getItem(partKey)||0);
-if(!Number.isInteger(currentParagraph)||currentParagraph<0||currentParagraph>=meetingParts.length) currentParagraph=0;
+/* MEETING FLOW state (see "MEETING FLOW" further down for the functions).
+   currentParagraph = index into meetingParts = THE current part. Only goToPart() changes it.
+   completedParts   = parts the child has moved past with Next (or finished at the end).
+   Saved as {part, completed, t}. A refresh within FLOW_RESUME_MS resumes the saved part;
+   an older save (e.g. last week's tab left open, or a save from the old buggy build that
+   has no timestamp) starts cleanly at Part 1. */
+const flowKey = "mmb2_flow_"+WEEK.id;
+const FLOW_RESUME_MS = 4*60*60*1000;
+let completedParts = new Set();
+function loadSavedFlow(){
+  let saved=null;
+  try{ saved=JSON.parse(localStorage.getItem(flowKey)||"null"); }catch(e){ saved=null; }
+  const n=meetingParts.length;
+  if(!saved || typeof saved!=="object") return 0;
+  const part=Number(saved.part), t=Number(saved.t);
+  const fresh=Number.isFinite(t) && Date.now()-t>=0 && Date.now()-t<FLOW_RESUME_MS;
+  if(!fresh || !Number.isInteger(part) || part<0 || part>=n) return 0;
+  if(Array.isArray(saved.completed)){
+    saved.completed.forEach(i=>{ if(Number.isInteger(i) && i>=0 && i<n) completedParts.add(i); });
+  }
+  return part;
+}
+let currentParagraph = loadSavedFlow();
 let selectedAnimal = "shepherd";
 let selectedName = "Brutus";
 let answers = {};
@@ -1656,9 +1657,17 @@ function tryChest(){
   starToast("Secret: "+hit.name);
   if($("chestWord")) $("chestWord").value="";
 }
+let shopReturnScreen="welcomeScreen";
 function openShop(){
+  const from=document.querySelector(".screen.active");
+  if(from && from.id!=="shopScreen") shopReturnScreen=from.id;
   try{ showScreen("shopScreen"); }catch(e){}
   try{ paintShop(); }catch(e){ console.log(e); }
+}
+function closeShop(){
+  /* Back returns to the screen the shop was opened from (welcome or the same meeting part). */
+  const back=$(shopReturnScreen)?shopReturnScreen:"welcomeScreen";
+  if(back==="meetingScreen") showMeeting(); else showScreen(back);
 }
 if($("chestOpen") && !$("chestOpen").dataset.bound){
   $("chestOpen").dataset.bound="1";
@@ -1762,14 +1771,17 @@ function showMeeting(){
   window.selectedName = "Brutus";
   try{ if(typeof showScreen==="function") showScreen("meetingScreen"); }catch(e){}
   try{ paintBuddy(); }catch(e){ console.log(e); }
-  try{ updateMeeting(true); }catch(e){ console.log(e); }
+  try{
+    if(renderedPart!==currentParagraph) renderCurrentPart();
+    else updateNavButtons();
+  }catch(e){ console.log(e); }
   try{ window.scrollTo(0,0); }catch(e){}
 }
 window.showMeeting = showMeeting;
 window.afterStartMeeting = showMeeting;
 if($("startButton")) $("startButton").addEventListener("click", function(e){ e.preventDefault(); showMeeting(); });
 if($("openShopWelcome")) $("openShopWelcome").addEventListener("click", openShop);
-if($("shopHome")) $("shopHome").addEventListener("click", ()=> showScreen("meetingScreen"));
+if($("shopHome")) $("shopHome").addEventListener("click", closeShop);
 if($("starChip")){ $("starChip").addEventListener("click", openShop); $("starChip").style.cursor="pointer"; }
 if($("meetShop")) $("meetShop").addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); openShop(); });
 if($("gamesStarChip")) $("gamesStarChip").addEventListener("click", openShop);
@@ -2479,6 +2491,9 @@ function openSecret(){
   $("secretOverlay").classList.add("show");
 }
 function closeSecret(){ $("secretOverlay").classList.remove("show"); }
+if($("secretChip")) $("secretChip").addEventListener("click", openSecret);
+if($("closeSecret")) $("closeSecret").addEventListener("click", closeSecret);
+if($("secretOverlay")) $("secretOverlay").addEventListener("click", e=>{ if(e.target===$("secretOverlay")) closeSecret(); });
 function guessSecret(city, btn){
   if(secretFound) return;
   if(city===SECRET_WORD){
@@ -2597,7 +2612,10 @@ function closeBuddy(){ $("buddyOverlay").classList.remove("show"); }
 $("closeBuddy").addEventListener("click", closeBuddy);
 $("buddyOverlay").addEventListener("click", e=>{ if(e.target===$("buddyOverlay")) closeBuddy(); });
 $("closeSong").addEventListener("click", closeSong);
-if($("songDone")) $("songDone").addEventListener("click", function(){ closeSong(); window.goPart&&window.goPart(1); });
+if($("songDone")) $("songDone").addEventListener("click", function(){
+  closeSong();
+  if(currentParagraph<meetingParts.length-1) nextPart();
+});
 $("songOverlay").addEventListener("click", e=>{ if(e.target===$("songOverlay")) closeSong(); });
 
 $("sendBuddyQuestion").addEventListener("click",()=>{
@@ -2656,7 +2674,9 @@ const prizeKey="mmb2_perfect_"+WEEK.id;
 function perfectCounts(){
   let games=0, need=0;
   meetingParts.forEach((_,i)=>{
-    if(PART_GAMES[i]){
+    /* Trace games are marked stars:0 ("No stars") and never pay, so they can't count
+       toward a perfect meeting or the prize could never be reached. */
+    if(PART_GAMES[i] && PART_GAMES[i].stars!==0){
       need++;
       if(Number(gameStarsEarned["part-"+i]||0)>=1) games++;
     }
@@ -2736,21 +2756,75 @@ setInterval(()=>{
 selectedAnimal = selectedAnimal || window.selectedAnimal || "";
 selectedName = selectedName || ($("buddyNameInput")&&$("buddyNameInput").value.trim()) || "";
 
-function setPart(i, force){
-  if(i<0 || i>=meetingParts.length) return;
-  currentParagraph=i;
-  try{ localStorage.setItem(partKey, String(i)); }catch(e){}
-  try{ $("songOverlay")&&$("songOverlay").classList.remove("show"); }catch(e){}
-  updateMeeting(true);
+/* ============================================================
+   MEETING FLOW — the ONE place that decides which part is showing.
+   Order = meetingParts order (Part 1 … Part N). Every control goes through
+   goToPart / nextPart / prevPart:
+     Next button, Previous button, song sheet "Done — next part", Start/Resume.
+   Part games, checks, songs, shop, drawing, recap and Ask Buddy never change
+   the current part; they return to the part they were opened from.
+   ============================================================ */
+const NAV_LOCK_MS = 450;
+let navLockUntil = 0;
+let renderedPart = -1;
+function saveFlow(){
+  store.set(flowKey, JSON.stringify({part:currentParagraph, completed:[...completedParts], t:Date.now()}));
+  store.set(partKey, String(currentParagraph));
 }
-window.goPart=function(dir){
-  try{ setPart(currentParagraph+(dir||1), true); }catch(e){ console.log(e); }
-};
+function navLocked(){
+  /* Ignore extra taps while a part change is happening (child double/triple taps). */
+  const now=Date.now();
+  if(now<navLockUntil) return true;
+  navLockUntil=now+NAV_LOCK_MS;
+  return false;
+}
+function goToPart(i){
+  if(!Number.isInteger(i) || i<0 || i>=meetingParts.length) return false;
+  currentParagraph=i;
+  saveFlow();
+  try{ closeSong(); }catch(e){}
+  renderCurrentPart();
+  return true;
+}
+function nextPart(){
+  if(navLocked()) return;
+  completedParts.add(currentParagraph);
+  if(currentParagraph>=meetingParts.length-1){
+    /* Final part: Next finishes the meeting and opens the ride-home recap. */
+    saveFlow();
+    updateNavButtons();
+    openRecap();
+    return;
+  }
+  goToPart(currentParagraph+1);
+}
+function prevPart(){
+  if(navLocked()) return;
+  if(currentParagraph<=0) return;
+  goToPart(currentParagraph-1);
+}
+window.goPart=function(dir){ return (dir<0) ? prevPart() : nextPart(); };
+function renderCurrentPart(){
+  updateMeeting(true);
+  renderedPart=currentParagraph;
+  const screen=$("meetingScreen");
+  const body=screen && screen.querySelector(".meet-body");
+  if(body) body.scrollTop=0;
+  if(screen) screen.classList.remove("head-away");
+}
+function updateNavButtons(){
+  const n=meetingParts.length;
+  const last=currentParagraph===n-1;
+  if($("paragraphCounter")) $("paragraphCounter").textContent="Part "+(currentParagraph+1)+" of "+n+(completedParts.has(currentParagraph)?" ✓":"");
+  if($("previousButton")) $("previousButton").disabled=currentParagraph===0;
+  if($("nextButton")){
+    $("nextButton").disabled=false;
+    $("nextButton").textContent= last ? "Ride-home recap →" : "Next →";
+  }
+}
 function updateMeeting(force){
   const p=meetingParts[currentParagraph];
   if(!p) return;
-  const n=meetingParts.length;
-  if($("paragraphCounter")) $("paragraphCounter").textContent="Part "+(currentParagraph+1)+" of "+n;
   if($("sectionLabel")) $("sectionLabel").textContent=p.section||"";
   if($("pageSection")) $("pageSection").textContent=p.section||"";
   if($("partTitle")) $("partTitle").textContent=p.title||"";
@@ -2770,21 +2844,25 @@ function updateMeeting(force){
   if($("listenBox")) $("listenBox").hidden=true;
   if($("buddyMessage") && force) buddySay(p.buddy||"Follow along with this part.");
   try{ renderAnswers(p); }catch(e){}
-  if(force || window.__gamePart!==currentParagraph){
-    window.__gamePart=currentParagraph;
-    renderPartGame(currentParagraph);
-  }
+  renderPartGame(currentParagraph);
   const pos=schedulePosition();
   if($("dashboardTime")){
     if(pos.elapsed<0) $("dashboardTime").textContent="Starts soon";
     else if(pos.remaining>0) $("dashboardTime").textContent=pos.remaining+" min left";
     else $("dashboardTime").textContent="Meeting time";
   }
-  if($("previousButton")) $("previousButton").disabled=currentParagraph===0;
-  if($("nextButton")) $("nextButton").disabled=currentParagraph===n-1;
+  updateNavButtons();
 }
 
+/* Each render of the part game gets a new generation number. Timers from a game that
+   is no longer on screen (the child already moved to another part) must not touch the
+   page; window listeners are removed through partGameCleanup. */
+let partGameGen=0;
+let partGameCleanup=[];
+function partGameToken(){ const g=partGameGen; return ()=>g===partGameGen; }
 function renderPartGame(idx){
+  partGameGen++;
+  partGameCleanup.splice(0).forEach(fn=>{ try{ fn(); }catch(e){} });
   const wrap=$("partGame");
   if(!wrap) return;
   const g=PART_GAMES[idx];
@@ -2856,10 +2934,14 @@ function startTraceGame(wrap, idx, g){
   }
   function nearest(p){
     let bestD=1e9,bestT=0; const step=Math.max(4,st.len/80);
-    for(let t=0;t<=st.len;t+=step){
-      const q=st.g.getPointAtLength(t);
+    /* Always test the exact end point too: with floating-point steps the loop could stop
+       short of st.len, leaving the finish line (len-14) unreachable on some designs. */
+    for(let t=0;t<=st.len+step;t+=step){
+      const tt=Math.min(t,st.len);
+      const q=st.g.getPointAtLength(tt);
       const dd=(q.x-p.x)**2+(q.y-p.y)**2;
-      if(dd<bestD){bestD=dd;bestT=t;}
+      if(dd<bestD){bestD=dd;bestT=tt;}
+      if(tt>=st.len) break;
     }
     return {t:bestT,d:Math.sqrt(bestD)};
   }
@@ -2905,7 +2987,8 @@ function startTraceGame(wrap, idx, g){
 
 
 function startQuizGame(wrap, idx, g){
-  let i=0, misses=0, paid=false;
+  const alive=partGameToken();
+  let i=0, misses=0, paid=false, busy=false;
   const qs=g.qs||[];
   function paint(){
     const item=qs[i];
@@ -2918,21 +3001,23 @@ function startQuizGame(wrap, idx, g){
       const b=document.createElement("button");
       b.type="button"; b.className="order-step"; b.textContent=o.t;
       b.addEventListener("click",()=>{
-        if(paid) return;
+        if(paid || busy) return;
         if(o.a){
+          busy=true;
           b.classList.add("ok");
           $("quizFeed").textContent="Yes.";
           setTimeout(()=>{
+            busy=false;
             i++;
             if(i>=qs.length){
               paid=true;
-              $("quizFeed").textContent="Moses chose Jehovah.";
+              if(alive() && $("quizFeed")) $("quizFeed").textContent="Moses chose Jehovah.";
               payGame("part-"+idx, misses, 2);
-            } else paint();
+            } else if(alive()) paint();
           },400);
         } else {
           misses++; b.classList.add("bad");
-          $("quizFeed").textContent="Not that one.";
+          if($("quizFeed")) $("quizFeed").textContent="Not that one.";
           setTimeout(()=>b.classList.remove("bad"),350);
         }
       });
@@ -3008,6 +3093,10 @@ function startSearchGame(wrap, idx, g){
   gridEl.addEventListener("touchstart",down,{passive:false});
   gridEl.addEventListener("touchmove",move,{passive:false});
   window.addEventListener("touchend",up,{passive:false});
+  partGameCleanup.push(()=>{
+    window.removeEventListener("pointerup",up);
+    window.removeEventListener("touchend",up,{passive:false});
+  });
 }
 
 function startSceneGame(wrap, idx, g){
@@ -3023,7 +3112,7 @@ function startSceneGame(wrap, idx, g){
     const box=$("sceneAsk");
     box.innerHTML=`<p class="who-prompt">${spot.q||("You noticed "+spot.label+".")}</p>`+(spot.options||[]).map((o,i)=>`<button class="order-step" data-i="${i}" type="button">${o.t}</button>`).join("");
     box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-      if(paid) return;
+      if(paid || b.classList.contains("ok")) return;
       const o=spot.options[Number(b.dataset.i)];
       if(o.a){
         b.classList.add("ok");
@@ -3103,6 +3192,7 @@ function startOrderGame(wrap, idx, g){
 }
 
 function startWiseGame(wrap, idx, g){
+  const alive=partGameToken();
   let i=0, misses=0, locked=false, paid=false;
   wrap.innerHTML=`<div class="who-meta" id="wiseMeta"></div>
     <h3>${g.title}</h3>
@@ -3138,11 +3228,13 @@ function startWiseGame(wrap, idx, g){
       setTimeout(()=>{
         if(i+1>=g.prompts.length){
           paid=true;
-          $("wiseMeta").textContent="Done";
-          $("wisePrompt").textContent="You sorted every choice.";
-          $("wiseFeed").textContent=misses===0?"First-try on every card.":("Missed "+misses+" along the way.");
+          if(alive()){
+            $("wiseMeta").textContent="Done";
+            $("wisePrompt").textContent="You sorted every choice.";
+            $("wiseFeed").textContent=misses===0?"First-try on every card.":("Missed "+misses+" along the way.");
+          }
           payGame("part-"+idx, misses, 2);
-        } else {
+        } else if(alive()) {
           i++;
           paint();
         }
@@ -3158,6 +3250,7 @@ function startWiseGame(wrap, idx, g){
 }
 
 function startWhoGame(wrap, idx, g){
+  const alive=partGameToken();
   let i=0, misses=0, locked=false, paid=false;
   wrap.innerHTML=`<div class="who-meta" id="whoMeta"></div>
     <h3>${g.title}</h3>
@@ -3193,11 +3286,13 @@ function startWhoGame(wrap, idx, g){
       setTimeout(()=>{
         if(i+1>=g.prompts.length){
           paid=true;
-          $("whoMeta").textContent="Done";
-          $("whoPrompt").textContent="You found every voice.";
-          $("whoFeed").textContent=misses===0?"First-try on every card.":("Missed "+misses+" along the way.");
+          if(alive()){
+            $("whoMeta").textContent="Done";
+            $("whoPrompt").textContent="You found every voice.";
+            $("whoFeed").textContent=misses===0?"First-try on every card.":("Missed "+misses+" along the way.");
+          }
           payGame("part-"+idx, misses, 2);
-        } else {
+        } else if(alive()) {
           i++;
           paint();
         }
@@ -3212,8 +3307,8 @@ function startWhoGame(wrap, idx, g){
   paint();
 }
 
-if($("previousButton")) $("previousButton").addEventListener("click",()=>setPart(currentParagraph-1,true));
-if($("nextButton")) $("nextButton").addEventListener("click",()=>setPart(currentParagraph+1,true));
+if($("previousButton")) $("previousButton").addEventListener("click", e=>{ e.preventDefault(); prevPart(); });
+if($("nextButton")) $("nextButton").addEventListener("click", e=>{ e.preventDefault(); nextPart(); });
 if($("homeButton")) $("homeButton").addEventListener("click",()=>showScreen("welcomeScreen"));
 if($("peekHead")) $("peekHead").addEventListener("click",()=>$("meetingScreen").classList.remove("head-away"));
 (function(){
@@ -3235,6 +3330,7 @@ function applyWeekChrome(){
   const sec=$("secretChip"); if(sec && !secretFound) sec.textContent = "Secret "+(WEEK.secretKind||"word");
 }
 applyWeekChrome();
+try{ paintSecretChip(); }catch(e){}
 
 try{
   if(typeof updateStart==="function") updateStart();
