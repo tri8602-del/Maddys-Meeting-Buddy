@@ -16,7 +16,7 @@ window.pickBuddy=function(el){
   var name=document.getElementById("buddyNameInput");
   var start=document.getElementById("startButton");
   var ok=!!animal && !!(name&&name.value&&name.value.trim());
-  if(start){ start.disabled=!ok; start.textContent=ok?"Meet My Buddy":"Choose a buddy"; }
+  if(start){ start.disabled=false; start.textContent="Meet My Buddy"; }
   try{ localStorage.setItem("mmb2_animal", animal); }catch(e){}
   return false;
 };
@@ -777,7 +777,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
     var name=document.getElementById("buddyNameInput");
     var start=document.getElementById("startButton");
     var ok=!!animal && !!(name&&name.value.trim());
-    if(start){ start.disabled=!ok; start.textContent=ok?"Meet My Buddy":"Choose a buddy"; }
+    if(start){ start.disabled=false; start.textContent="Meet My Buddy"; }
     store("mmb2_animal", animal);
   };
   document.addEventListener("click", function(e){
@@ -812,12 +812,11 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
         <input id="buddyNameInput" maxlength="24" placeholder="Type a name…" autocomplete="off"/>
         <div class="name-hint">Pick a buddy and give them a name to start.</div>
       </div>
-      <button class="primary" id="startButton" disabled>Choose a buddy</button>
+      <button class="primary" id="startButton" type="button" onclick="window.startMeeting&&window.startMeeting()">Meet My Buddy</button>
       <div class="pre-row">
-        <button class="ghosty" id="playGamesButton" type="button">Play before the meeting</button>
-        <button class="ghosty" id="openShopWelcome" type="button">★ Star shop</button>
+        <button class="ghosty" id="openShopWelcome" type="button" onclick="window.openShop&&window.openShop()">★ Star shop</button>
       </div>
-      <div class="week-chip" id="weekChip">Jeremiah 36–37 · September 21–27, 2026</div>
+      <div class="week-chip" id="weekChip">Jeremiah 38–39 · September 28–October 4, 2026</div>
     </div>
   </section>
 
@@ -1688,6 +1687,7 @@ function tryChest(){
   starToast("Secret: "+hit.name);
   if($("chestWord")) $("chestWord").value="";
 }
+window.openShop=function(){openShop();};
 function openShop(){
   paintShop();
   showScreen("shopScreen");
@@ -1719,9 +1719,16 @@ function markSelected(){
 }
 function updateStart(){
   selectedAnimal = selectedAnimal || window.selectedAnimal || "";
-  const ok = !!selectedAnimal && !!$("buddyNameInput").value.trim();
-  $("startButton").disabled = !ok;
-  $("startButton").textContent = ok ? "Meet My Buddy" : "Choose a buddy";
+  const nameEl=$("buddyNameInput");
+  const name=nameEl?nameEl.value.trim():"";
+  const ok = !!selectedAnimal && !!name;
+  const btn=$("startButton");
+  if(btn){
+    btn.disabled=false;
+    btn.textContent = ok ? "Meet My Buddy" : "Meet My Buddy";
+  }
+  const hint=document.querySelector(".name-hint");
+  if(hint) hint.textContent = ok ? "You’re ready. Tap Meet My Buddy." : "Pick a buddy and give them a name to start.";
 }
 
 function setAppIconFromBuddy(animal){
@@ -1780,10 +1787,15 @@ function paintBuddy(){
   if($("buddyName")) $("buddyName").textContent = selectedName;
 }
 
+window.startMeeting=function(){return showMeeting();};
 function showMeeting(){
   selectedAnimal = selectedAnimal || window.selectedAnimal || "";
-  selectedName = $("buddyNameInput").value.trim();
-  if(!selectedAnimal||!selectedName) return;
+  selectedName = ($("buddyNameInput")&&$("buddyNameInput").value.trim()) || "";
+  if(!selectedAnimal||!selectedName){
+    const hint=document.querySelector(".name-hint");
+    if(hint) hint.textContent = !selectedAnimal ? "Tap a buddy first." : "Type a name first.";
+    return;
+  }
   try{ localStorage.setItem("mmb2_animal", selectedAnimal); localStorage.setItem("mmb2_name", selectedName); }catch(e){}
   paintBuddy();
   updateMeeting(true);
@@ -1791,20 +1803,18 @@ function showMeeting(){
   window.scrollTo(0,0);
 }
 window.showMeeting = showMeeting;
-$("startButton").addEventListener("click", showMeeting);
-$("playGamesButton").addEventListener("click", ()=> showScreen("gamesScreen"));
-$("openShopWelcome").addEventListener("click", openShop);
-$("shopHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
-$("starChip").addEventListener("click", openShop);
+if($("startButton")) $("startButton").addEventListener("click", showMeeting);
+if($("openShopWelcome")) $("openShopWelcome").addEventListener("click", openShop);
+if($("shopHome")) $("shopHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
+if($("starChip")){ $("starChip").addEventListener("click", openShop); $("starChip").style.cursor="pointer"; }
 if($("gamesStarChip")) $("gamesStarChip").addEventListener("click", openShop);
-$("starChip").style.cursor="pointer";
 updateStarChip();
-
-$("gamesHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
-$("gameBackPicker").addEventListener("click", ()=>{
-  $("gamePlay").hidden = true;
-  $("gamePicker").style.display = "";
+if($("gamesHome")) $("gamesHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
+if($("gameBackPicker")) $("gameBackPicker").addEventListener("click", ()=>{
+  if($("gamePlay")) $("gamePlay").hidden = true;
+  if($("gamePicker")) $("gamePicker").style.display = "";
 });
+if($("buddyNameInput")) $("buddyNameInput").addEventListener("input", updateStart);
 
 const GAMES = {
   quiz: {
