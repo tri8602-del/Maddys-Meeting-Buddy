@@ -32,8 +32,11 @@ document.addEventListener("click", function(e){
   if(id==="openShopWelcome" || id==="meetShop" || id==="starChip"){ e.preventDefault(); window.openShop(); }
   if(id==="shopHome"){
     document.querySelectorAll(".screen").forEach(function(s){
-      s.classList.toggle("active", s.id==="welcomeScreen");
+      s.classList.toggle("active", s.id==="meetingScreen");
     });
+  }
+  if(id==="meetShop" || id==="openShopWelcome" || id==="starChip"){
+    /* handled above */
   }
 });
 </script>
@@ -314,7 +317,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 .order-list{display:flex;flex-direction:column;gap:8px;margin:8px 0}
 .order-pics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
 .order-pic{border:3px solid #d7c7ee;background:#fff;border-radius:14px;padding:0;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
-.order-pic img{width:100%;height:78px;object-fit:cover;display:block}
+.order-pic img{width:100%;height:110px;object-fit:contain;background:#f4eefc;display:block}
 .order-pic span{padding:5px 6px;font-weight:800;font-size:11px;line-height:1.2}
 .order-pic.ok{border-color:#2f9a62}
 .order-pic.bad{border-color:#c45b5b}
@@ -549,6 +552,9 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 .solid{background:var(--lilac);color:#fff}
 .ghost{background:#fff;color:#554866}
 
+.source-pic{margin:10px 0 14px;text-align:center}
+.source-pic img{max-width:min(420px,100%);border-radius:16px;display:block;margin:0 auto}
+.source-pic p{margin:6px 0 0;font-size:13px;color:#6b5a80}
 .meet-body{
   flex:1;
   width:min(1100px,100%);
@@ -1123,13 +1129,14 @@ const meetingParts = [
 <li>Comfort others as Jeremiah did <strong>(Jer 39:15-18)</strong></li>
 <li>Encourage others to obey Jehovah as Jeremiah did <strong>(Jer 38:20)</strong></li>
 </ul></div>
-<div class="ask-yourself"><strong>ASK YOURSELF:</strong> Whom in my congregation might I need to speak up for?</div>`},
+<div class="ask-yourself"><strong>ASK YOURSELF:</strong> Whom in my congregation might I need to speak up for?</div>
+<div class="source-pic"><img src="media/mwb-comfort.jpg" alt="A sister comforts a friend"><p>A sister comforts a friend who recently lost her mother.</p></div>`},
   {section:"Treasures From God’s Word",title:"Spiritual Gems",minutes:10,kind:"questions",
     listen:"Listen for King Zedekiah — what bad choice did he make?",
     buddy:"Family heads can learn from Zedekiah’s bad choice.",
     questions:["Jer 39:6, 7—What bad choice did King Zedekiah make, and what can family heads learn from his example?","What spiritual gems from this week’s Bible reading would you like to share?"],
-    html:`<div class="material-block"><p><strong>Jer 39:6, 7</strong> — What bad choice did King Zedekiah make, and what can family heads learn from his example?</p></div>
-<div class="material-block"><p>What spiritual gems from this week’s Bible reading would you like to share?</p></div>`},
+    html:`<div class="material-block review-question"><p><strong>Jer 39:6, 7</strong> — What bad choice did King Zedekiah make, and what can family heads learn from his example?</p></div>
+<div class="material-block"><p class="review-question">What spiritual gems from this week’s Bible reading would you like to share?</p></div>`},
   {section:"Treasures From God’s Word",title:"Bible Reading",minutes:4,kind:"answer",
     listen:"Follow Jeremiah 38:1-13. What happened to Jeremiah in the cistern?",
     buddy:"This reading is Jeremiah 38:1-13. Ebed-melech helps.",
@@ -1147,7 +1154,7 @@ const meetingParts = [
     listen:"Look at the picture. What question could you ask to start a conversation?",
     buddy:"A sister and a little boy at the door. What would you say?",
     questions:["Based on what you observe, what question could you ask to start a conversation?","Which Bible truth might you share?"],
-    html:`<div class="material-block"><strong>HOUSE TO HOUSE · Discussion</strong> <em>(lmd lesson 1 point 4)</em></div>
+    html:`<div class="source-pic"><img src="media/mwb-wwys.jpg" alt="Sister and boy at the door"></div><div class="material-block"><strong>HOUSE TO HOUSE · Discussion</strong> <em>(lmd lesson 1 point 4)</em></div>
 <div class="review-list">
 <div class="review-question"><strong>Based on what you observe, what question could you ask to start a conversation?</strong></div>
 <div class="review-question"><strong>Which Bible truth might you share?</strong></div>
@@ -1169,6 +1176,7 @@ const meetingParts = [
     listen:"Listen for the choice Moses made when he grew up.",
     buddy:"Moses could have stayed rich in Egypt. He chose Jehovah’s people instead.",
     html:`<div class="cbs-reference"><strong>Walk Courageously With God, chapter 10</strong><br>Read: Exodus 2:11-22; Acts 7:22-29; Hebrews 11:24-26</div>
+<div class="source-pic"><img src="media/wcg-moses.jpg" alt="Moses"></div>
 <div class="story-text">
 <p>Moses grew up in Pharaoh’s house. He was taught all the wisdom of Egypt. He could have chosen wealth and an easy life.</p>
 <p>When he was 40, Moses made his choice. He refused to be called the son of Pharaoh’s daughter. He chose to be mistreated with Jehovah’s people.</p>
@@ -1644,10 +1652,9 @@ function tryChest(){
   starToast("Secret: "+hit.name);
   if($("chestWord")) $("chestWord").value="";
 }
-window.openShop=function(){openShop();};
 function openShop(){
-  paintShop();
-  showScreen("shopScreen");
+  try{ showScreen("shopScreen"); }catch(e){}
+  try{ paintShop(); }catch(e){ console.log(e); }
 }
 if($("chestOpen") && !$("chestOpen").dataset.bound){
   $("chestOpen").dataset.bound="1";
@@ -1744,7 +1751,6 @@ function paintBuddy(){
   if($("buddyName")) $("buddyName").textContent = selectedName;
 }
 
-window.startMeeting=function(){return showMeeting();};
 function showMeeting(){
   selectedAnimal = "shepherd";
   selectedName = "Brutus";
@@ -1759,8 +1765,9 @@ window.showMeeting = showMeeting;
 window.afterStartMeeting = showMeeting;
 if($("startButton")) $("startButton").addEventListener("click", function(e){ e.preventDefault(); showMeeting(); });
 if($("openShopWelcome")) $("openShopWelcome").addEventListener("click", openShop);
-if($("shopHome")) $("shopHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
+if($("shopHome")) $("shopHome").addEventListener("click", ()=> showScreen("meetingScreen"));
 if($("starChip")){ $("starChip").addEventListener("click", openShop); $("starChip").style.cursor="pointer"; }
+if($("meetShop")) $("meetShop").addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); openShop(); });
 if($("gamesStarChip")) $("gamesStarChip").addEventListener("click", openShop);
 updateStarChip();
 if($("gamesHome")) $("gamesHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
@@ -2385,14 +2392,23 @@ function renderAnswers(p){
   area.innerHTML = "";
   if(p.kind==="song" || p.kind==="normal") return;
   if(p.kind==="questions" || p.kind==="cbs"){
-    $("paragraphText").querySelectorAll(".review-question").forEach((q,i)=>{
-      if(q.querySelector("textarea")) return;
-      const key = akey(currentParagraph,i);
-      const box = document.createElement("div");
-      box.className = "question-answer";
-      box.innerHTML = `<textarea class="answer-input" data-k="${key}" placeholder="My answer…">${answers[key]||""}</textarea><div class="answer-saved" data-s="${key}"></div>`;
-      q.appendChild(box);
-    });
+    const qs=$("paragraphText")?$("paragraphText").querySelectorAll(".review-question"):[];
+    if(qs.length){
+      qs.forEach((q,i)=>{
+        if(q.querySelector("textarea")) return;
+        const key = akey(currentParagraph,i);
+        const box = document.createElement("div");
+        box.className = "question-answer";
+        box.innerHTML = `<textarea class="answer-input" data-k="${key}" placeholder="Type an answer if you want…">${answers[key]||""}</textarea><div class="answer-saved" data-s="${key}"></div>`;
+        q.appendChild(box);
+      });
+    } else {
+      const list=(p.questions&&p.questions.length)?p.questions:["What did you notice?"];
+      area.innerHTML = list.map((q,i)=>{
+        const key=akey(currentParagraph,i);
+        return `<div class="answer-card"><div class="answer-label">${q}</div><textarea class="answer-input" data-k="${key}" placeholder="Type an answer if you want…">${answers[key]||""}</textarea><div class="answer-saved" data-s="${key}"></div></div>`;
+      }).join("");
+    }
   } else {
     const key = akey(currentParagraph,0);
     area.innerHTML = `<div class="answer-card"><div class="answer-label">My notes</div><div class="answer-hint">Type a thought, or use iPad dictation.</div><textarea class="answer-input" data-k="${key}" placeholder="My answer…">${answers[key]||""}</textarea><div class="answer-saved" data-s="${key}"></div></div>`;
@@ -2700,7 +2716,17 @@ function openRecap(){
 $("recapButton").addEventListener("click", openRecap);
 $("backFromRecap").addEventListener("click",()=> showScreen("meetingScreen"));
 
-setInterval(()=>{ if($("meetingScreen").classList.contains("active")) updateMeeting(false); }, 15000);
+setInterval(()=>{
+  if(!$("meetingScreen")||!$("meetingScreen").classList.contains("active")) return;
+  try{
+    const pos=schedulePosition();
+    if($("dashboardTime")){
+      if(pos.elapsed<0) $("dashboardTime").textContent="Starts soon";
+      else if(pos.remaining>0) $("dashboardTime").textContent=pos.remaining+" min left";
+      else $("dashboardTime").textContent="Meeting time";
+    }
+  }catch(e){}
+}, 15000);
 
 selectedAnimal = selectedAnimal || window.selectedAnimal || "";
 selectedName = selectedName || ($("buddyNameInput")&&$("buddyNameInput").value.trim()) || "";
@@ -2735,7 +2761,10 @@ function updateMeeting(force){
   if($("listenBox")) $("listenBox").hidden=true;
   if($("buddyMessage") && force) buddySay(p.buddy||"Follow along with this part.");
   try{ renderAnswers(p); }catch(e){}
-  renderPartGame(currentParagraph);
+  if(force || window.__gamePart!==currentParagraph){
+    window.__gamePart=currentParagraph;
+    renderPartGame(currentParagraph);
+  }
   const pos=schedulePosition();
   if($("dashboardTime")){
     if(pos.elapsed<0) $("dashboardTime").textContent="Starts soon";
