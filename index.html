@@ -10,8 +10,11 @@ window.startMeeting=function(){
     s.classList.toggle("active", s.id==="meetingScreen");
   });
   try{ window.scrollTo(0,0); }catch(e){}
-  if(typeof window.afterStartMeeting==="function"){
-    try{ window.afterStartMeeting(); }catch(err){ console.log(err); }
+  var fill=window.showMeeting||window.afterStartMeeting;
+  if(typeof fill==="function"){
+    try{ fill(); }catch(err){ console.log(err); }
+  } else {
+    setTimeout(window.startMeeting, 50);
   }
 };
 window.openShop=function(){
@@ -765,7 +768,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
         <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
         <div class="brutus-name">Brutus</div>
       </div>
-      <button class="primary" id="startButton" type="button">Start the meeting</button>
+      <button class="primary" id="startButton" type="button" onclick="window.startMeeting()">Start the meeting</button>
       <div class="pre-row">
         <button class="ghosty" id="openShopWelcome" type="button">★ Star shop</button>
       </div>
@@ -1376,7 +1379,7 @@ const BUDDY_FACTS = [
   {keys:["song 90","90"], ans:"Song 90 is Encourage One Another."},
   {keys:["song 56","56"], ans:"Song 56 is the closing song — Make the Truth Your Own."},
   {keys:["bored","tired","long"], ans:"Meetings can feel long. Try this: answer the Check, then play the little game. I’m staying with you."},
-  {keys:["who are you","your name","buddy"], ans:"I’m "+(selectedName||"your buddy")+". I know this week’s meeting."},
+  {keys:["who are you","your name","buddy"], ans:"I’m Brutus. I know this week’s meeting."},
   {keys:["hello","hi","hey"], ans:"Hi. Look at the purple Check card if you want a hint."}
 ];
 
@@ -1753,7 +1756,8 @@ function showMeeting(){
   try{ window.scrollTo(0,0); }catch(e){}
 }
 window.showMeeting = showMeeting;
-if($("startButton")) $("startButton").addEventListener("click", showMeeting);
+window.afterStartMeeting = showMeeting;
+if($("startButton")) $("startButton").addEventListener("click", function(e){ e.preventDefault(); showMeeting(); });
 if($("openShopWelcome")) $("openShopWelcome").addEventListener("click", openShop);
 if($("shopHome")) $("shopHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
 if($("starChip")){ $("starChip").addEventListener("click", openShop); $("starChip").style.cursor="pointer"; }
@@ -3194,14 +3198,16 @@ function applyWeekChrome(){
 }
 applyWeekChrome();
 
-if(selectedAnimal && selectedName){
-  $("buddyNameInput").value = selectedName;
-  markSelected(); updateStart();
-  paintBuddy(); updateMeeting(true);
-  showScreen("meetingScreen");
-} else {
-  markSelected(); updateStart();
-}
+try{
+  if(typeof updateStart==="function") updateStart();
+}catch(e){}
+try{
+  window.showMeeting = showMeeting;
+  window.afterStartMeeting = showMeeting;
+  window.openShop = openShop;
+  window.afterOpenShop = openShop;
+}catch(e){}
+
 </script>
 </body>
 </html>
