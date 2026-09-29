@@ -245,22 +245,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 .acc-badge{position:absolute;left:6px;bottom:6px;font-size:26px}
 .acc-frame{position:absolute;inset:0;border:6px solid #f2c14e;border-radius:22px;box-shadow:inset 0 0 0 2px #fff}
 
-.jig{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:420px;margin:10px auto}
-.jig .tile{aspect-ratio:1;border-radius:10px;border:3px solid #fff;box-shadow:0 0 0 1px #d7c7ee;background-size:300% 300%;cursor:pointer}
-.jig .tile.on{border-color:var(--lilac)}
-.mad-story{font-size:20px;line-height:1.8;text-align:left}
-.mad-story .hole{
-  display:inline-block;min-width:90px;padding:0 8px;margin:0 3px;
-  border-bottom:3px solid var(--lilac);font-weight:800;text-align:center;
-}
-.mad-story .hole.open{background:#f4edfb}
 .search-grid{display:grid;gap:3px;width:max-content;margin:10px auto}
-.search-grid button{
-  width:28px;height:28px;border-radius:6px;border:1px solid #d7c7ee;
-  background:#fff;font-weight:800;padding:0;
-}
-.search-grid button.hit{background:#eefaf3;border-color:#8fd3aa;color:var(--ok)}
-.search-grid button.miss{background:#fff1f1}
 .search-words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .search-words span{border-radius:999px;padding:4px 10px;background:#f4edfb;font-weight:800}
 .search-words span.got{background:#eefaf3;text-decoration:line-through;opacity:.7}
@@ -335,20 +320,8 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
   border:2px solid #d7c7ee;background:#fff;border-radius:16px;
   padding:12px 16px;font-weight:800;color:var(--lilac-deep);
 }
-#gamesScreen{background:transparent}
 .games-wrap{width:min(820px,100%);margin:0 auto;padding:18px 16px 28px}
 .games-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.games-grid{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:720px){.games-grid{grid-template-columns:1fr 1fr 1fr}}
-.game-card{
-  background:#fff;border:2px solid var(--line);border-radius:22px;padding:16px;text-align:left;
-}
-.game-card h3{margin:0 0 6px;font-family:var(--kid-display)}
-.game-card p{margin:0 0 12px;color:var(--muted)}
-.play-card{
-  background:#fff;border-radius:22px;padding:18px;margin-top:12px;
-  box-shadow:var(--shadow);
-}
 .choices{display:grid;gap:10px;margin-top:14px}
 .choices button{
   text-align:left;border:2px solid var(--line);background:#fbf9fc;
@@ -357,77 +330,6 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 .choices button.good{border-color:#8fd3aa;background:#eefaf3}
 .choices button.bad{border-color:#f0b4b4;background:#fff1f1}
 .game-feedback{min-height:28px;margin-top:10px;font-weight:700}
-.game-progress{color:var(--muted);margin-top:8px}
-.games-grid{grid-template-columns:1fr 1fr}
-@media(min-width:720px){.games-grid{grid-template-columns:1fr 1fr 1fr}}
-.xw{
-  display:grid;gap:2px;margin:12px auto;width:max-content;max-width:100%;
-}
-.xw span{
-  width:24px;height:24px;display:grid;place-items:center;
-  font-weight:800;font-size:12px;border-radius:4px;
-}
-.xw .block{background:transparent;border:none}
-.xw .cell{
-  background:#fff;border:2px solid #cfc3e2;position:relative;
-}
-.xw .cell.filled{background:#eefaf3;border-color:#8fd3aa}
-.xw .cell.target{border-color:var(--lilac);box-shadow:0 0 0 3px rgba(124,92,191,.2)}
-.xw .num{position:absolute;top:1px;left:3px;font-size:8px;color:#7c5cbf}
-.clue-list{display:grid;gap:8px;margin:10px 0}
-.clue{
-  text-align:left;border:2px solid var(--line);background:#fbf9fc;
-  border-radius:14px;padding:10px 12px;font-weight:700;
-}
-.clue.on{border-color:var(--lilac);background:#f4edfb}
-.clue.done{border-color:#8fd3aa;background:#eefaf3}
-.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{
-  border:2px solid #d7c7ee;background:#fff;border-radius:999px;
-  padding:8px 12px;font-weight:800;
-}
-.chip.on{background:var(--lilac);color:#fff;border-color:var(--lilac)}
-.chip.used{opacity:.35;pointer-events:none}
-.story-line{font-size:20px;line-height:1.7;text-align:left}
-.blank{
-  display:inline-block;min-width:92px;margin:0 4px;padding:2px 8px;
-  border-bottom:3px solid var(--lilac);text-align:center;font-weight:800;
-}
-.blank.open{background:#f4edfb}
-.blank.ok{border-color:#8fd3aa;background:#eefaf3}
-.xw span{width:26px;height:26px;font-size:12px}
-.time-help{text-align:left;color:var(--muted);margin:6px 0 10px}
-.time-slots,.time-cards{
-  display:grid;
-  grid-template-columns:repeat(7,minmax(0,1fr));
-  gap:6px;
-}
-@media (max-width:720px){
-  .time-slots,.time-cards{grid-template-columns:repeat(4,minmax(0,1fr));}
-}
-.slot{
-  border:2px dashed #d7c7ee;border-radius:16px;
-  background:#f7f1fd;padding:6px;display:flex;flex-direction:column;gap:4px;
-  min-height:0;
-}
-.slot.on{border-style:solid;border-color:var(--lilac)}
-.slot.ok{border-style:solid;border-color:#8fd3aa;background:#eefaf3}
-.slot-ph{aspect-ratio:3/2;border-radius:10px;background:#efe7f7}
-.slot .n{width:18px;height:18px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:11px;flex:0 0 18px;}
-.time-cards{margin-top:8px;}
-.tcard{
-  touch-action:none;cursor:grab;user-select:none;
-  border:2px solid #d7c7ee;background:#fff;border-radius:16px;
-  padding:10px 12px;font-weight:800;max-width:100%;
-}
-.tcard.used{display:none}
-.tcard.lift{opacity:.45}
-.tcard{display:flex;flex-direction:column;width:auto;padding:4px;text-align:left}
-.tcard img,.slot img,.slot-ph{width:100%;aspect-ratio:4/3;height:auto;max-height:72px;object-fit:cover;border-radius:8px;display:block}
-.slot .cap,.tcard span{font-size:11px;line-height:1.15;font-weight:800}
-.slot.ok{border-style:solid;border-color:#8fd3aa;background:#eefaf3}
-.slot-ph{aspect-ratio:3/2;border-radius:10px;background:#efe7f7}
-.slot-head{display:flex;align-items:center;gap:6px;min-height:22px}
 
 
 
@@ -788,91 +690,6 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
         <div class="game-feedback" id="chestFeed"></div>
       </div>
       <div class="shop-grid" id="shopSecrets"></div>
-    </div>
-  </section>
-
-  <section class="screen" id="gamesScreen">
-    <div class="games-wrap">
-      <div class="games-top">
-        <button class="ghost" id="gamesHome" type="button">← Back</button>
-        <button class="star-chip" id="gamesStarChip" type="button"><span>★</span> <strong id="gamesStarCount">0</strong></button>
-      </div>
-      <h1 style="font-size:32px;margin:8px 0 4px">Get ready with a game</h1>
-      <p class="subtitle" style="text-align:left;max-width:none">Three tiny games about this week. No score pressure — just warm up your ears.</p>
-      <div class="games-grid" id="gamePicker">
-        <article class="game-card">
-          <h3>Meeting quiz</h3>
-          <p>Brave choices, who’s who, and city hunt — mixed together.</p>
-          <button class="solid" data-game="quiz" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Crossword</h3>
-          <p>Word bank plus clues, all mixed up. Black squares keep words apart.</p>
-          <button class="solid" data-game="crossword" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Story blanks</h3>
-          <p>Fill the missing words from the bank.</p>
-          <button class="solid" data-game="story" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Joseph’s path</h3>
-          <p>Drag his life into the right order.</p>
-          <button class="solid" data-game="timeline" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Picture puzzle</h3>
-          <p>Swap tiles until the lesson picture is whole.</p>
-          <button class="solid" data-game="jigsaw" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Silly story</h3>
-          <p>A mad lib — funny words, real lesson.</p>
-          <button class="solid" data-game="madlib" type="button">Play</button>
-        </article>
-        <article class="game-card">
-          <h3>Word search</h3>
-          <p>Find this week’s names in the grid.</p>
-          <button class="solid" data-game="search" type="button">Play</button>
-        </article>
-      </div>
-      <div class="play-card" id="gamePlay" hidden>
-        <div class="game-progress" id="gameProgress"></div>
-        <h2 id="gameQuestion"></h2>
-        <div class="choices" id="gameChoices"></div>
-        <div class="game-feedback" id="gameFeedback"></div>
-        <div class="pre-row">
-          <button class="ghosty" id="gameNext" type="button" hidden>Next</button>
-          <button class="ghosty" id="gameBackPicker" type="button">All games</button>
-        </div>
-      </div>
-      <div class="play-card" id="wordPlay" hidden>
-        <div class="game-progress" id="wordProgress"></div>
-        <div id="wordBoard"></div>
-        <div class="word-bank" id="wordBank"></div>
-        <div class="game-feedback" id="wordFeedback"></div>
-        <div class="pre-row">
-          <button class="ghosty" id="wordBack" type="button">All games</button>
-        </div>
-      </div>
-      <div class="play-card" id="timePlay" hidden>
-        <div class="game-progress">Joseph’s path · drop each picture on its number</div>
-        <div class="time-slots" id="timeSlots"></div>
-        <div class="time-cards" id="timeCards"></div>
-        <div class="game-feedback" id="timeFeedback">Drag a card onto a numbered step.</div>
-        <div class="pre-row">
-          <button class="ghosty" id="timeReset" type="button">Mix again</button>
-          <button class="ghosty" id="timeBack" type="button">All games</button>
-        </div>
-      </div>
-      <div class="play-card" id="extraPlay" hidden>
-        <div class="game-progress" id="extraProgress"></div>
-        <div id="extraBoard"></div>
-        <div class="game-feedback" id="extraFeedback"></div>
-        <div class="pre-row">
-          <button class="ghosty" id="extraBack" type="button">All games</button>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1696,16 +1513,8 @@ function markSelected(){
 }
 function updateStart(){
   selectedAnimal = selectedAnimal || window.selectedAnimal || "";
-  const nameEl=$("buddyNameInput");
-  const name=nameEl?nameEl.value.trim():"";
-  const ok = !!selectedAnimal && !!name;
   const btn=$("startButton");
-  if(btn){
-    btn.disabled=false;
-    btn.textContent = ok ? "Meet My Buddy" : "Meet My Buddy";
-  }
-  const hint=document.querySelector(".name-hint");
-  if(hint) hint.textContent = ok ? "You’re ready. Tap Meet My Buddy." : "Pick a buddy and give them a name to start.";
+  if(btn) btn.disabled=false;
 }
 
 function setAppIconFromBuddy(animal){
@@ -1784,189 +1593,10 @@ if($("openShopWelcome")) $("openShopWelcome").addEventListener("click", openShop
 if($("shopHome")) $("shopHome").addEventListener("click", closeShop);
 if($("starChip")){ $("starChip").addEventListener("click", openShop); $("starChip").style.cursor="pointer"; }
 if($("meetShop")) $("meetShop").addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); openShop(); });
-if($("gamesStarChip")) $("gamesStarChip").addEventListener("click", openShop);
 updateStarChip();
-if($("gamesHome")) $("gamesHome").addEventListener("click", ()=> showScreen("welcomeScreen"));
-if($("gameBackPicker")) $("gameBackPicker").addEventListener("click", ()=>{
-  if($("gamePlay")) $("gamePlay").hidden = true;
-  if($("gamePicker")) $("gamePicker").style.display = "";
-});
 if($("buddyNameInput")) $("buddyNameInput").addEventListener("input", updateStart);
 
-const GAMES = {
-  quiz: {
-    title: "Meeting quiz",
-    qs: [
-      {tag:"Brave Choice", q:"Jeremiah offers the Rechabites a bowl of wine. What do they do?",
-       opts:["They drink it to be polite.","They say no, because their father told them not to."],
-       a:1, why:"They kept their promise. That’s the Treasures part tonight."},
-      {tag:"Who’s Who", q:"Who kept saying no to wine because of a family promise?",
-       opts:["The Rechabites","King Zedekiah","Potiphar"],
-       a:0, why:"Jehovah rewarded the Rechabites for obeying."},
-      {tag:"City Hunt", q:"Which two fortified cities were still standing in Jeremiah 34:7?",
-       opts:["Lachish and Azekah","Egypt and Babylon","Jericho and Nineveh"],
-       a:0, why:"Those two names show up in Spiritual Gems."},
-      {tag:"Brave Choice", q:"Potiphar’s wife wants Joseph to do something wrong. What does Joseph do?",
-       opts:["He runs away.","He stays so he won’t get in trouble."],
-       a:0, why:"Joseph said no because he loved Jehovah."},
-      {tag:"Who’s Who", q:"Who was sold by his brothers and still stayed loyal?",
-       opts:["Jeremiah","Joseph","Nebuchadnezzar"],
-       a:1, why:"That’s our Congregation Bible Study: Joseph."},
-      {tag:"City Hunt", q:"Soldiers watched for smoke signals from this city — and could not see them.",
-       opts:["Bethlehem","Azekah","Anathoth"],
-       a:1, why:"The Lachish Letters mention that the signals from that city had gone dark."},
-      {tag:"Brave Choice", q:"Joseph’s brothers come for food years later. What does Joseph do?",
-       opts:["He forgives them and helps them.","He sends them away hungry."],
-       a:0, why:"Joseph was brave and kind."},
-      {tag:"Who’s Who", q:"Who offered the Rechabites wine to test them?",
-       opts:["Pharaoh","Jeremiah","Joseph"],
-       a:1, why:"Jehovah used Jeremiah to show their obedience."},
-      {tag:"City Hunt", q:"Where were clay soldier-letters found in the ashes of a fire?",
-       opts:["Lachish","Rome","Nineveh"],
-       a:0, why:"Those letters help us know Jeremiah 34:7 really happened."},
-      {tag:"Who’s Who", q:"Who became a ruler in Egypt and saved his family?",
-       opts:["Joseph","Lachish","Jehonadab"],
-       a:0, why:"Pharaoh put Joseph second in the land."},
-      {tag:"Brave Choice", q:"Joseph is thrown in prison after someone lies about him. What does he do?",
-       opts:["He stops trusting Jehovah.","He keeps working hard and trusting Jehovah."],
-       a:1, why:"Jehovah was still with him in prison."},
-      {tag:"City Hunt", q:"Which city was Jehovah’s temple city?",
-       opts:["Azekah","Jerusalem","Lachish"],
-       a:1, why:"Babylon was fighting against Jerusalem."}
-    ]
-  }
-};
-
-let gameId = null, gameIdx = 0, gameLocked = false;
-
-let gameMisses=0, qWrong=0, readTimer=null;
-function startGame(id){
-  gameId = id; gameIdx = 0; gameLocked = false; gameMisses=0; qWrong=0;
-  if(id==="quiz") GAMES.quiz.qs = shuffle(GAMES.quiz.qs);
-  $("gamePicker").style.display = "none";
-  $("gamePlay").hidden = false;
-  renderGameQ();
-}
-function renderGameQ(){
-  const g = GAMES[gameId];
-  const item = g.qs[gameIdx];
-  qWrong = 0;
-  gameLocked = true;
-  $("gameProgress").textContent = (item.tag||g.title) + " · " + (gameIdx+1) + " of " + g.qs.length;
-  $("gameQuestion").textContent = item.q;
-  $("gameFeedback").textContent = "Read it first. Buttons open in a moment.";
-  $("gameNext").hidden = true;
-  const box = $("gameChoices");
-  box.innerHTML = "";
-  box.classList.add("locked");
-  const order = item.opts.map((label,i)=>({label,i}));
-  order.sort(()=>Math.random()-0.5);
-  order.forEach(opt=>{
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = opt.label;
-    b.dataset.idx = String(opt.i);
-    b.addEventListener("click", ()=> pickGame(opt.i, b));
-    box.appendChild(b);
-  });
-  clearTimeout(readTimer);
-  readTimer = setTimeout(()=>{
-    gameLocked = false;
-    box.classList.remove("locked");
-    $("gameFeedback").textContent = "Now pick one.";
-  }, 2800);
-}
-function pickGame(i, btn){
-  if(gameLocked) return;
-  const item = GAMES[gameId].qs[gameIdx];
-  if(i===item.a){
-    gameLocked = true;
-    btn.classList.add("good");
-    $("gameFeedback").textContent = "Yes! " + item.why;
-    $("gameNext").hidden = false;
-    $("gameNext").textContent = gameIdx+1>=GAMES[gameId].qs.length ? "Done" : "Next";
-    return;
-  }
-  qWrong++;
-  gameMisses++;
-  btn.classList.add("bad");
-  if(qWrong>=2){
-    gameLocked = true;
-    [...$("gameChoices").children].forEach(el=>{
-      if(Number(el.dataset.idx)===item.a) el.classList.add("good");
-    });
-    $("gameFeedback").textContent = "The answer was that green one. " + item.why;
-    $("gameNext").hidden = false;
-    $("gameNext").textContent = gameIdx+1>=GAMES[gameId].qs.length ? "Done" : "Next";
-  } else {
-    $("gameFeedback").textContent = "Not that one. Read again, then try the other choice.";
-    gameLocked = true;
-    setTimeout(()=>{
-      btn.classList.remove("bad");
-      gameLocked = false;
-    }, 1100);
-  }
-}
-$("gameNext").addEventListener("click", ()=>{
-  if(gameIdx+1>=GAMES[gameId].qs.length){
-    payGame('quiz', gameMisses);
-    $("gamePlay").hidden = true;
-    $("gamePicker").style.display = "";
-    return;
-  }
-  gameIdx++; gameLocked = false; renderGameQ();
-});
-const XW = {
-  rows: 13, cols: 13,
-  words: [
-    {id:1, word:"PRISON", r:0, c:4, dir:"across", clue:"Where Joseph was sent after a lie"},
-    {id:2, word:"FORGIVE", r:0, c:2, dir:"down", clue:"What Joseph did for his brothers"},
-    {id:3, word:"PHARAOH", r:0, c:4, dir:"down", clue:"King who made Joseph a ruler"},
-    {id:4, word:"DREAMS", r:2, c:1, dir:"across", clue:"Jehovah sent these to Joseph and Pharaoh"},
-    {id:5, word:"JOSEPH", r:4, c:6, dir:"across", clue:"He ran away rather than do wrong"},
-    {id:6, word:"JEREMIAH", r:3, c:9, dir:"down", clue:"Prophet who offered them wine"},
-    {id:7, word:"AZEKAH", r:5, c:12, dir:"down", clue:"City whose signals went dark"},
-    {id:8, word:"RECHABITES", r:6, c:1, dir:"across", clue:"Family who said no to wine"},
-    {id:9, word:"EGYPT", r:6, c:2, dir:"down", clue:"Land where Joseph became a slave"},
-    {id:10, word:"BABYLON", r:6, c:6, dir:"down", clue:"Army fighting against Judah"},
-    {id:11, word:"LACHISH", r:10, c:6, dir:"across", clue:"City where clay letters were found"},
-    {id:12, word:"WINE", r:12, c:4, dir:"across", clue:"What the Rechabites would not drink"}
-  ]
-};
-const STORY = {
-  text: [
-    ["The prophet ", "JEREMIAH", " offered a family wine."],
-    ["The ", "RECHABITES", " said no, because they kept a promise."],
-    ["Clay letters found at ", "LACHISH", " talk about a city they could not see."],
-    ["That city was ", "AZEKAH", "."],
-    ["In Egypt, ", "JOSEPH", " ran away rather than do something wrong."]
-  ],
-  bank: ["JOSEPH","AZEKAH","RECHABITES","LACHISH","JEREMIAH"]
-};
-
-let xwPlaced = {}, xwWord = null, xwClue = null;
-let storyPlaced = {}, storyPick = null, storyBlank = null;
-
-function hideGamePanels(){
-  $("gamePlay").hidden = true;
-  $("wordPlay").hidden = true;
-  $("timePlay").hidden = true;
-  $("extraPlay").hidden = true;
-  $("gamePicker").style.display = "";
-}
-$("wordBack").addEventListener("click", hideGamePanels);
-$("timeBack").addEventListener("click", hideGamePanels);
-$("extraBack").addEventListener("click", hideGamePanels);
-
-function cellsFor(w){
-  const cells=[];
-  for(let i=0;i<w.word.length;i++){
-    cells.push(w.dir==="across" ? [w.r, w.c+i] : [w.r+i, w.c]);
-  }
-  return cells;
-}
-let xwClueOrder = [];
-let xwBankOrder = [];
+/* Used by the in-part order game (startOrderGame). */
 function shuffle(arr){
   const a=arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -1975,419 +1605,6 @@ function shuffle(arr){
   }
   return a;
 }
-let xwMisses=0;
-function startCrossword(){
-  xwPlaced = {}; xwWord = null; xwClue = null; xwMisses=0; window._xwPaid=false;
-  xwClueOrder = shuffle(XW.words.map(w=>w.id));
-  xwBankOrder = shuffle(XW.words.map(w=>w.word));
-  $("gamePicker").style.display = "none";
-  $("gamePlay").hidden = true;
-  $("wordPlay").hidden = false;
-  $("wordProgress").textContent = "Crossword · tap a word, then tap a clue";
-  renderCrossword();
-}
-function renderCrossword(){
-  const map = {};
-  XW.words.forEach(w=>{
-    cellsFor(w).forEach(([r,c], i)=>{
-      const k = r+","+c;
-      if(!map[k]) map[k] = {letter:w.word[i], nums:[]};
-      if(i===0) map[k].nums.push(w.id);
-    });
-  });
-  let html = `<div class="xw" style="grid-template-columns:repeat(${XW.cols},28px)">`;
-  for(let r=0;r<XW.rows;r++){
-    for(let c=0;c<XW.cols;c++){
-      const k=r+","+c, cell=map[k];
-      if(!cell){ html += `<span class="block"></span>`; continue; }
-      const owner = XW.words.find(w => xwPlaced[w.id] && cellsFor(w).some(([rr,cc])=>rr===r&&cc===c));
-      const target = xwClue && cellsFor(xwClue).some(([rr,cc])=>rr===r&&cc===c);
-      const show = owner ? cell.letter : "";
-      html += `<span class="cell${owner?" filled":""}${target?" target":""}">`+
-        (cell.nums.length?`<i class="num">${cell.nums[0]}</i>`:"")+show+"</span>";
-    }
-  }
-  html += `</div><div class="clue-list">`;
-  const clueOrder = xwClueOrder || XW.words.map(w=>w.id);
-  clueOrder.forEach(id=>{
-    const w = XW.words.find(x=>x.id===id);
-    html += `<button class="clue${xwClue&&xwClue.id===w.id?" on":""}${xwPlaced[w.id]?" done":""}" data-clue="${w.id}">${w.clue}${xwPlaced[w.id]?"  ✓":""}</button>`;
-  });
-  html += `</div>`;
-  $("wordBoard").innerHTML = html;
-  $("wordBoard").querySelectorAll("[data-clue]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      xwClue = XW.words.find(w=>w.id===Number(btn.dataset.clue));
-      tryPlace();
-      renderCrossword();
-    });
-  });
-  const used = new Set(Object.values(xwPlaced));
-  $("wordBank").innerHTML = xwBankOrder.map(word=>{
-    const on = xwWord===word ? " on" : "";
-    const usedCls = used.has(word) ? " used" : "";
-    return `<button class="chip${on}${usedCls}" data-word="${word}">${word}</button>`;
-  }).join("");
-  $("wordBank").querySelectorAll("[data-word]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      xwWord = btn.dataset.word;
-      tryPlace();
-      renderCrossword();
-    });
-  });
-  const done = Object.keys(xwPlaced).length===XW.words.length;
-  if(done && !window._xwPaid){ window._xwPaid=true; payGame('crossword', xwMisses); }
-  $("wordFeedback").textContent = done
-    ? "Puzzle done."
-    : (xwWord && xwClue ? "If that word fits the clue, it will lock in." : "Pick a word, then pick a clue.");
-}
-function tryPlace(){
-  if(!xwWord || !xwClue || xwPlaced[xwClue.id]) return;
-  if(xwWord===xwClue.word){
-    xwPlaced[xwClue.id] = xwWord;
-    $("wordFeedback").textContent = "Yes — "+xwClue.word+".";
-    xwWord = null; xwClue = null;
-  } else {
-    xwMisses++;
-    $("wordFeedback").textContent = "Not that one. Try a different clue.";
-  }
-}
-
-let storyMisses=0;
-function startStory(){
-  storyPlaced = {}; storyPick = null; storyBlank = null; storyMisses=0; window._storyPaid=false;
-  $("gamePicker").style.display = "none";
-  $("gamePlay").hidden = true;
-  $("wordPlay").hidden = false;
-  $("wordProgress").textContent = "Story blanks · tap a word, then tap a blank";
-  renderStory();
-}
-function renderStory(){
-  let html = `<div class="story-line">`;
-  STORY.text.forEach((part, i)=>{
-    const filled = storyPlaced[i];
-    html += part[0];
-    html += `<button class="blank${storyBlank===i?" open":""}${filled?" ok":""}" data-blank="${i}">${filled||"____"}</button>`;
-    html += part[2];
-    html += " ";
-  });
-  html += `</div>`;
-  $("wordBoard").innerHTML = html;
-  $("wordBoard").querySelectorAll("[data-blank]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      storyBlank = Number(btn.dataset.blank);
-      tryStory();
-      renderStory();
-    });
-  });
-  const used = new Set(Object.values(storyPlaced));
-  $("wordBank").innerHTML = STORY.bank.map(word=>{
-    return `<button class="chip${storyPick===word?" on":""}${used.has(word)?" used":""}" data-word="${word}">${word}</button>`;
-  }).join("");
-  $("wordBank").querySelectorAll("[data-word]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      storyPick = btn.dataset.word;
-      tryStory();
-      renderStory();
-    });
-  });
-  const done = Object.keys(storyPlaced).length===STORY.text.length;
-  if(done && !window._storyPaid){ window._storyPaid=true; payGame('story', storyMisses||0); }
-  $("wordFeedback").textContent = done
-    ? "That’s tonight’s meeting in five sentences."
-    : "Tap a word from the bank, then tap a blank.";
-}
-function tryStory(){
-  if(storyPick==null || storyBlank==null) return;
-  const need = STORY.text[storyBlank][1];
-  if(storyPick===need){
-    storyPlaced[storyBlank] = storyPick;
-    storyPick = null; storyBlank = null;
-  } else {
-    storyMisses++;
-    $("wordFeedback").textContent = "That word belongs in a different blank.";
-  }
-}
-
-const oldStartGame = startGame;
-startGame = function(id){
-  if(id==="crossword") return startCrossword();
-  if(id==="story") return startStory();
-  if(id==="timeline") return startTimeline();
-  if(id==="jigsaw") return startJigsaw();
-  if(id==="madlib") return startMadlib();
-  if(id==="search") return startSearch();
-  oldStartGame(id);
-};
-
-const JOSEPH_PATH = [
-  {id:"sell", title:"His brothers sell him", why:"Joseph is 17. His brothers throw him in a cistern and sell him.", img:'media/img-092.jpg'},
-  {id:"slave", title:"Slave in Egypt", why:"He works hard in Potiphar’s house. Jehovah is with him.", img:'media/img-093.jpg'},
-  {id:"run", title:"He runs away", why:"Potiphar’s wife wants him to do wrong. Joseph says no and runs.", img:'media/img-094.jpg'},
-  {id:"prison", title:"Thrown in prison", why:"She lies. Joseph is locked up, but he still trusts Jehovah.", img:'media/img-095.jpg'},
-  {id:"dreams", title:"Pharaoh’s dreams", why:"Jehovah helps Joseph explain seven years of plenty and famine.", img:'media/img-096.jpg'},
-  {id:"ruler", title:"A ruler in Egypt", why:"Pharaoh puts Joseph second in the land to store up food.", img:'media/img-097.jpg'},
-  {id:"forgive", title:"He forgives his brothers", why:"They come for food and bow down. Joseph saves them and forgives them.", img:'media/img-098.jpg'}
-];
-let timePlaced = {};
-
-let timeMisses=0;
-let timelinePayKey="timeline";
-let timelineCap=3;
-function timeBox(){
-  return {
-    slots: $("partTimeSlots") || $("timeSlots"),
-    cards: $("partTimeCards") || $("timeCards"),
-    feed: $("partTimeFeed") || $("timeFeedback")
-  };
-}
-function startTimeline(){
-  timelinePayKey="timeline"; timelineCap=3;
-  timePlaced = {}; timeMisses=0; window._timePaid=false;
-  $("gamePicker").style.display = "none";
-  $("gamePlay").hidden = true;
-  $("wordPlay").hidden = true;
-  $("timePlay").hidden = false;
-  renderTimeline();
-}
-function renderTimeline(){
-  const box=timeBox();
-  const slots = box.slots;
-  if(!slots) return;
-  slots.innerHTML = JOSEPH_PATH.map((step,i)=>{
-    const filled = Object.prototype.hasOwnProperty.call(timePlaced, i);
-    if(filled){
-      const s = JOSEPH_PATH[timePlaced[i]];
-      return `<div class="slot ok" data-slot="${i}"><div class="slot-head"><div class="n">${i+1}</div><div class="cap">${s.title}</div></div><img src="${s.img}" alt=""></div>`;
-    }
-    return `<div class="slot" data-slot="${i}"><div class="slot-head"><div class="n">${i+1}</div><div class="cap">Step ${i+1}</div></div><div class="slot-ph"></div></div>`;
-  }).join("");
-  const used = new Set(Object.values(timePlaced));
-  const leftover = JOSEPH_PATH.map((s,i)=>({...s, idx:i})).filter(s=>!used.has(s.idx));
-  leftover.sort(()=>Math.random()-0.5);
-  box.cards.innerHTML = leftover.map(s=>`<button class="tcard" draggable="true" data-idx="${s.idx}"><img src="${s.img}" alt=""><span>${s.title}</span></button>`).join("");
-  wireTimeline();
-  const n = Object.keys(timePlaced).length;
-  if(n===JOSEPH_PATH.length && !window._timePaid){
-    window._timePaid=true;
-    payGame(timelinePayKey||"timeline", timeMisses, timelineCap||3);
-  }
-  if(box.feed) box.feed.textContent = n===JOSEPH_PATH.length
-    ? "That’s Joseph’s whole path."
-    : "Drop a picture on a number. Wrong spots bounce back.";
-}
-function trySlot(idx, slot){
-  const box=timeBox();
-  if(Object.prototype.hasOwnProperty.call(timePlaced, slot)) return;
-  if(idx===slot){
-    timePlaced[slot]=idx;
-    if(box.feed) box.feed.textContent = JOSEPH_PATH[slot].why;
-    renderTimeline();
-  } else {
-    timeMisses++;
-    if(box.feed) box.feed.textContent = "Not that step. Think about what happened first.";
-  }
-}
-function wireTimeline(){
-  const box=timeBox();
-  if(!box.slots) return;
-  box.slots.querySelectorAll("[data-slot]").forEach(slotEl=>{
-    slotEl.addEventListener("dragover", e=>{ e.preventDefault(); slotEl.classList.add("on"); });
-    slotEl.addEventListener("dragleave", ()=> slotEl.classList.remove("on"));
-    slotEl.addEventListener("drop", e=>{
-      e.preventDefault(); slotEl.classList.remove("on");
-      const idx = Number(e.dataTransfer.getData("text/plain"));
-      trySlot(idx, Number(slotEl.dataset.slot));
-    });
-  });
-  box.cards.querySelectorAll(".tcard").forEach(card=>{
-    card.addEventListener("dragstart", e=>{
-      e.dataTransfer.setData("text/plain", card.dataset.idx);
-      card.classList.add("lift");
-    });
-    card.addEventListener("dragend", ()=> card.classList.remove("lift"));
-    // iPad: pointer drag
-    card.addEventListener("pointerdown", ev=>{
-      if(ev.pointerType==="mouse" && ev.button!==0) return;
-      const ghost = card.cloneNode(true);
-      ghost.style.position="fixed"; ghost.style.left=ev.clientX-40+"px";
-      ghost.style.top=ev.clientY-20+"px"; ghost.style.zIndex="90"; ghost.style.pointerEvents="none";
-      document.body.appendChild(ghost);
-      card.classList.add("lift");
-      const move = e=>{ ghost.style.left=e.clientX-40+"px"; ghost.style.top=e.clientY-20+"px"; };
-      const up = e=>{
-        document.removeEventListener("pointermove", move);
-        document.removeEventListener("pointerup", up);
-        ghost.remove(); card.classList.remove("lift");
-        const hit = document.elementFromPoint(e.clientX, e.clientY);
-        const slot = hit && hit.closest("[data-slot]");
-        if(slot) trySlot(Number(card.dataset.idx), Number(slot.dataset.slot));
-      };
-      document.addEventListener("pointermove", move);
-      document.addEventListener("pointerup", up);
-    });
-  });
-}
-$("timeReset").addEventListener("click", startTimeline);
-
-function showExtra(title){
-  $("gamePicker").style.display="none";
-  $("gamePlay").hidden=true;
-  $("wordPlay").hidden=true;
-  $("timePlay").hidden=true;
-  $("extraPlay").hidden=false;
-  $("extraProgress").textContent=title;
-}
-
-function startJigsaw(){
-  const src=(JOSEPH_PATH[5]||JOSEPH_PATH[0]).img;
-  const order=[0,1,2,3,4,5,6,7,8];
-  do { order.sort(()=>Math.random()-0.5); } while(order.every((v,i)=>v===i));
-  let pick=null, swaps=0, paid=false;
-  showExtra("Picture puzzle · swap two tiles");
-  $("extraFeedback").textContent="This is Joseph as a ruler in Egypt. Swap pieces to finish the picture.";
-  const board=$("extraBoard");
-  function draw(){
-    board.innerHTML='<div class="jig">'+order.map((srcIdx,i)=>{
-      const r=Math.floor(srcIdx/3), c=srcIdx%3;
-      return `<button class="tile${pick===i?" on":""}" data-i="${i}" style="background-image:url('${src}');background-position:${c*50}% ${r*50}%"></button>`;
-    }).join("")+"</div>";
-    board.querySelectorAll(".tile").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        const i=Number(btn.dataset.i);
-        if(pick==null){ pick=i; draw(); return; }
-        if(pick===i){ pick=null; draw(); return; }
-        [order[pick],order[i]]=[order[i],order[pick]];
-        swaps++; pick=null; draw();
-        if(order.every((v,idx)=>v===idx) && !paid){
-          paid=true;
-          const misses=swaps<=10?0:swaps<=16?2:swaps<=24?4:6;
-          $("extraFeedback").textContent="You made the picture!";
-          payGame("jigsaw", misses);
-        }
-      });
-    });
-  }
-  draw();
-}
-
-const MAD = [
-  {before:"The ", after:" Rechabites said no to the wine.", bank:["faithful","giggly","sparkly","brave"], need:null},
-  {before:"They wanted to ", after:" Jehovah even when it was hard.", bank:["obey","tickle","juggle","obey"], need:"obey"},
-  {before:"Clay letters from ", after:" talk about a city they could not see.", bank:["Lachish","Candy Land","Lachish","the moon"], need:"Lachish"},
-  {before:"That city was ", after:".", bank:["Azekah","Pancake City","Azekah","Narnia"], need:"Azekah"},
-  {before:"Joseph ran away from what was ", after:".", bank:["wrong","slimy","wrong","itchy"], need:"wrong"},
-  {before:"Later he chose to ", after:" his brothers.", bank:["forgive","honk at","forgive","race"], need:"forgive"}
-];
-function startMadlib(){
-  const picked=Array(MAD.length).fill(null);
-  let paid=false, misses=0;
-  showExtra("Silly story · pick a word for each blank");
-  function draw(){
-    let html='<div class="mad-story">';
-    MAD.forEach((p,i)=>{
-      html+=p.before+`<button class="hole${picked[i]?" ok":""}" data-i="${i}">${picked[i]||"____"}</button>`+p.after+" ";
-    });
-    html+='</div><div class="word-bank" id="madBank"></div>';
-    $("extraBoard").innerHTML=html;
-    const open=picked.findIndex(v=>!v);
-    $("extraFeedback").textContent = open<0 ? "Read your story out loud!" : "Tap a blank, then a word.";
-    let hole=open<0?null:open;
-    $("extraBoard").querySelectorAll(".hole").forEach(btn=>{
-      btn.addEventListener("click",()=>{ hole=Number(btn.dataset.i); drawBank(); });
-    });
-    function drawBank(){
-      const i=hole==null?open:hole;
-      if(i<0||i==null){ $("madBank").innerHTML=""; return; }
-      const uniq=[...new Set(MAD[i].bank)];
-      $("madBank").innerHTML=uniq.map(w=>`<button class="chip" data-w="${w}">${w}</button>`).join("");
-      $("madBank").querySelectorAll(".chip").forEach(ch=>{
-        ch.addEventListener("click",()=>{
-          const w=ch.dataset.w;
-          const need=MAD[i].need;
-          if(need && w!==need){ misses++; $("extraFeedback").textContent="Funny — but this blank needs the real word."; return; }
-          picked[i]=w; draw();
-          if(picked.every(Boolean) && !paid){ paid=true; payGame("madlib", misses); }
-        });
-      });
-    }
-    drawBank();
-  }
-  draw();
-}
-
-function startSearch(){
-  const words=["JOSEPH","WINE","OBEY","EGYPT","AZEKAH","DREAMS","PHARAOH","LACHISH"];
-  const R=10,C=10;
-  const grid=Array.from({length:R},()=>Array(C).fill(""));
-  const cells={};
-  function can(word,r,c,dr,dc){
-    for(let i=0;i<word.length;i++){
-      const rr=r+dr*i, cc=c+dc*i;
-      if(rr<0||cc<0||rr>=R||cc>=C) return false;
-      if(grid[rr][cc] && grid[rr][cc]!==word[i]) return false;
-    }
-    return true;
-  }
-  function put(word){
-    const dirs=[[0,1],[1,0],[1,1]];
-    const tries=[];
-    for(let r=0;r<R;r++) for(let c=0;c<C;c++) for(const [dr,dc] of dirs) tries.push([r,c,dr,dc]);
-    tries.sort(()=>Math.random()-0.5);
-    for(const [r,c,dr,dc] of tries){
-      if(!can(word,r,c,dr,dc)) continue;
-      const list=[];
-      for(let i=0;i<word.length;i++){
-        const rr=r+dr*i, cc=c+dc*i;
-        grid[rr][cc]=word[i];
-        list.push(rr+","+cc);
-      }
-      cells[word]=list;
-      return true;
-    }
-    return false;
-  }
-  words.forEach(w=>{ if(!put(w)) console.log("skip",w); });
-  const abc="ABCDEFGHILMNOPRSTUWY";
-  for(let r=0;r<R;r++) for(let c=0;c<C;c++) if(!grid[r][c]) grid[r][c]=abc[Math.floor(Math.random()*abc.length)];
-  const found=new Set();
-  const hit=new Set();
-  let misses=0, paid=false;
-  showExtra("Word search · tap letters that belong to a word");
-  function draw(){
-    let html=`<div class="search-grid" style="grid-template-columns:repeat(${C},28px)">`;
-    for(let r=0;r<R;r++) for(let c=0;c<C;c++){
-      const k=r+","+c;
-      html+=`<button class="${hit.has(k)?"hit":""}" data-k="${k}">${grid[r][c]}</button>`;
-    }
-    html+=`</div><div class="search-words">${words.map(w=>`<span class="${found.has(w)?"got":""}">${w}</span>`).join("")}</div>`;
-    $("extraBoard").innerHTML=html;
-    $("extraFeedback").textContent=found.size+" of "+words.length+" words found.";
-    $("extraBoard").querySelectorAll("button[data-k]").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        const k=btn.dataset.k;
-        const owner=words.find(w=>cells[w]&&cells[w].includes(k) && !found.has(w));
-        if(!owner){
-          if(!hit.has(k)){ misses++; btn.classList.add("miss"); }
-          return;
-        }
-        hit.add(k);
-        if(cells[owner].every(x=>hit.has(x))) found.add(owner);
-        draw();
-        if(found.size===words.length && !paid){
-          paid=true;
-          $("extraFeedback").textContent="You found every word!";
-          payGame("search", misses);
-        }
-      });
-    });
-  }
-  draw();
-}
-
-document.querySelectorAll("#gamePicker [data-game]").forEach(btn=>{
-  btn.addEventListener("click", ()=> startGame(btn.dataset.game));
-});
 
 function schedulePosition(){
   const now = new Date();
@@ -2526,7 +1743,6 @@ function starTotal(){
 function updateStarChip(){
   const n = starWallet;
   if($("starCount")) $("starCount").textContent = n;
-  if($("gamesStarCount")) $("gamesStarCount").textContent = n;
   if($("shopWallet")) $("shopWallet").textContent = n;
 }
 function starToast(msg){
@@ -2716,17 +1932,29 @@ tickClock();
 setInterval(tickClock, 1000);
 applyTheme();
 
+/* Stars earned THIS meeting (this week's pack): the same per-week record the part games
+   and the secret name pay into (gameStarsEarned, key mmb2_game_stars_<week>).
+   The wallet is not used here because it carries over between weeks and goes down in the shop. */
+function meetingStarList(){
+  const list=[];
+  meetingParts.forEach((p,i)=>{
+    const n=Number(gameStarsEarned["part-"+i]||0);
+    if(n>0) list.push({title:p.title, n});
+  });
+  const sec=Number(gameStarsEarned.secret||0);
+  if(sec>0) list.push({title:"Secret "+(WEEK.secretKind||"word")+": "+SECRET_WORD, n:sec});
+  return list;
+}
 function openRecap(){
   const stars=$("recapStars"); stars.innerHTML="";
-  const count=Object.values(heard).filter(Boolean).length;
-  meetingParts.forEach((p,i)=>{
-    if(heard[i]){
-      const s=document.createElement("span"); s.className="star"; s.textContent="★ "+p.title; stars.appendChild(s);
-    }
+  const earned=meetingStarList();
+  const count=earned.reduce((t,e)=>t+e.n,0);
+  earned.forEach(e=>{
+    const s=document.createElement("span"); s.className="star"; s.textContent="★".repeat(e.n)+" "+e.title; stars.appendChild(s);
   });
   if(!count){ stars.innerHTML = "<p>No stars yet. Play the part game when there is one.</p>"; }
   const perf=perfectCounts();
-  $("recapIntro").textContent = (selectedName||"Your buddy")+" saved "+count+" check star"+(count===1?"":"s")+". Perfect path: "+perf.done+" / "+perf.total+" answers right"+(meetingPerfect()?" — Sheetz prize!":".");
+  $("recapIntro").textContent = (selectedName||"Your buddy")+" saved "+count+" star"+(count===1?"":"s")+". Perfect path: "+perf.done+" / "+perf.total+" answers right"+(meetingPerfect()?" — Sheetz prize!":".");
   const notes=$("recapNotes"); notes.innerHTML="";
   const entries=Object.entries(answers).filter(([,v])=>v && v.trim());
   if(!entries.length) notes.innerHTML="<p>No notes yet. That’s okay.</p>";
