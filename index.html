@@ -29,6 +29,9 @@ document.addEventListener("click", function(e){
   var btn=e.target && e.target.closest && e.target.closest("button");
   var id=btn && btn.id;
   if(id==="startButton"){ e.preventDefault(); window.startMeeting(); }
+  if(id==="nextButton"){ e.preventDefault(); if(window.goPart) window.goPart(1); }
+  if(id==="previousButton"){ e.preventDefault(); if(window.goPart) window.goPart(-1); }
+  if(id==="songDone"){ e.preventDefault(); if(window.goPart) window.goPart(1); }
   if(id==="openShopWelcome" || id==="meetShop" || id==="starChip"){ e.preventDefault(); window.openShop(); }
   if(id==="shopHome"){
     document.querySelectorAll(".screen").forEach(function(s){
@@ -954,8 +957,8 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       </article>
     </div>
     <div class="meet-nav">
-      <button class="nav" id="previousButton" type="button">← Previous</button>
-      <button class="nav" id="nextButton" type="button">Next →</button>
+      <button class="nav" id="previousButton" type="button" onclick="window.goPart&&window.goPart(-1)">← Previous</button>
+      <button class="nav" id="nextButton" type="button" onclick="window.goPart&&window.goPart(1)">Next →</button>
     </div>
   </section>
 
@@ -996,6 +999,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
     <div id="songSheetImages"></div>
     <img id="songSheetImage" alt="Song lead sheet" hidden/>
     <div id="songLyrics" class="song-lyrics" hidden></div>
+    <button class="solid" id="songDone" type="button" style="margin-top:12px">Done — next part →</button>
   </div>
 </div>
 
@@ -2593,6 +2597,7 @@ function closeBuddy(){ $("buddyOverlay").classList.remove("show"); }
 $("closeBuddy").addEventListener("click", closeBuddy);
 $("buddyOverlay").addEventListener("click", e=>{ if(e.target===$("buddyOverlay")) closeBuddy(); });
 $("closeSong").addEventListener("click", closeSong);
+if($("songDone")) $("songDone").addEventListener("click", function(){ closeSong(); window.goPart&&window.goPart(1); });
 $("songOverlay").addEventListener("click", e=>{ if(e.target===$("songOverlay")) closeSong(); });
 
 $("sendBuddyQuestion").addEventListener("click",()=>{
@@ -2735,8 +2740,12 @@ function setPart(i, force){
   if(i<0 || i>=meetingParts.length) return;
   currentParagraph=i;
   try{ localStorage.setItem(partKey, String(i)); }catch(e){}
-  updateMeeting(!!force);
+  try{ $("songOverlay")&&$("songOverlay").classList.remove("show"); }catch(e){}
+  updateMeeting(true);
 }
+window.goPart=function(dir){
+  try{ setPart(currentParagraph+(dir||1), true); }catch(e){ console.log(e); }
+};
 function updateMeeting(force){
   const p=meetingParts[currentParagraph];
   if(!p) return;
