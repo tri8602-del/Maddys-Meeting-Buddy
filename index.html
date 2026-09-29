@@ -777,6 +777,10 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
         <h3>Stars you earned</h3>
         <div class="stars" id="recapStars"></div>
       </div>
+      <div class="recap-card" id="recapSecret" hidden>
+        <h3>A secret word for you</h3>
+        <p id="recapSecretText" style="margin:0"></p>
+      </div>
       <div class="recap-card">
         <h3>Things you wrote</h3>
         <div id="recapNotes"></div>
@@ -1945,6 +1949,54 @@ function meetingStarList(){
   if(sec>0) list.push({title:"Secret "+(WEEK.secretKind||"word")+": "+SECRET_WORD, n:sec});
   return list;
 }
+/* End-of-meeting prize: Brutus whispers ONE Secret chest code (the `code` of a secret
+   item in THEME_SHOP/SHOP) that Maddy hasn't unlocked yet. Picked once per week, only
+   when the meeting is finished via Next on the final part, then saved under
+   mmb2_secret_prize_<week> so every later recap tonight shows the same word.
+   Nothing is unlocked here; she types the word into the Star shop's Secret chest. */
+const secretPrizeKey="mmb2_secret_prize_"+WEEK.id;
+function secretChestItems(){ return [...THEME_SHOP,...SHOP].filter(it=>it.secret && it.code); }
+function loadSecretPrize(){
+  let saved=null;
+  try{ saved=JSON.parse(localStorage.getItem(secretPrizeKey)||"null"); }catch(e){ saved=null; }
+  if(!saved || typeof saved!=="object") return null;
+  if(saved.all===true) return {code:null, all:true};
+  return secretChestItems().some(it=>it.code===saved.code) ? {code:saved.code, all:false} : null;
+}
+function awardSecretPrize(){
+  const have=loadSecretPrize();
+  if(have) return have;
+  const open=secretChestItems().filter(it=>!shopOwned.includes(it.id));
+  const prize = open.length ? {code:open[Math.floor(Math.random()*open.length)].code, all:false} : {code:null, all:true};
+  store.set(secretPrizeKey, JSON.stringify(prize));
+  return prize;
+}
+function paintSecretPrize(){
+  const card=$("recapSecret"), text=$("recapSecretText");
+  if(!card || !text) return;
+  const prize=loadSecretPrize();
+  card.hidden=!prize;
+  if(!prize) return;
+  const who=selectedName||"Your buddy";
+  text.innerHTML="";
+  if(prize.all){
+    text.textContent="You found every secret! "+who+" has no more words to whisper.";
+    return;
+  }
+  const item=secretChestItems().find(it=>it.code===prize.code);
+  const line=document.createElement("span");
+  line.textContent=who+" whispers a secret word for the Secret chest: ";
+  const word=document.createElement("strong");
+  word.className="secret-chip found";
+  word.style.display="inline-block";
+  word.textContent=prize.code.toUpperCase();
+  const tip=document.createElement("span");
+  tip.style.display="block"; tip.style.marginTop="8px";
+  tip.textContent = item && shopOwned.includes(item.id)
+    ? "You opened it! Nice."
+    : "Type it in the Star shop’s Secret chest.";
+  text.append(line, word, tip);
+}
 function openRecap(){
   const stars=$("recapStars"); stars.innerHTML="";
   const earned=meetingStarList();
@@ -1964,6 +2016,7 @@ function openRecap(){
     const d=document.createElement("p"); d.innerHTML="<strong>"+title+":</strong> "+v.replace(/</g,"");
     notes.appendChild(d);
   });
+  try{ paintSecretPrize(); }catch(e){}
   showScreen("recapScreen");
 }
 $("recapButton").addEventListener("click", openRecap);
@@ -2021,6 +2074,7 @@ function nextPart(){
     /* Final part: Next finishes the meeting and opens the ride-home recap. */
     saveFlow();
     updateNavButtons();
+    try{ awardSecretPrize(); }catch(e){}
     openRecap();
     return;
   }
