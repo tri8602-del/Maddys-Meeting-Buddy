@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶8 · When someone hurts you</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶8 · When someone hurts you",
+ "sub": "Remember, everyone is imperfect.",
+ "done": "Be quick to forgive!",
+ "doneEmoji": "🕊️",
+ "rounds": [
+  {
+   "type": "quiz",
+   "q": "A friend at the Kingdom Hall says something that hurts you. What should you remember?",
+   "opts": [
+    {
+     "t": "I am imperfect too",
+     "e": "🙂",
+     "ok": 1,
+     "why": "Yes. You are just as imperfect as he is. (Ecclesiastes 7:20)"
+    },
+    {
+     "t": "They are a bad person",
+     "e": "🤔",
+     "why": null
+    },
+    {
+     "t": "I should never talk to them again",
+     "e": "🙃",
+     "why": null
+    }
+   ]
+  },
+  {
+   "type": "fill",
+   "before": "“Continue putting up with one another and forgiving one another",
+   "ans": "freely",
+   "after": "”",
+   "opts": [
+    "freely",
+    "later",
+    "never",
+    "sometimes"
+   ],
+   "ref": "Colossians 3:13",
+   "why": "Just as Jehovah freely forgave you!"
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "When people work closely together, some friction can happen.",
+     "ok": true,
+     "why": "True — that is realistic."
+    },
+    {
+     "t": "If someone hurts you, wait a long time before forgiving.",
+     "ok": false,
+     "why": "Right! Be quick to forgive."
+    }
+   ]
+  }
+ ],
+ "id": "w-08"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>

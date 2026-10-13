@@ -2041,7 +2041,7 @@ function startQuizGame(wrap, idx, g){
             i++;
             if(i>=qs.length){
               paid=true;
-              if(alive() && $("quizFeed")) $("quizFeed").textContent="Moses chose Jehovah.";
+              if(alive() && $("quizFeed")) $("quizFeed").textContent=g.done||"All done. Well listened!";
               payGame("part-"+idx, misses, 2);
             } else if(alive()) paint();
           },400);
@@ -2061,7 +2061,7 @@ function startSearchGame(wrap, idx, g){
   const GRID=g.grid, WORDS=g.words, N=GRID.length;
   let found=new Set(), misses=0, paid=false, start=null, dragging=false;
   wrap.innerHTML=`<h3>${g.title||"Word search"}</h3>
-    <p class="game-feedback" id="searchFeed">Slide across letters. Words from the video.</p>
+    <p class="game-feedback" id="searchFeed">${g.feed||"Slide across letters to find the words."}</p>
     <div class="search-grid" id="searchGrid"></div>
     <div class="search-words" id="searchWords"></div>`;
   const gridEl=$("searchGrid");
@@ -2099,7 +2099,7 @@ function startSearchGame(wrap, idx, g){
     $("searchFeed").textContent="You found "+hit+".";
     if(found.size>=WORDS.length && !paid){
       paid=true;
-      $("searchFeed").textContent="All the words. Jesus noticed her.";
+      $("searchFeed").textContent=g.done||"You found all the words!";
       payGame("part-"+idx, misses, 2);
     }
   }

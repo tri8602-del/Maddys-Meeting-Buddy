@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶6 · Loyal Jonathan</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶6 · Loyal Jonathan",
+ "sub": "Jonathan supported Jehovah’s choice.",
+ "done": "Be a friend like Jonathan!",
+ "doneEmoji": "🏹",
+ "rounds": [
+  {
+   "type": "find",
+   "img": "../wt-pages/p4.jpg",
+   "q": "Find Jonathan. He is happy for his friend!",
+   "spots": [
+    {
+     "t": "Jonathan, rejoicing next to David",
+     "x": 42,
+     "y": 28,
+     "w": 15,
+     "h": 50,
+     "why": "Found him. Jonathan was not jealous. He was happy for David."
+    }
+   ]
+  },
+  {
+   "type": "quiz",
+   "q": "What did Jonathan tell David?",
+   "opts": [
+    {
+     "t": "“You will be king over Israel.”",
+     "e": "👑",
+     "ok": 1,
+     "why": "Yes! (1 Samuel 23:17)"
+    },
+    {
+     "t": "“You can never be king.”",
+     "e": "🤔",
+     "why": null
+    },
+    {
+     "t": "“Go back to the sheep.”",
+     "e": "🙃",
+     "why": null
+    }
+   ],
+   "ref": "1 Samuel 23:16, 17"
+  },
+  {
+   "type": "match",
+   "q": "Who was jealous and who was loyal?",
+   "pairs": [
+    {
+     "a": "Saul 😠",
+     "b": "Jealous of David",
+     "why": "Yes — Saul became jealous."
+    },
+    {
+     "a": "Jonathan 😊",
+     "b": "Supported David",
+     "why": "Yes — Jonathan humbly accepted Jehovah’s will."
+    }
+   ]
+  }
+ ],
+ "id": "w-06"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>

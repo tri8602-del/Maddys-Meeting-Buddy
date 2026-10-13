@@ -43,7 +43,7 @@ weeks/<Monday>/sunday/<issue>.pdf  the Watchtower issue PDF (Page button)
    ```
 5. Upload. Nothing else needs to change. Editing `current.js` makes the offline copy refresh by itself. The service worker builds its file list from `index.html`, `sunday/index.html` and the two week folders.
 
-Old week folders can stay in place or be deleted once nobody needs them.
+Keep last week’s folders (and the pictures they use) for one more week, then delete them (git history keeps them). Devices that still have last week’s offline copy may briefly open it while the new copy downloads. If last week’s files are already gone at that moment, the Sunday page can fail to load until the next refresh.
 
 ## Stars from the old Sunday app
 

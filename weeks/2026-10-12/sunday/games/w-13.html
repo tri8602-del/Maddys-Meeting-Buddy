@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶13 · Respect, not protest</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶13 · Respect, not protest",
+ "sub": "We stay neutral and respect governments.",
+ "done": "You can stay neutral!",
+ "doneEmoji": "🏛️",
+ "rounds": [
+  {
+   "type": "find",
+   "img": "../wt-pages/p13.jpg",
+   "q": "Will you stay neutral? Find these in the picture:",
+   "spots": [
+    {
+     "t": "The young brother on his scooter",
+     "x": 16,
+     "y": 10,
+     "w": 30,
+     "h": 62,
+     "why": "Found him. Will he join? No — he stays neutral."
+    },
+    {
+     "t": "A protester waving him over",
+     "x": 48,
+     "y": 27,
+     "w": 11,
+     "h": 60,
+     "why": "Found him. People in the world mount protests."
+    },
+    {
+     "t": "Protest signs",
+     "x": 63,
+     "y": 30,
+     "w": 12,
+     "h": 42,
+     "why": "Found them. That type of action is not for Christians."
+    }
+   ]
+  },
+  {
+   "type": "quiz",
+   "q": "Why do we respect governments, even when their rules are hard?",
+   "opts": [
+    {
+     "t": "Because God’s Word says to",
+     "e": "📖",
+     "ok": 1,
+     "why": "Yes. (Romans 13:1)"
+    },
+    {
+     "t": "Because they always agree with us",
+     "e": "🤔",
+     "why": null
+    },
+    {
+     "t": "We don’t have to",
+     "e": "🙃",
+     "why": null
+    }
+   ],
+   "ref": "Romans 13:1"
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "Christians join protests against decisions they do not like.",
+     "ok": false,
+     "why": "Right! That type of action is not for Christians."
+    },
+    {
+     "t": "Satan would be delighted if we gave up our neutral stand.",
+     "ok": true,
+     "why": "True. We do not give in to Satan’s desires."
+    }
+   ]
+  }
+ ],
+ "id": "w-13"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>
