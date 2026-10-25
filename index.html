@@ -2537,8 +2537,8 @@ if("serviceWorker" in navigator){
    ?workbook=off turns it off (used by the workbook page when opened on its own). */
 (function(){
   const KEY="mmb_workbook_mode", scr=document.getElementById("workbookScreen"), fr=document.getElementById("workbookFrame");
-  function on(){ try{localStorage.setItem(KEY,"1");}catch(e){} if(!fr.getAttribute("src")) fr.setAttribute("src","workbook/index.html"); scr.hidden=false; document.documentElement.dataset.workbook="on"; }
-  function off(){ try{localStorage.removeItem(KEY);}catch(e){} scr.hidden=true; delete document.documentElement.dataset.workbook; if(typeof showScreen==="function") showScreen("welcomeScreen"); }
+  function on(){ try{localStorage.setItem(KEY,"1");}catch(e){} if(!fr.getAttribute("src")) fr.setAttribute("src","workbook/index.html"); scr.hidden=false; scr.style.display=""; document.documentElement.dataset.workbook="on"; }
+  function off(){ try{localStorage.removeItem(KEY);}catch(e){} try{ const u=new URL(location.href); if(u.searchParams.has("workbook")){ u.searchParams.delete("workbook"); history.replaceState(null,"",u.pathname+u.search+u.hash); } }catch(e){} scr.hidden=true; scr.style.display="none"; fr.blur&&fr.blur(); delete document.documentElement.dataset.workbook; if(typeof showScreen==="function") showScreen("welcomeScreen"); }
   window.addEventListener("message",e=>{ if(e.origin===location.origin && e.data && e.data.mmb==="exit-workbook") off(); });
   const b=document.getElementById("openWorkbook"); if(b) b.addEventListener("click",e=>{e.preventDefault();on();});
   const q=new URLSearchParams(location.search).get("workbook");
