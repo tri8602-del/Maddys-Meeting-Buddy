@@ -56,10 +56,13 @@ body.handTool #ink{pointer-events:none}
 .st img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 1px 2px #0005)}
 .st.snapped img{filter:none}
 .st.sel{outline:2px dashed var(--acc);outline-offset:3px}
-.st .h{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--acc);color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px #0005}
-.st .rz{right:-20px;bottom:-20px;cursor:nwse-resize}
-.st .pl{left:-20px;top:-20px;background:#e5484d}
+.st .h{position:absolute;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px #0005}
+.st .rz{right:-24px;bottom:-24px;cursor:nwse-resize}
+.st .pl{left:-24px;top:-24px;background:#e5484d}
 .st:not(.sel) .h{display:none}
+.st{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.st.lift img{filter:drop-shadow(0 6px 10px #0006)}
+#drawer.dropHere{background:#ffe8b0;box-shadow:inset 0 0 0 3px var(--acc2)}
 #nav{position:absolute;bottom:calc(var(--dh,48px) + 8px);left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4}
 #nav button{font-size:18px;padding:10px 18px}
 #drawer{flex:none;background:#fff;border-top:1px solid #ddd;max-height:34vh;display:flex;flex-direction:column}
@@ -122,7 +125,7 @@ body.phone #nav button{padding:8px 14px}
     <span class="sep"></span>
     <button id="stickBtn">⭐ Stickers</button>
     <button id="doneBtn">✓ Done</button>
-    <span class="sep"></span><button id="zoomOut" title="Zoom out">➖</button><button id="zoomLbl" class="txt" title="Fit page">Fit</button><button id="zoomIn" title="Zoom in">➕</button><span class="sep"></span><button id="pencilBtn" class="txt" title="Only Apple Pencil draws; fingers move & zoom">✍️ Pencil only</button>
+    <span class="sep"></span><button id="zoomOut" title="Zoom out">➖</button><button id="zoomLbl" class="txt" title="Fit page">Fit</button><button id="zoomIn" title="Zoom in">➕</button>
   </div>
   <div id="main">
     <div id="thumbs"></div>
@@ -380,8 +383,7 @@ let live=null, sawPencil=false;
 function ptFromEvent(e){ const r=$("ink").getBoundingClientRect(); return [ (e.clientX-r.left)/r.width*pageSize.w, (e.clientY-r.top)/r.height*pageSize.h ]; }
 const ink=$("ink");
 ink.addEventListener("pointerdown",e=>{
-  if(e.pointerType==="pen" && !sawPencil){ sawPencil=true; if(localStorage.getItem("mmb_wb_pencil")===null){ setPencilOnly(true); toast("Apple Pencil draws · fingers move & zoom"); } }
-  if(e.pointerType==="touch" && (pencilOnly || G.blockTouch || G.pts.size>1)) return;  // palm/finger: pan & zoom only
+  if(e.pointerType==="touch" && (G.blockTouch || G.pinch)) return;  // second finger of a pinch: zoom, don't draw
   if(tool==="hand" || G.pinch) return;
   e.preventDefault(); try{ink.setPointerCapture(e.pointerId);}catch(_){} sel=null; renderStickers();
   const [x,y]=ptFromEvent(e); live={t:tool,c:color,w:size,p:[+x.toFixed(1),+y.toFixed(1)],id:e.pointerId,touch:e.pointerType==="touch",t0:performance.now()}; drawInk(live);
@@ -390,9 +392,8 @@ ink.addEventListener("pointermove",e=>{ if(!live||e.pointerId!==live.id) return;
   const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e]; for(const ev of evs){ const [x,y]=ptFromEvent(ev); live.p.push(+x.toFixed(1),+y.toFixed(1)); } drawInk(live); });
 const endStroke=e=>{ if(!live||e.pointerId!==live.id) return; const s=live; live=null; delete s.id; delete s.touch; delete s.t0; inkList().push(s); redoStack=[]; drawInk(); saveState(); };
 ink.addEventListener("pointerup",endStroke); ink.addEventListener("pointercancel",e=>{ if(live&&e.pointerId===live.id){live=null;drawInk();} });
-// finger on the page while Pencil mode: block accidental drawing but keep scrolling (touch-action pan)
-let pencilOnly=localStorage.getItem("mmb_wb_pencil")==="1";
-function setPencilOnly(on){ pencilOnly=on; localStorage.setItem("mmb_wb_pencil",on?"1":"0"); $("pencilBtn").classList.toggle("on",on); }
+// Pencil-only was removed (it got stuck on for finger-only users). Forget any saved setting.
+try{ localStorage.removeItem("mmb_wb_pencil"); }catch(e){}
 function setTool(t){ tool=t; document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("on",b.dataset.tool===t)); document.body.classList.toggle("handTool",t==="hand"); }
 document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
 COLORS.forEach(c=>{ const b=document.createElement("button"); b.className="sw"+(c===color?" on":""); b.style.background=c; b.dataset.color=c; b.onclick=()=>{color=c;document.querySelectorAll(".sw").forEach(s=>s.classList.toggle("on",s===b)); if(tool==="eraser"||tool==="hand") setTool("pen");}; $("colors").append(b); });
@@ -412,26 +413,41 @@ async function renderStickers(){
     const el=document.createElement("div"); el.className="st"+(p.snap?" snapped":"")+(sel===id?" sel":""); el.dataset.id=id;
     const w=s.w*p.sc*k,h=s.h*p.sc*k; el.style.width=w+"px"; el.style.height=h+"px";
     el.style.transform=`translate(${p.cx*k-w/2}px,${p.cy*k-h/2}px) rotate(${p.rot}deg)`;
-    el.innerHTML=`<img alt=""><div class="h rz">⤡</div><div class="h pl" title="Peel off">↩</div>`;
+    el.innerHTML=`<img alt=""><div class="h rz">⤡</div><div class="h pl" title="Back to drawer">↩</div>`;
     el.querySelector("img").src=await stickerURL(s); box.append(el); bindSticker(el,id);
   }
 }
 function applyEl(el,id){ const s=stickerDef(id),p=state.placed[id],k=vp.W/pageSize.w,w=s.w*p.sc*k,h=s.h*p.sc*k;
   el.style.width=w+"px"; el.style.height=h+"px"; el.style.transform=`translate(${p.cx*k-w/2}px,${p.cy*k-h/2}px) rotate(${p.rot}deg)`; el.classList.toggle("snapped",!!p.snap); }
+function returnToDrawer(id){ delete state.placed[id]; sel=null; saveState(); renderStickers(); fillDrawer(); toast("↩ Back in the sticker drawer"); }
+function overDrawer(x,y){ const r=$("drawer").getBoundingClientRect(); return r.height>0 && y>=r.top && x>=r.left && x<=r.right; }
 function bindSticker(el,id){
+  el.addEventListener("touchstart",e=>{ if(e.touches.length===1) e.preventDefault(); },{passive:false}); // no iOS callout/scroll stealing the drag
+  el.addEventListener("contextmenu",e=>e.preventDefault());
   el.addEventListener("pointerdown",e=>{
-    if(e.target.classList.contains("pl")){ e.preventDefault(); delete state.placed[id]; sel=null; saveState(); renderStickers(); fillDrawer(); toast("Peeled back to the drawer"); return; }
+    if(G.pinch || G.pts.size>1) return;               // two fingers = zoom, not drag
+    if(e.target.classList.contains("pl")){ e.preventDefault(); e.stopPropagation(); returnToDrawer(id); return; }
     e.preventDefault(); e.stopPropagation(); try{el.setPointerCapture(e.pointerId);}catch(_){}
+    if(live){ live=null; drawInk(); }
     if(sel!==id){ sel=id; document.querySelectorAll(".st").forEach(x=>x.classList.toggle("sel",x===el)); }
-    const p=state.placed[id], start=ptFromEvent(e), o={...p}; p.snap=false;
-    const rz=e.target.classList.contains("rz");
+    const pid=e.pointerId, p=state.placed[id], start=ptFromEvent(e), o={...p}, sx=e.clientX, sy=e.clientY;
+    const rz=e.target.classList.contains("rz"); let moving=rz, wasSnap=p.snap;
     const c0=[o.cx,o.cy], d0=Math.hypot(start[0]-c0[0],start[1]-c0[1]), a0=Math.atan2(start[1]-c0[1],start[0]-c0[0]);
-    const mv=ev=>{ if(G.pinch) return; const q=ptFromEvent(ev);
+    const mv=ev=>{ if(ev.pointerId!==pid) return; if(G.pinch){ Object.assign(p,o); applyEl(el,id); return; }
+      if(!moving){ if(Math.hypot(ev.clientX-sx,ev.clientY-sy)<6) return; moving=true; p.snap=false; el.classList.add("lift"); }
+      ev.preventDefault(); const q=ptFromEvent(ev);
       if(rz){ const d=Math.hypot(q[0]-c0[0],q[1]-c0[1]),a=Math.atan2(q[1]-c0[1],q[0]-c0[0]); p.sc=Math.max(.25,Math.min(4,o.sc*d/Math.max(d0,1))); p.rot=(o.rot+(a-a0)*180/Math.PI+360)%360; }
-      else { p.cx=o.cx+q[0]-start[0]; p.cy=o.cy+q[1]-start[1]; }
+      else { p.cx=o.cx+q[0]-start[0]; p.cy=o.cy+q[1]-start[1]; $("drawer").classList.toggle("dropHere",overDrawer(ev.clientX,ev.clientY)); }
       applyEl(el,id); };
-    const up=()=>{ el.removeEventListener("pointermove",mv); el.removeEventListener("pointerup",up); el.removeEventListener("pointercancel",up); trySnap(id); applyEl(el,id); saveState(); };
-    el.addEventListener("pointermove",mv); el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
+    const up=ev=>{ if(ev.pointerId!==pid) return; window.removeEventListener("pointermove",mv,true); window.removeEventListener("pointerup",up,true); window.removeEventListener("pointercancel",up,true);
+      el.classList.remove("lift"); $("drawer").classList.remove("dropHere");
+      if(!moving){ p.snap=wasSnap; return; }                      // just a tap: select (shows ↩ and resize handles)
+      if(ev.type==="pointercancel"){ Object.assign(p,o); applyEl(el,id); return; }
+      if(!rz && overDrawer(ev.clientX,ev.clientY)){ returnToDrawer(id); return; }
+      // keep it on the page
+      p.cx=Math.max(0,Math.min(pageSize.w,p.cx)); p.cy=Math.max(0,Math.min(pageSize.h,p.cy));
+      trySnap(id); applyEl(el,id); saveState(); };
+    window.addEventListener("pointermove",mv,{capture:true,passive:false}); window.addEventListener("pointerup",up,true); window.addEventListener("pointercancel",up,true);
   });
 }
 function targetsFor(s){ // where this sticker may snap on the current page
@@ -521,13 +537,14 @@ function setZoom(z,fx,fy,toX,toY){
   renderStickers(); drawInk(); clearTimeout(paintT); paintT=setTimeout(()=>paintPage().then(()=>drawInk()),120); rememberView(); saveState();
 }
 $("zoomIn").onclick=()=>setZoom(zoom*1.5); $("zoomOut").onclick=()=>setZoom(zoom/1.5); $("zoomLbl").onclick=()=>setZoom(1);
-$("pencilBtn").onclick=()=>{ setPencilOnly(!pencilOnly); toast(pencilOnly?"✍️ Only Apple Pencil draws. Fingers move & zoom.":"Fingers draw too"); }; $("pencilBtn").classList.toggle("on",pencilOnly);
+
 $("view").addEventListener("scroll",()=>{ clearTimeout(rememberView.t); rememberView.t=setTimeout(()=>{rememberView();saveState();},400); });
 // Gestures: 2 fingers pinch/pan (and double two-finger tap = fit). 1 finger pans when Pencil-only or ✋.
 const G={pts:new Map(),pinch:null,pan:null,blockTouch:false,lastTap2:0};
 function mid(){ const a=[...G.pts.values()]; return a.length<2?a[0]:{x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2,d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}; }
 $("view").addEventListener("pointerdown",e=>{
-  const fingerPan=(e.pointerType==="touch"&&pencilOnly)||tool==="hand";
+  const fingerPan=tool==="hand";
+  if(e.pointerType==="touch" && e.isPrimary){ G.pts.clear(); G.pinch=null; G.blockTouch=false; $("pageWrap").style.transform=""; } // first finger down: forget any stale touches
   if(e.pointerType!=="touch" && !(tool==="hand"&&!e.target.closest(".st"))) return;
   if(e.pointerType==="touch") G.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(G.pts.size===2){ // start pinch: drop a stroke the first finger just began
@@ -559,6 +576,8 @@ function gEnd(e){
   if(G.pts.size===0) G.blockTouch=false;
 }
 window.addEventListener("pointerup",gEnd); window.addEventListener("pointercancel",gEnd);
+window.addEventListener("touchend",e=>{ if(e.touches.length===0){ if(G.pinch){ G.pinch=null; $("pageWrap").style.transform=""; } G.pts.clear(); G.blockTouch=false; G.pan=null; } },true);
+window.addEventListener("touchcancel",e=>{ if(e.touches.length===0){ G.pts.clear(); G.blockTouch=false; G.pan=null; if(G.pinch){G.pinch=null;$("pageWrap").style.transform="";} } },true);
 // iOS: keep Safari from zooming/bouncing the whole app
 ["gesturestart","gesturechange","gestureend"].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 document.addEventListener("touchmove",e=>{ if(!e.target.closest("#thumbs,#drawerList,#bar,#shelf,#modal")) e.preventDefault(); },{passive:false});
