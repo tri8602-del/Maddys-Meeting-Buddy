@@ -3,7 +3,7 @@
    The file list is worked out from index.html, sunday/index.html and the week
    folders named in weeks/current.js, so a weekly update needs no edits here:
    changing weeks/current.js makes the browser install a fresh copy. */
-const SW_VERSION = 'mmb-sw-2026-10-24-wb';
+const SW_VERSION = 'mmb-sw-2026-10-24-wb2';
 importScripts('weeks/current.js');
 const CACHE = SW_VERSION + '|' + self.MMB_WEEK.midweek + '|' + self.MMB_WEEK.sunday;
 const CORE = ['./', 'index.html', 'weeks/current.js', 'sunday/index.html', 'sunday/engine.js',
