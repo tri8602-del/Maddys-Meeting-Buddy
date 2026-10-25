@@ -1,0 +1,2461 @@
+{
+"version": 1,
+"note": "Coordinates only (PDF points, origin top-left). No artwork. Pages are rendered on-device from the PDF the owner loads.",
+"books": [
+{
+"id": "ages8plus",
+"name": "Happy Is the One Trusting in Jehovah (ages 8+)",
+"match": {
+"title": "CU27ASPQ-EXQU-815",
+"pages": 44
+},
+"cover": 3,
+"hidden": [
+43,
+44
+],
+"stickerPages": [
+44
+],
+"stickers": [
+{
+"id": "a-s1",
+"sheet": 44,
+"shape": "cutout",
+"x": 390.72,
+"y": 297.6,
+"w": 83.52,
+"h": 87.84,
+"group": "general"
+},
+{
+"id": "a-s2",
+"sheet": 44,
+"shape": "cutout",
+"x": 479.04,
+"y": 297.6,
+"w": 69.6,
+"h": 88.32,
+"group": "general"
+},
+{
+"id": "a-s3",
+"sheet": 44,
+"shape": "cutout",
+"x": 86.88,
+"y": 340.8,
+"w": 74.4,
+"h": 91.2,
+"group": "general"
+},
+{
+"id": "a-s4",
+"sheet": 44,
+"shape": "cutout",
+"x": 160.32,
+"y": 339.84,
+"w": 84.48,
+"h": 92.16,
+"group": "general"
+},
+{
+"id": "a-s5",
+"sheet": 44,
+"shape": "cutout",
+"x": 317.28,
+"y": 323.52,
+"w": 80.64,
+"h": 81.6,
+"group": "general"
+},
+{
+"id": "a-s6",
+"sheet": 44,
+"shape": "cutout",
+"x": 14.88,
+"y": 346.08,
+"w": 72.0,
+"h": 83.52,
+"group": "general"
+},
+{
+"id": "a-s7",
+"sheet": 44,
+"shape": "cutout",
+"x": 241.92,
+"y": 368.64,
+"w": 79.68,
+"h": 78.24,
+"group": "general"
+},
+{
+"id": "a-s8",
+"sheet": 44,
+"shape": "cutout",
+"x": 393.6,
+"y": 383.04,
+"w": 80.64,
+"h": 96.96,
+"group": "general"
+},
+{
+"id": "a-s9",
+"sheet": 44,
+"shape": "cutout",
+"x": 463.68,
+"y": 384.48,
+"w": 71.04,
+"h": 87.84,
+"group": "general"
+},
+{
+"id": "a-s10",
+"sheet": 44,
+"shape": "cutout",
+"x": 531.84,
+"y": 376.8,
+"w": 51.84,
+"h": 98.88,
+"group": "general"
+},
+{
+"id": "a-s11",
+"sheet": 44,
+"shape": "cutout",
+"x": 12.48,
+"y": 427.2,
+"w": 77.28,
+"h": 92.16,
+"group": "general"
+},
+{
+"id": "a-s12",
+"sheet": 44,
+"shape": "cutout",
+"x": 313.92,
+"y": 400.8,
+"w": 84.0,
+"h": 100.8,
+"group": "general"
+},
+{
+"id": "a-s13",
+"sheet": 44,
+"shape": "cutout",
+"x": 85.44,
+"y": 429.12,
+"w": 76.8,
+"h": 94.08,
+"group": "general"
+},
+{
+"id": "a-s14",
+"sheet": 44,
+"shape": "cutout",
+"x": 160.32,
+"y": 430.08,
+"w": 97.44,
+"h": 98.4,
+"group": "general"
+},
+{
+"id": "a-s15",
+"sheet": 44,
+"shape": "cutout",
+"x": 254.88,
+"y": 444.0,
+"w": 64.32,
+"h": 96.96,
+"group": "general"
+},
+{
+"id": "a-s16",
+"sheet": 44,
+"shape": "cutout",
+"x": 444.96,
+"y": 474.72,
+"w": 85.44,
+"h": 88.32,
+"group": "general"
+},
+{
+"id": "a-s17",
+"sheet": 44,
+"shape": "cutout",
+"x": 338.88,
+"y": 500.64,
+"w": 79.2,
+"h": 66.72,
+"group": "general"
+},
+{
+"id": "a-s18",
+"sheet": 44,
+"shape": "cutout",
+"x": 12.96,
+"y": 526.56,
+"w": 88.8,
+"h": 83.04,
+"group": "general"
+},
+{
+"id": "a-s19",
+"sheet": 44,
+"shape": "cutout",
+"x": 104.64,
+"y": 530.88,
+"w": 110.88,
+"h": 90.72,
+"group": "general"
+},
+{
+"id": "a-s20",
+"sheet": 44,
+"shape": "cutout",
+"x": 492.0,
+"y": 531.36,
+"w": 93.12,
+"h": 105.6,
+"group": "general"
+},
+{
+"id": "a-s21",
+"sheet": 44,
+"shape": "cutout",
+"x": 199.2,
+"y": 546.24,
+"w": 103.2,
+"h": 92.16,
+"group": "general"
+},
+{
+"id": "a-s22",
+"sheet": 44,
+"shape": "cutout",
+"x": 300.96,
+"y": 559.68,
+"w": 96.0,
+"h": 94.08,
+"group": "general"
+},
+{
+"id": "a-s23",
+"sheet": 44,
+"shape": "cutout",
+"x": 393.6,
+"y": 546.24,
+"w": 100.32,
+"h": 81.6,
+"group": "general"
+},
+{
+"id": "a-s24",
+"sheet": 44,
+"shape": "cutout",
+"x": 9.6,
+"y": 608.16,
+"w": 83.52,
+"h": 82.56,
+"group": "general"
+},
+{
+"id": "a-s25",
+"sheet": 44,
+"shape": "cutout",
+"x": 103.68,
+"y": 619.2,
+"w": 95.52,
+"h": 73.44,
+"group": "general"
+},
+{
+"id": "a-s26",
+"sheet": 44,
+"shape": "cutout",
+"x": 405.12,
+"y": 624.48,
+"w": 87.84,
+"h": 80.16,
+"group": "general"
+},
+{
+"id": "a-s27",
+"sheet": 44,
+"shape": "cutout",
+"x": 197.28,
+"y": 638.4,
+"w": 116.16,
+"h": 70.08,
+"group": "general"
+},
+{
+"id": "a-s28",
+"sheet": 44,
+"shape": "cutout",
+"x": 315.84,
+"y": 646.08,
+"w": 89.76,
+"h": 56.64,
+"group": "general"
+},
+{
+"id": "a-s29",
+"sheet": 44,
+"shape": "cutout",
+"x": 491.52,
+"y": 636.0,
+"w": 85.92,
+"h": 68.64,
+"group": "general"
+},
+{
+"id": "a-s30",
+"sheet": 44,
+"shape": "cutout",
+"x": 14.4,
+"y": 682.56,
+"w": 84.96,
+"h": 86.4,
+"group": "general"
+},
+{
+"id": "a-s31",
+"sheet": 44,
+"shape": "cutout",
+"x": 99.36,
+"y": 689.76,
+"w": 83.04,
+"h": 79.68,
+"group": "general"
+},
+{
+"id": "a-s32",
+"sheet": 44,
+"shape": "cutout",
+"x": 179.52,
+"y": 701.28,
+"w": 105.6,
+"h": 82.08,
+"group": "general"
+},
+{
+"id": "a-s33",
+"sheet": 44,
+"shape": "cutout",
+"x": 283.68,
+"y": 702.24,
+"w": 88.32,
+"h": 81.12,
+"group": "general"
+},
+{
+"id": "a-s34",
+"sheet": 44,
+"shape": "cutout",
+"x": 372.0,
+"y": 705.12,
+"w": 97.44,
+"h": 74.88,
+"group": "general"
+},
+{
+"id": "a-s35",
+"sheet": 44,
+"shape": "cutout",
+"x": 470.4,
+"y": 703.2,
+"w": 97.44,
+"h": 81.6,
+"group": "general"
+},
+{
+"id": "a-p1",
+"sheet": 44,
+"shape": "rect",
+"x": 25.92,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 484.31,
+"cy": 101.92,
+"rot": 35.36
+}
+},
+{
+"id": "a-p2",
+"sheet": 44,
+"shape": "rect",
+"x": 95.86,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 384.47,
+"cy": 170.08,
+"rot": 9.02
+}
+},
+{
+"id": "a-p3",
+"sheet": 44,
+"shape": "rect",
+"x": 165.79,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 549.6,
+"cy": 170.09,
+"rot": 35.38
+}
+},
+{
+"id": "a-p4",
+"sheet": 44,
+"shape": "rect",
+"x": 235.73,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 99.77,
+"cy": 206.17,
+"rot": 341.78
+}
+},
+{
+"id": "a-p5",
+"sheet": 44,
+"shape": "rect",
+"x": 305.66,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 288.46,
+"cy": 250.73,
+"rot": 341.57
+}
+},
+{
+"id": "a-p6",
+"sheet": 44,
+"shape": "rect",
+"x": 375.6,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 138.72,
+"cy": 517.98,
+"rot": 29.25
+}
+},
+{
+"id": "a-p7",
+"sheet": 44,
+"shape": "rect",
+"x": 445.54,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 464.73,
+"cy": 294.87,
+"rot": 341.78
+}
+},
+{
+"id": "a-p8",
+"sheet": 44,
+"shape": "rect",
+"x": 515.47,
+"y": 29.28,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 170.12,
+"cy": 356.35,
+"rot": 341.78
+}
+},
+{
+"id": "a-p9",
+"sheet": 44,
+"shape": "rect",
+"x": 25.92,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 254.52,
+"cy": 565.56,
+"rot": 341.57
+}
+},
+{
+"id": "a-p10",
+"sheet": 44,
+"shape": "rect",
+"x": 95.86,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 396.08,
+"cy": 598.4,
+"rot": 29.25
+}
+},
+{
+"id": "a-p11",
+"sheet": 44,
+"shape": "rect",
+"x": 165.79,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 567.5,
+"cy": 268.06,
+"rot": 341.76
+}
+},
+{
+"id": "a-p12",
+"sheet": 44,
+"shape": "rect",
+"x": 235.73,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 91.12,
+"cy": 675.77,
+"rot": 331.14
+}
+},
+{
+"id": "a-p13",
+"sheet": 44,
+"shape": "rect",
+"x": 305.66,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 562.29,
+"cy": 675.76,
+"rot": 29.25
+}
+},
+{
+"id": "a-p14",
+"sheet": 44,
+"shape": "rect",
+"x": 375.6,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 567.5,
+"cy": 386.23,
+"rot": 341.78
+}
+},
+{
+"id": "a-p15",
+"sheet": 44,
+"shape": "rect",
+"x": 445.54,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 334.8,
+"cy": 485.8,
+"rot": 341.75
+}
+},
+{
+"id": "a-p16",
+"sheet": 44,
+"shape": "rect",
+"x": 515.47,
+"y": 99.36,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle32",
+"target": {
+"page": 32,
+"cx": 500.84,
+"cy": 517.97,
+"rot": 341.78
+}
+},
+{
+"id": "a-p17",
+"sheet": 44,
+"shape": "rect",
+"x": 25.92,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 422.95,
+"cy": 113.8,
+"rot": 24.15
+}
+},
+{
+"id": "a-p18",
+"sheet": 44,
+"shape": "rect",
+"x": 95.86,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 147.77,
+"cy": 159.93,
+"rot": 24.23
+}
+},
+{
+"id": "a-p19",
+"sheet": 44,
+"shape": "rect",
+"x": 165.79,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 341.49,
+"cy": 238.72,
+"rot": 17.42
+}
+},
+{
+"id": "a-p20",
+"sheet": 44,
+"shape": "rect",
+"x": 235.73,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 231.81,
+"cy": 291.41,
+"rot": 334.36
+}
+},
+{
+"id": "a-p21",
+"sheet": 44,
+"shape": "rect",
+"x": 305.66,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 441.63,
+"cy": 471.07,
+"rot": 24.19
+}
+},
+{
+"id": "a-p22",
+"sheet": 44,
+"shape": "rect",
+"x": 375.6,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 341.06,
+"cy": 461.29,
+"rot": 343.38
+}
+},
+{
+"id": "a-p23",
+"sheet": 44,
+"shape": "rect",
+"x": 445.54,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 177.94,
+"cy": 461.27,
+"rot": 24.23
+}
+},
+{
+"id": "a-p24",
+"sheet": 44,
+"shape": "rect",
+"x": 515.47,
+"y": 169.44,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 474.11,
+"cy": 365.56,
+"rot": 343.38
+}
+},
+{
+"id": "a-p25",
+"sheet": 44,
+"shape": "rect",
+"x": 25.92,
+"y": 239.52,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 553.22,
+"cy": 433.29,
+"rot": 343.35
+}
+},
+{
+"id": "a-p26",
+"sheet": 44,
+"shape": "rect",
+"x": 95.86,
+"y": 239.52,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 479.8,
+"cy": 564.71,
+"rot": 334.36
+}
+},
+{
+"id": "a-p27",
+"sheet": 44,
+"shape": "rect",
+"x": 165.79,
+"y": 239.52,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 131.69,
+"cy": 598.38,
+"rot": 29.25
+}
+},
+{
+"id": "a-p28",
+"sheet": 44,
+"shape": "rect",
+"x": 235.73,
+"y": 239.52,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 249.16,
+"cy": 698.81,
+"rot": 334.36
+}
+},
+{
+"id": "a-p29",
+"sheet": 44,
+"shape": "rect",
+"x": 305.66,
+"y": 239.52,
+"w": 57.6,
+"h": 57.6,
+"group": "puzzle33",
+"target": {
+"page": 33,
+"cx": 412.31,
+"cy": 712.37,
+"rot": 29.25
+}
+}
+],
+"pageGroups": {
+"32": [
+"puzzle32"
+],
+"33": [
+"puzzle33"
+]
+},
+"defaultGroups": [
+"general"
+]
+},
+{
+"id": "ages3to9",
+"name": "Happy Is the One Trusting in Jehovah (ages 3\u20139)",
+"match": {
+"title": "CU27ASPQ-FIND-39",
+"pages": 37
+},
+"cover": 3,
+"hidden": [
+35,
+36,
+37
+],
+"stickerPages": [
+36,
+37
+],
+"stickers": [
+{
+"id": "b-a1",
+"sheet": 36,
+"shape": "circle",
+"x": 16.07,
+"y": 13.19,
+"w": 74.42,
+"h": 74.42,
+"group": "reward"
+},
+{
+"id": "b-a2",
+"sheet": 36,
+"shape": "circle",
+"x": 157.77,
+"y": 13.19,
+"w": 73.27,
+"h": 73.27,
+"group": "reward"
+},
+{
+"id": "b-a3",
+"sheet": 36,
+"shape": "circle",
+"x": 297.68,
+"y": 13.71,
+"w": 73.38,
+"h": 73.38,
+"group": "reward"
+},
+{
+"id": "b-a4",
+"sheet": 36,
+"shape": "circle",
+"x": 437.93,
+"y": 13.42,
+"w": 73.96,
+"h": 73.96,
+"group": "reward"
+},
+{
+"id": "b-a5",
+"sheet": 36,
+"shape": "circle",
+"x": 86.0,
+"y": 36.46,
+"w": 73.96,
+"h": 73.96,
+"group": "reward"
+},
+{
+"id": "b-a6",
+"sheet": 36,
+"shape": "circle",
+"x": 227.52,
+"y": 41.47,
+"w": 73.15,
+"h": 73.15,
+"group": "reward"
+},
+{
+"id": "b-a7",
+"sheet": 36,
+"shape": "circle",
+"x": 365.93,
+"y": 36.46,
+"w": 75.11,
+"h": 75.11,
+"group": "reward"
+},
+{
+"id": "b-a8",
+"sheet": 36,
+"shape": "circle",
+"x": 506.25,
+"y": 39.69,
+"w": 73.27,
+"h": 73.27,
+"group": "reward"
+},
+{
+"id": "b-a9",
+"sheet": 36,
+"shape": "circle",
+"x": 16.36,
+"y": 87.21,
+"w": 73.84,
+"h": 73.84,
+"group": "reward"
+},
+{
+"id": "b-a10",
+"sheet": 36,
+"shape": "circle",
+"x": 157.82,
+"y": 88.13,
+"w": 74.3,
+"h": 74.3,
+"group": "reward"
+},
+{
+"id": "b-a11",
+"sheet": 36,
+"shape": "circle",
+"x": 295.6,
+"y": 88.24,
+"w": 75.23,
+"h": 75.23,
+"group": "reward"
+},
+{
+"id": "b-a12",
+"sheet": 36,
+"shape": "circle",
+"x": 436.55,
+"y": 86.92,
+"w": 74.42,
+"h": 74.42,
+"group": "reward"
+},
+{
+"id": "b-a13",
+"sheet": 36,
+"shape": "circle",
+"x": 85.94,
+"y": 110.71,
+"w": 74.07,
+"h": 74.07,
+"group": "reward"
+},
+{
+"id": "b-a14",
+"sheet": 36,
+"shape": "circle",
+"x": 226.43,
+"y": 115.83,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a15",
+"sheet": 36,
+"shape": "circle",
+"x": 367.55,
+"y": 112.38,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a16",
+"sheet": 36,
+"shape": "circle",
+"x": 504.12,
+"y": 113.59,
+"w": 75.23,
+"h": 75.23,
+"group": "reward"
+},
+{
+"id": "b-a17",
+"sheet": 36,
+"shape": "circle",
+"x": 16.07,
+"y": 160.65,
+"w": 74.42,
+"h": 74.42,
+"group": "reward"
+},
+{
+"id": "b-a18",
+"sheet": 36,
+"shape": "circle",
+"x": 156.33,
+"y": 162.09,
+"w": 73.84,
+"h": 73.84,
+"group": "reward"
+},
+{
+"id": "b-a19",
+"sheet": 36,
+"shape": "circle",
+"x": 297.1,
+"y": 161.16,
+"w": 74.53,
+"h": 74.53,
+"group": "reward"
+},
+{
+"id": "b-a20",
+"sheet": 36,
+"shape": "circle",
+"x": 437.93,
+"y": 160.88,
+"w": 72.81,
+"h": 72.81,
+"group": "reward"
+},
+{
+"id": "b-a21",
+"sheet": 36,
+"shape": "circle",
+"x": 86.46,
+"y": 185.53,
+"w": 73.04,
+"h": 73.04,
+"group": "reward"
+},
+{
+"id": "b-a22",
+"sheet": 36,
+"shape": "circle",
+"x": 226.83,
+"y": 190.54,
+"w": 73.38,
+"h": 73.38,
+"group": "reward"
+},
+{
+"id": "b-a23",
+"sheet": 36,
+"shape": "circle",
+"x": 366.91,
+"y": 186.05,
+"w": 74.3,
+"h": 74.3,
+"group": "reward"
+},
+{
+"id": "b-a24",
+"sheet": 36,
+"shape": "circle",
+"x": 506.42,
+"y": 189.04,
+"w": 74.07,
+"h": 74.07,
+"group": "reward"
+},
+{
+"id": "b-a25",
+"sheet": 36,
+"shape": "circle",
+"x": 15.84,
+"y": 236.45,
+"w": 73.73,
+"h": 73.73,
+"group": "reward"
+},
+{
+"id": "b-a26",
+"sheet": 36,
+"shape": "circle",
+"x": 157.31,
+"y": 237.37,
+"w": 73.04,
+"h": 73.04,
+"group": "reward"
+},
+{
+"id": "b-a27",
+"sheet": 36,
+"shape": "circle",
+"x": 297.27,
+"y": 236.79,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a28",
+"sheet": 36,
+"shape": "circle",
+"x": 437.64,
+"y": 235.47,
+"w": 74.53,
+"h": 74.53,
+"group": "reward"
+},
+{
+"id": "b-a29",
+"sheet": 36,
+"shape": "circle",
+"x": 85.88,
+"y": 258.68,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a30",
+"sheet": 36,
+"shape": "circle",
+"x": 226.48,
+"y": 265.08,
+"w": 74.07,
+"h": 74.07,
+"group": "reward"
+},
+{
+"id": "b-a31",
+"sheet": 36,
+"shape": "circle",
+"x": 367.55,
+"y": 260.99,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a32",
+"sheet": 36,
+"shape": "circle",
+"x": 505.79,
+"y": 263.29,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a33",
+"sheet": 36,
+"shape": "circle",
+"x": 15.61,
+"y": 310.52,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a34",
+"sheet": 36,
+"shape": "circle",
+"x": 86.28,
+"y": 332.81,
+"w": 73.38,
+"h": 73.38,
+"group": "reward"
+},
+{
+"id": "b-a35",
+"sheet": 36,
+"shape": "circle",
+"x": 157.36,
+"y": 310.58,
+"w": 72.92,
+"h": 72.92,
+"group": "reward"
+},
+{
+"id": "b-a36",
+"sheet": 36,
+"shape": "circle",
+"x": 297.27,
+"y": 311.1,
+"w": 74.19,
+"h": 74.19,
+"group": "reward"
+},
+{
+"id": "b-a37",
+"sheet": 36,
+"shape": "circle",
+"x": 367.66,
+"y": 335.98,
+"w": 72.81,
+"h": 72.81,
+"group": "reward"
+},
+{
+"id": "b-a38",
+"sheet": 36,
+"shape": "circle",
+"x": 436.78,
+"y": 308.91,
+"w": 75.11,
+"h": 75.11,
+"group": "reward"
+},
+{
+"id": "b-a39",
+"sheet": 36,
+"shape": "circle",
+"x": 506.42,
+"y": 336.5,
+"w": 75.23,
+"h": 75.23,
+"group": "reward"
+},
+{
+"id": "b-a40",
+"sheet": 36,
+"shape": "circle",
+"x": 226.94,
+"y": 340.42,
+"w": 73.15,
+"h": 73.15,
+"group": "reward"
+},
+{
+"id": "b-a41",
+"sheet": 36,
+"shape": "circle",
+"x": 16.7,
+"y": 384.77,
+"w": 73.15,
+"h": 73.15,
+"group": "reward"
+},
+{
+"id": "b-a42",
+"sheet": 36,
+"shape": "circle",
+"x": 156.27,
+"y": 386.67,
+"w": 73.96,
+"h": 73.96,
+"group": "reward"
+},
+{
+"id": "b-a43",
+"sheet": 36,
+"shape": "circle",
+"x": 288.81,
+"y": 385.0,
+"w": 72.69,
+"h": 72.69,
+"group": "reward"
+},
+{
+"id": "b-a44",
+"sheet": 36,
+"shape": "circle",
+"x": 378.84,
+"y": 411.67,
+"w": 73.5,
+"h": 73.5,
+"group": "reward"
+},
+{
+"id": "b-star1",
+"sheet": 36,
+"shape": "star",
+"x": 9.65,
+"y": 475.62,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star2",
+"sheet": 36,
+"shape": "star",
+"x": 96.12,
+"y": 432.38,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star3",
+"sheet": 36,
+"shape": "star",
+"x": 96.12,
+"y": 514.05,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star4",
+"sheet": 36,
+"shape": "star",
+"x": 182.58,
+"y": 475.62,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star5",
+"sheet": 36,
+"shape": "star",
+"x": 273.86,
+"y": 451.6,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star6",
+"sheet": 36,
+"shape": "star",
+"x": 350.72,
+"y": 475.62,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star7",
+"sheet": 36,
+"shape": "star",
+"x": 408.36,
+"y": 523.66,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star8",
+"sheet": 36,
+"shape": "star",
+"x": 470.81,
+"y": 466.01,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-star9",
+"sheet": 36,
+"shape": "star",
+"x": 446.8,
+"y": 389.15,
+"w": 96.0,
+"h": 96.0,
+"group": "general"
+},
+{
+"id": "b-c6",
+"sheet": 36,
+"shape": "circle",
+"x": 272.16,
+"y": 623.04,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 359.52,
+"cy": 594.24,
+"rot": 0
+}
+},
+{
+"id": "b-c4",
+"sheet": 36,
+"shape": "circle",
+"x": 508.32,
+"y": 577.44,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 258.72,
+"cy": 552.96,
+"rot": 0
+}
+},
+{
+"id": "b-c1",
+"sheet": 36,
+"shape": "circle",
+"x": 39.84,
+"y": 577.44,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 470.88,
+"cy": 548.16,
+"rot": 0
+}
+},
+{
+"id": "b-c3",
+"sheet": 36,
+"shape": "circle",
+"x": 351.84,
+"y": 576.48,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 329.28,
+"cy": 516.48,
+"rot": 0
+}
+},
+{
+"id": "b-c5",
+"sheet": 36,
+"shape": "circle",
+"x": 116.16,
+"y": 622.08,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 420.48,
+"cy": 502.08,
+"rot": 0
+}
+},
+{
+"id": "b-c2",
+"sheet": 36,
+"shape": "circle",
+"x": 190.08,
+"y": 576.96,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 277.92,
+"cy": 456.0,
+"rot": 0
+}
+},
+{
+"id": "b-c7",
+"sheet": 36,
+"shape": "circle",
+"x": 427.68,
+"y": 622.56,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 362.4,
+"cy": 441.6,
+"rot": 0
+}
+},
+{
+"id": "b-c8",
+"sheet": 36,
+"shape": "circle",
+"x": 276.0,
+"y": 548.64,
+"w": 59.52,
+"h": 59.52,
+"group": "circles12",
+"target": {
+"page": 12,
+"cx": 456.0,
+"cy": 436.32,
+"rot": 0
+}
+},
+{
+"id": "b-h7",
+"sheet": 36,
+"shape": "hex",
+"x": 491.04,
+"y": 649.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 288.93,
+"cy": 615.69,
+"rot": 315.0
+}
+},
+{
+"id": "b-h3",
+"sheet": 36,
+"shape": "hex",
+"x": 180.48,
+"y": 649.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 478.31,
+"cy": 609.6,
+"rot": 318.0
+}
+},
+{
+"id": "b-h6",
+"sheet": 36,
+"shape": "hex",
+"x": 410.88,
+"y": 697.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 351.36,
+"cy": 504.96,
+"rot": 18.0
+}
+},
+{
+"id": "b-h5",
+"sheet": 36,
+"shape": "hex",
+"x": 337.44,
+"y": 649.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 479.52,
+"cy": 498.72,
+"rot": 18.0
+}
+},
+{
+"id": "b-h1",
+"sheet": 36,
+"shape": "hex",
+"x": 13.92,
+"y": 649.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 323.21,
+"cy": 408.44,
+"rot": 30.0
+}
+},
+{
+"id": "b-h2",
+"sheet": 36,
+"shape": "hex",
+"x": 103.68,
+"y": 697.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 463.58,
+"cy": 406.97,
+"rot": 330.0
+}
+},
+{
+"id": "b-h4",
+"sheet": 36,
+"shape": "hex",
+"x": 253.92,
+"y": 697.44,
+"w": 80.64,
+"h": 80.64,
+"group": "hex8",
+"target": {
+"page": 8,
+"cx": 247.2,
+"cy": 348.24,
+"rot": 327.0
+}
+},
+{
+"id": "b-t5",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 144.24,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 422.11,
+"cy": 614.08,
+"rot": 338.01
+}
+},
+{
+"id": "b-t11",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 484.08,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 256.13,
+"cy": 516.28,
+"rot": 338.03
+}
+},
+{
+"id": "b-t6",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 257.52,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 482.81,
+"cy": 483.76,
+"rot": 20.73
+}
+},
+{
+"id": "b-t2",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 30.96,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 80.16,
+"cy": 442.48,
+"rot": 338.01
+}
+},
+{
+"id": "b-t4",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 144.24,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 238.75,
+"cy": 379.57,
+"rot": 3.09
+}
+},
+{
+"id": "b-t13",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 597.36,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 82.87,
+"cy": 267.44,
+"rot": 20.73
+}
+},
+{
+"id": "b-t1",
+"sheet": 37,
+"shape": "rect",
+"x": 245.04,
+"y": 30.96,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle26",
+"target": {
+"page": 26,
+"cx": 504.51,
+"cy": 200.54,
+"rot": 20.66
+}
+},
+{
+"id": "b-t8",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 370.8,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 330.24,
+"cy": 592.86,
+"rot": 20.73
+}
+},
+{
+"id": "b-t7",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 257.52,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 124.75,
+"cy": 569.34,
+"rot": 3.09
+}
+},
+{
+"id": "b-t9",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 370.8,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 387.89,
+"cy": 416.75,
+"rot": 3.09
+}
+},
+{
+"id": "b-t10",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 484.08,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 457.77,
+"cy": 316.81,
+"rot": 34.99
+}
+},
+{
+"id": "b-t12",
+"sheet": 37,
+"shape": "rect",
+"x": 358.32,
+"y": 597.36,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 119.31,
+"cy": 269.6,
+"rot": 338.0
+}
+},
+{
+"id": "b-t3",
+"sheet": 37,
+"shape": "rect",
+"x": 471.6,
+"y": 30.96,
+"w": 92.64,
+"h": 92.64,
+"group": "puzzle27",
+"target": {
+"page": 27,
+"cx": 179.65,
+"cy": 151.92,
+"rot": 3.08
+}
+},
+{
+"id": "b-k2",
+"sheet": 37,
+"shape": "rect",
+"x": 68.64,
+"y": 629.28,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 210.24,
+"cy": 501.6,
+"rot": 335.4
+}
+},
+{
+"id": "b-k7",
+"sheet": 37,
+"shape": "rect",
+"x": 418.08,
+"y": 685.92,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 269.28,
+"cy": 416.64,
+"rot": 129.3
+}
+},
+{
+"id": "b-k3",
+"sheet": 37,
+"shape": "rect",
+"x": 11.04,
+"y": 686.88,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 262.08,
+"cy": 314.88,
+"rot": 103.0
+}
+},
+{
+"id": "b-k1",
+"sheet": 37,
+"shape": "rect",
+"x": 11.04,
+"y": 629.28,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 296.16,
+"cy": 219.84,
+"rot": 129.3
+}
+},
+{
+"id": "b-k5",
+"sheet": 37,
+"shape": "rect",
+"x": 302.88,
+"y": 685.92,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 90.72,
+"cy": 334.56,
+"rot": 65.4
+}
+},
+{
+"id": "b-k6",
+"sheet": 37,
+"shape": "rect",
+"x": 360.48,
+"y": 685.92,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 315.36,
+"cy": 587.52,
+"rot": 260.9
+}
+},
+{
+"id": "b-k4",
+"sheet": 37,
+"shape": "rect",
+"x": 68.64,
+"y": 686.88,
+"w": 56.64,
+"h": 56.64,
+"group": "puzzle23",
+"target": {
+"page": 23,
+"cx": 177.12,
+"cy": 246.72,
+"rot": 98.4
+}
+}
+],
+"slots": {
+"reward": [
+{
+"page": 8,
+"cx": 50.4,
+"cy": 544.32,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 8,
+"cx": 50.4,
+"cy": 476.64,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 8,
+"cx": 50.4,
+"cy": 410.4,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 8,
+"cx": 50.4,
+"cy": 342.72,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 8,
+"cx": 50.4,
+"cy": 275.04,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 9,
+"cx": 558.72,
+"cy": 472.32,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 9,
+"cx": 558.72,
+"cy": 404.64,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 9,
+"cx": 558.72,
+"cy": 336.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 9,
+"cx": 558.72,
+"cy": 269.28,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 9,
+"cx": 558.72,
+"cy": 201.6,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 550.08,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 480.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 413.28,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 345.6,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 277.92,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 10,
+"cx": 48.96,
+"cy": 210.24,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 12,
+"cx": 50.4,
+"cy": 516.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 12,
+"cx": 50.4,
+"cy": 447.84,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 12,
+"cx": 50.4,
+"cy": 380.16,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 12,
+"cx": 50.4,
+"cy": 312.48,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 47.52,
+"cy": 581.76,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 47.52,
+"cy": 515.52,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 48.96,
+"cy": 449.28,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 47.52,
+"cy": 380.16,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 47.52,
+"cy": 313.92,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 47.52,
+"cy": 247.68,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 48.96,
+"cy": 181.44,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 14,
+"cx": 48.96,
+"cy": 115.2,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 38.88,
+"cy": 698.4,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 652.32,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 38.88,
+"cy": 603.36,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 552.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 37.44,
+"cy": 504.0,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 455.04,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 37.44,
+"cy": 401.76,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 351.36,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 38.88,
+"cy": 300.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 249.12,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 38.88,
+"cy": 198.72,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 18,
+"cx": 83.52,
+"cy": 146.88,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 20,
+"cx": 50.4,
+"cy": 469.44,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 20,
+"cx": 50.4,
+"cy": 401.76,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 20,
+"cx": 50.4,
+"cy": 334.08,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 20,
+"cx": 50.4,
+"cy": 266.4,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 20,
+"cx": 50.4,
+"cy": 198.72,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 21,
+"cx": 561.6,
+"cy": 486.72,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 21,
+"cx": 561.6,
+"cy": 419.04,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 21,
+"cx": 561.6,
+"cy": 351.36,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 21,
+"cx": 561.6,
+"cy": 285.12,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 21,
+"cx": 561.6,
+"cy": 217.44,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 22,
+"cx": 48.96,
+"cy": 394.56,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 22,
+"cx": 48.96,
+"cy": 328.32,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 22,
+"cx": 48.96,
+"cy": 260.64,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 22,
+"cx": 48.96,
+"cy": 192.96,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 22,
+"cx": 48.96,
+"cy": 125.28,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 622.08,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 574.56,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 527.04,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 479.52,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 432.0,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 384.48,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 334.08,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 289.44,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 241.92,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 194.4,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 576.0,
+"cy": 145.44,
+"rot": 0,
+"size": 57.6
+},
+{
+"page": 23,
+"cx": 531.36,
+"cy": 99.36,
+"rot": 0,
+"size": 57.6
+}
+]
+},
+"anyTarget": [
+"circles12",
+"hex8",
+"puzzle23"
+],
+"pageGroups": {
+"8": [
+"hex8",
+"reward"
+],
+"12": [
+"circles12",
+"reward"
+],
+"23": [
+"puzzle23",
+"reward"
+],
+"26": [
+"puzzle26"
+],
+"27": [
+"puzzle27"
+]
+},
+"defaultGroups": [
+"general",
+"reward"
+]
+}
+]
+}
