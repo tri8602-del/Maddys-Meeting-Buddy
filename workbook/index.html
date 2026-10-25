@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Workbook · Maddy’s Meeting Buddy</title>
+<!--
+  WORKBOOK MODE
+  The workbooks are bought digital copies for Maddy only. Nothing from them is in this repo:
+  Lindsay loads each PDF once from Files; it is kept on this iPad (IndexedDB) and pages are drawn
+  here with pdf.js. stickers.json holds only coordinates (where each sticker sits on the sticker
+  sheet and where puzzle pieces go). Sticker images are cut on the iPad from the loaded PDF.
+-->
+<style>
+:root{--ink:#2d2440;--soft:#f6f1fb;--acc:#7b5cd6;--acc2:#ffb84d;--bar:56px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#efe9f7;color:var(--ink);font-family:"Nunito",system-ui,-apple-system,sans-serif;overscroll-behavior:none}
+button{font:inherit;color:inherit;border:0;background:#fff;border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer;box-shadow:0 1px 3px #0002}
+button.on{background:var(--acc);color:#fff}
+.hide{display:none!important}
+/* shelf */
+#shelf{padding:24px;min-height:100%}
+#shelf h1{font-family:"Fredoka","Nunito",sans-serif;margin:4px 0 4px;font-size:30px}
+#shelf .sub{margin:0 0 18px;color:#6a5d80}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.book{background:#fff;border-radius:18px;padding:14px;box-shadow:0 3px 12px #0001;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.book .cov{width:100%;aspect-ratio:612/792;border-radius:10px;background:#ece6f5 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#8a7fa0;font-weight:800}
+.book b{font-size:15px}.book small{color:#6a5d80}
+.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.grown{background:#fff6e6}
+/* reader */
+#reader{position:fixed;inset:0;display:flex;flex-direction:column}
+#bar{height:var(--bar);display:flex;align-items:center;gap:6px;padding:6px 8px;background:#fff;box-shadow:0 1px 4px #0002;z-index:5;overflow-x:auto;flex:none}
+#bar .sep{width:1px;height:30px;background:#ddd;margin:0 2px;flex:none}
+#bar button{padding:7px 10px;flex:none}
+.sw{width:28px;height:28px;border-radius:50%;padding:0;border:3px solid #fff;box-shadow:0 0 0 1px #bbb;flex:none}
+.sw.on{box-shadow:0 0 0 3px var(--acc)}
+#size{width:80px;flex:none}
+#main{flex:1;display:flex;min-height:0}
+#thumbs{width:116px;flex:none;overflow-y:auto;background:#e4dcf0;padding:8px;display:flex;flex-direction:column;gap:8px}
+#thumbs .th{position:relative;border-radius:6px;overflow:hidden;background:#fff;border:3px solid transparent;cursor:pointer;flex:none}
+#thumbs .th.on{border-color:var(--acc)}
+#thumbs .th img{width:100%;display:block;aspect-ratio:612/792;object-fit:cover;background:#fff}
+#thumbs .th span{position:absolute;left:4px;bottom:3px;background:#fffd;border-radius:6px;font-size:11px;padding:0 5px;font-weight:800}
+#thumbs .th i{position:absolute;right:4px;top:3px;font-style:normal;background:#3bb273;color:#fff;border-radius:50%;width:18px;height:18px;font-size:12px;text-align:center;line-height:18px}
+#view{flex:1;overflow:auto;position:relative;-webkit-overflow-scrolling:touch;background:#d9d0e6}
+#pageWrap{position:relative;margin:12px auto;background:#fff;box-shadow:0 3px 14px #0003}
+#pageWrap canvas{position:absolute;left:0;top:0;width:100%;height:100%}
+#ink{touch-action:none}
+body.pencil #ink{touch-action:pan-x pan-y}
+body.handTool #ink{pointer-events:none}
+#stk{position:absolute;inset:0;pointer-events:none}
+.st{position:absolute;left:0;top:0;transform-origin:center;pointer-events:auto;touch-action:none}
+.st img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 1px 2px #0005)}
+.st.snapped img{filter:none}
+.st.sel{outline:2px dashed var(--acc);outline-offset:3px}
+.st .h{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--acc);color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px #0005}
+.st .rz{right:-20px;bottom:-20px;cursor:nwse-resize}
+.st .pl{left:-20px;top:-20px;background:#e5484d}
+.st:not(.sel) .h{display:none}
+#nav{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4}
+#nav button{font-size:18px;padding:10px 18px}
+#drawer{flex:none;background:#fff;border-top:1px solid #ddd;max-height:34vh;display:flex;flex-direction:column}
+#drawer header{display:flex;align-items:center;gap:8px;padding:6px 10px;font-weight:800}
+#drawerList{display:flex;gap:10px;overflow-x:auto;padding:4px 10px 10px;min-height:96px;align-items:center}
+.di{flex:none;width:84px;height:84px;border-radius:12px;background:#f3eefa;display:flex;align-items:center;justify-content:center;touch-action:none}
+.di img{max-width:76px;max-height:76px;pointer-events:none;-webkit-user-drag:none}
+.di.ghost{opacity:.5}
+#drawer.closed #drawerList{display:none}
+body.drawerOpen #nav{bottom:calc(var(--dh,0px) + 10px)}
+.empty{color:#7a6d91;font-weight:700;padding:8px}
+/* modal */
+#modal{position:fixed;inset:0;background:#2228;display:flex;align-items:center;justify-content:center;z-index:50}
+#modal .box{background:#fff;border-radius:18px;padding:20px;width:min(420px,92vw);text-align:center}
+#modal input{font-size:22px;width:120px;text-align:center;padding:6px;border-radius:10px;border:2px solid #ccc}
+#toast{position:fixed;left:50%;top:70px;transform:translateX(-50%);background:#2d2440;color:#fff;padding:10px 16px;border-radius:12px;z-index:60;font-weight:700;max-width:90vw}
+#busy{position:fixed;inset:0;background:#fffc;display:flex;align-items:center;justify-content:center;z-index:70;font-weight:800;font-size:20px;flex-direction:column;gap:10px}
+.holdbtn{position:relative;overflow:hidden}
+.holdbtn::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:var(--p,0%);background:var(--acc2)}
+@media (orientation:portrait){#thumbs{width:92px}}
+</style>
+</head>
+<body>
+<section id="shelf">
+  <div class="topbar">
+    <div><h1>📒 My Workbooks</h1><p class="sub">Pick a book to keep working.</p></div>
+    <div style="display:flex;gap:8px"><button id="grownBtn" class="grown holdbtn" title="Hold for grown-ups">🔒 Grown-ups</button><button id="exitBtn" class="holdbtn">⬅ Meeting Buddy</button></div>
+  </div>
+  <div class="books" id="books"></div>
+  <div id="grownPanel" class="hide" style="margin-top:22px;background:#fff6e6;padding:14px;border-radius:14px">
+    <b>Grown-ups</b>
+    <p style="margin:6px 0">Load each workbook PDF once from Files. It stays on this iPad only (works offline). The app recognizes which book it is.</p>
+    <button id="loadBtn">📂 Load workbook PDF…</button>
+    <input id="file" type="file" accept="application/pdf,.pdf" class="hide">
+    <span id="storeInfo" style="margin-left:8px;color:#6a5d80"></span>
+  </div>
+</section>
+
+<section id="reader" class="hide">
+  <div id="bar">
+    <button id="shelfBtn">📚</button>
+    <span class="sep"></span>
+    <button data-tool="hand" title="Scroll">✋</button>
+    <button data-tool="pen" class="on" title="Pen">✏️</button>
+    <button data-tool="marker" title="Highlighter">🖍️</button>
+    <button data-tool="eraser" title="Eraser">🧽</button>
+    <span class="sep"></span>
+    <span id="colors" style="display:flex;gap:6px"></span>
+    <input id="size" type="range" min="1" max="10" value="3" aria-label="Thickness">
+    <span class="sep"></span>
+    <button id="undo">↶</button><button id="redo">↷</button><button id="clear">🗑️</button>
+    <span class="sep"></span>
+    <button id="stickBtn">⭐ Stickers</button>
+    <button id="doneBtn">✓ Done</button>
+    <button id="zoomBtn">🔍 Fit</button>
+  </div>
+  <div id="main">
+    <div id="thumbs"></div>
+    <div id="view">
+      <div id="pageWrap"><canvas id="pg"></canvas><canvas id="ink"></canvas><div id="stk"></div></div>
+    </div>
+  </div>
+  <div id="drawer" class="closed"><header><span>⭐ Sticker drawer</span><span id="drawerNote" style="font-weight:600;color:#7a6d91"></span><span style="flex:1"></span><button id="drawerClose">▾</button></header><div id="drawerList"></div></div>
+  <div id="nav"><button id="prev">◀</button><button id="pgLabel" style="pointer-events:none">1</button><button id="next">▶</button></div>
+</section>
+<div id="modal" class="hide"><div class="box" id="modalBox"></div></div>
+<div id="toast" class="hide"></div>
+<div id="busy" class="hide"><div id="busyMsg">Loading…</div></div>
+
+<script src="vendor/pdf.min.js"></script>
+<script>
+"use strict";
+pdfjsLib.GlobalWorkerOptions.workerSrc = "vendor/pdf.worker.min.js";
+const $=id=>document.getElementById(id);
+/* ---------- tiny IndexedDB key/value ---------- */
+const DB={db:null,
+  open(){ if(this.db) return Promise.resolve(this.db); return new Promise((ok,no)=>{const r=indexedDB.open("mmb-workbook",1);
+    r.onupgradeneeded=()=>{const d=r.result;for(const s of ["pdfs","state","cache"]) if(!d.objectStoreNames.contains(s)) d.createObjectStore(s);};
+    r.onsuccess=()=>{this.db=r.result;ok(this.db)};r.onerror=()=>no(r.error);});},
+  async get(s,k){const d=await this.open();return new Promise((ok,no)=>{const r=d.transaction(s).objectStore(s).get(k);r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error||new Error("read failed"));});},
+  async set(s,k,v){const d=await this.open();return new Promise((ok,no)=>{const t=d.transaction(s,"readwrite");t.objectStore(s).put(v,k);t.oncomplete=()=>ok();t.onerror=()=>no(t.error||new Error("save failed"));t.onabort=()=>no(t.error||new Error("save aborted (storage full?)"));});},
+  // Blobs are stored as ArrayBuffers: Safari (esp. private tabs) can refuse Blob values in IndexedDB.
+  async setBlob(s,k,b){ return this.set(s,k,{type:b.type,buf:await b.arrayBuffer()}); },
+  async getBlob(s,k){ const v=await this.get(s,k); if(!v) return null; if(v instanceof Blob) return v; return new Blob([v.buf],{type:v.type}); },
+  async del(s,k){const d=await this.open();return new Promise((ok)=>{const t=d.transaction(s,"readwrite");t.objectStore(s).delete(k);t.oncomplete=()=>ok();});}
+};
+function toast(m,ms=2200){const t=$("toast");t.textContent=m;t.classList.remove("hide");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add("hide"),ms);}
+function busy(m){ if(m){$("busyMsg").textContent=m;$("busy").classList.remove("hide");} else $("busy").classList.add("hide"); }
+async function blobURL(b){return URL.createObjectURL(b);}
+function canvasBlob(c,type="image/png",q){return new Promise(ok=>c.toBlob(ok,type,q));}
+
+/* ---------- grown-up guard: hold 1.5 s, then a sum ---------- */
+function holdGuard(btn,fn){
+  let t0=0,raf=0;
+  const stop=()=>{cancelAnimationFrame(raf);btn.style.setProperty("--p","0%");t0=0;};
+  btn.addEventListener("pointerdown",e=>{e.preventDefault();t0=performance.now();
+    const step=()=>{const p=Math.min(1,(performance.now()-t0)/1500);btn.style.setProperty("--p",(p*100)+"%");
+      if(p>=1){stop();askSum().then(ok=>ok&&fn());} else raf=requestAnimationFrame(step);};raf=requestAnimationFrame(step);});
+  ["pointerup","pointerleave","pointercancel"].forEach(ev=>btn.addEventListener(ev,()=>{ if(t0) {stop(); toast("Grown-ups: press and hold");} }));
+}
+function askSum(){return new Promise(ok=>{const a=3+Math.floor(Math.random()*7),b=4+Math.floor(Math.random()*6);
+  $("modalBox").innerHTML=`<h2 style="margin:0 0 8px">Grown-ups only</h2><p>What is ${a} + ${b}?</p><input id="sumIn" inputmode="numeric" autocomplete="off"><div style="margin-top:12px;display:flex;gap:10px;justify-content:center"><button id="sumNo">Cancel</button><button id="sumOk" class="on">OK</button></div>`;
+  $("modal").classList.remove("hide");const i=$("sumIn");setTimeout(()=>i.focus(),50);
+  const done=v=>{$("modal").classList.add("hide");ok(v);};
+  $("sumNo").onclick=()=>done(false);$("sumOk").onclick=()=>done(+i.value===a+b);i.onkeydown=e=>{if(e.key==="Enter")done(+i.value===a+b);};});}
+
+/* ---------- data ---------- */
+let CFG=null; const docs={}; let book=null, doc=null, state=null, pageNo=1, pageList=[];
+async function loadCfg(){ CFG=await (await fetch("stickers.json")).json(); }
+function bookById(id){return CFG.books.find(b=>b.id===id);}
+async function openDoc(b){
+  if(docs[b.id]) return docs[b.id];
+  const v=await DB.get("pdfs",b.id); if(!v) return null;
+  const data=new Uint8Array(v.buf?v.buf.slice(0):await v.arrayBuffer());
+  const d=await pdfjsLib.getDocument({data,disableFontFace:false,isEvalSupported:false}).promise;
+  docs[b.id]=d; return d;
+}
+async function loadState(id){ return (await DB.get("state",id)) || {page:0,ink:{},placed:{},done:{}}; }
+let saveT=0; function saveState(){ clearTimeout(saveT); saveT=setTimeout(()=>DB.set("state",book.id,state),250); }
+
+/* ---------- shelf ---------- */
+async function renderShelf(){
+  const box=$("books"); box.innerHTML="";
+  for(const b of CFG.books){
+    const has=!!(await DB.get("pdfs",b.id+":meta"));
+    const st=has?await loadState(b.id):null;
+    const el=document.createElement("div"); el.className="book"; el.dataset.book=b.id;
+    const cov=document.createElement("div"); cov.className="cov"; cov.textContent=has?"":"Not loaded yet";
+    if(has){ const c=await DB.getBlob("cache",b.id+":cover"); if(c) cov.style.backgroundImage=`url(${await blobURL(c)})`; }
+    const n=st?Object.keys(st.done||{}).length:0;
+    el.append(cov); el.insertAdjacentHTML("beforeend",`<b>${b.name}</b><small>${has?`${n} page${n==1?"":"s"} done`:"Ask a grown-up to load it"}</small>`);
+    if(has){ const go=document.createElement("button"); go.className="on"; go.textContent=st&&st.page?"Keep going ▶":"Open ▶"; go.onclick=()=>openBook(b.id); el.append(go); cov.onclick=()=>openBook(b.id); }
+    box.append(el);
+  }
+  try{ const e=await navigator.storage?.estimate?.(); if(e) $("storeInfo").textContent=`On this iPad: ${(e.usage/1e6).toFixed(0)} MB used`; navigator.storage?.persist?.(); }catch(e){}
+}
+async function importPdf(file){
+  busy("Reading the workbook…");
+  try{
+    const data=new Uint8Array(await file.arrayBuffer());
+    const d=await pdfjsLib.getDocument({data:data.slice(0),isEvalSupported:false}).promise;
+    const meta=await d.getMetadata().catch(()=>({})); const title=(meta.info&&meta.info.Title)||"";
+    const b=CFG.books.find(x=>x.match.pages===d.numPages && title.startsWith(x.match.title)) || CFG.books.find(x=>x.match.pages===d.numPages);
+    if(!b){ busy(); toast("That PDF isn’t one of Maddy’s workbooks.",3500); return; }
+    busy("Saving on this iPad…");
+    await DB.set("pdfs",b.id,{type:"application/pdf",buf:data.buffer.slice(0)});
+    await DB.set("pdfs",b.id+":meta",{title,pages:d.numPages,name:file.name,at:Date.now()});
+    docs[b.id]=d;
+    busy("Making the cover…");
+    const pg=await d.getPage(b.cover); const v=pg.getViewport({scale:0.6}); const c=document.createElement("canvas"); c.width=v.width;c.height=v.height;
+    await pg.render({canvasContext:c.getContext("2d"),viewport:v}).promise; await DB.setBlob("cache",b.id+":cover",await canvasBlob(c,"image/jpeg",.8));
+    busy("Cutting out stickers…"); await buildStickers(b,d,true);
+    busy(); toast("Loaded: "+b.name,3000); renderShelf();
+  }catch(e){ console.error(e); busy(); toast("Couldn’t read that file: "+((e&&e.message)||e||"storage error"),4000); }
+}
+
+/* ---------- sticker cutting (on device, from the loaded PDF) ---------- */
+const ST_SCALE=2; // px per PDF point on the sticker sheet render
+async function renderSheet(d,n){ const pg=await d.getPage(n); const v=pg.getViewport({scale:ST_SCALE}); const c=document.createElement("canvas"); c.width=Math.round(v.width);c.height=Math.round(v.height);
+  await pg.render({canvasContext:c.getContext("2d"),viewport:v}).promise; return c; }
+function shapePath(ctx,s,w,h){
+  ctx.beginPath();
+  if(s.shape==="circle"){ ctx.arc(w/2,h/2,Math.min(w,h)/2,0,Math.PI*2); }
+  else if(s.shape==="hex"){ const r=Math.min(w,h)/2*0.96; for(let i=0;i<6;i++){const a=Math.PI/3*i; ctx[i?"lineTo":"moveTo"](w/2+r*Math.cos(a),h/2+r*Math.sin(a));} ctx.closePath(); }
+  else if(s.shape==="star"){ const R=Math.min(w,h)/2*0.98,r=R*0.5; for(let i=0;i<10;i++){const a=-Math.PI/2+Math.PI/5*i,q=i%2?r:R; ctx[i?"lineTo":"moveTo"](w/2+q*Math.cos(a),h/2+q*Math.sin(a));} ctx.closePath(); }
+  else ctx.rect(0,0,w,h);
+}
+function cutout(c){ // background removal: flood near-white from the edges, keep the biggest blob
+  const w=c.width,h=c.height,x=c.getContext("2d"),im=x.getImageData(0,0,w,h),p=im.data,N=w*h;
+  const bg=new Uint8Array(N),q=new Int32Array(N);let qh=0,qt=0;
+  const white=i=>p[i*4]>=238&&p[i*4+1]>=238&&p[i*4+2]>=238;
+  const push=i=>{ if(!bg[i]&&white(i)){bg[i]=1;q[qt++]=i;} };
+  for(let i=0;i<w;i++){push(i);push(N-w+i);} for(let j=0;j<h;j++){push(j*w);push(j*w+w-1);}
+  while(qh<qt){const i=q[qh++],X=i%w; if(X>0)push(i-1); if(X<w-1)push(i+1); if(i>=w)push(i-w); if(i<N-w)push(i+w);}
+  // largest non-background component
+  const lab=new Int32Array(N);let best=0,bestN=0,id=0;
+  for(let s=0;s<N;s++){ if(bg[s]||lab[s]) continue; id++; let n=0; qh=qt=0; q[qt++]=s; lab[s]=id;
+    while(qh<qt){const i=q[qh++];n++;const X=i%w; for(const k of [X>0?i-1:-1,X<w-1?i+1:-1,i-w,i+w]) if(k>=0&&k<N&&!bg[k]&&!lab[k]){lab[k]=id;q[qt++]=k;}}
+    if(n>bestN){bestN=n;best=id;} }
+  for(let i=0;i<N;i++){ if(lab[i]!==best) p[i*4+3]=0; else { // soften the edge a touch
+      const X=i%w; if((X>0&&lab[i-1]!==best)||(X<w-1&&lab[i+1]!==best)||(i>=w&&lab[i-w]!==best)||(i<N-w&&lab[i+w]!==best)) p[i*4+3]=160; } }
+  x.putImageData(im,0,0); return c;
+}
+async function buildStickers(b,d,force){
+  const have=await DB.get("cache",b.id+":stickersBuilt"); if(have && !force) return;
+  const sheets={}; for(const n of b.stickerPages) sheets[n]=await renderSheet(d,n);
+  for(const s of b.stickers){
+    const sh=sheets[s.sheet],k=ST_SCALE,w=Math.round(s.w*k),h=Math.round(s.h*k);
+    const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+    if(s.shape==="cutout"){ x.drawImage(sh,-s.x*k,-s.y*k); cutout(c); }
+    else { x.save(); shapePath(x,s,w,h); x.clip(); x.drawImage(sh,-s.x*k,-s.y*k); x.restore(); }
+    await DB.setBlob("cache",b.id+":st:"+s.id,await canvasBlob(c));
+  }
+  for(const n in sheets){ sheets[n].width=sheets[n].height=0; }
+  await DB.set("cache",b.id+":stickersBuilt",Date.now());
+}
+const stURL={};
+async function stickerURL(s){ const k=book.id+":"+s.id; if(stURL[k]) return stURL[k]; const b=await DB.getBlob("cache",book.id+":st:"+s.id); return stURL[k]=b?URL.createObjectURL(b):""; }
+
+/* ---------- reader ---------- */
+let vp=null, pageSize={w:612,h:792}, zoom=0; // zoom 0 = fit
+async function openBook(id){
+  book=bookById(id); busy("Opening…");
+  doc=await openDoc(book); if(!doc){busy();toast("Load this book first");return;}
+  await buildStickers(book,doc,false);
+  state=await loadState(id); state.ink=state.ink||{}; state.placed=state.placed||{}; state.done=state.done||{};
+  pageList=[];for(let i=1;i<=doc.numPages;i++) if(!book.hidden.includes(i)) pageList.push(i);
+  pageNo=pageList.includes(state.page)?state.page:pageList[0];
+  $("shelf").classList.add("hide"); $("reader").classList.remove("hide");
+  localStorage.setItem("mmb_workbook_last",id);
+  buildThumbs(); busy(); await showPage(pageNo);
+}
+function closeBook(){ $("reader").classList.add("hide"); $("shelf").classList.remove("hide"); book=null; renderShelf(); }
+function buildThumbs(){
+  const box=$("thumbs"); box.innerHTML="";
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ io.unobserve(e.target); thumbImg(+e.target.dataset.p,e.target.querySelector("img")); } }),{root:box,rootMargin:"300px"});
+  for(const p of pageList){ const t=document.createElement("div"); t.className="th"; t.dataset.p=p;
+    t.innerHTML=`<img alt=""><span>${p}</span>${state.done[p]?"<i>✓</i>":""}`; t.onclick=()=>showPage(p); box.append(t); io.observe(t); }
+}
+async function thumbImg(p,img){
+  const key=book.id+":th:"+p; let b=await DB.getBlob("cache",key);
+  if(!b){ const pg=await doc.getPage(p); const v=pg.getViewport({scale:0.22}); const c=document.createElement("canvas"); c.width=v.width;c.height=v.height;
+    await pg.render({canvasContext:c.getContext("2d"),viewport:v}).promise; b=await canvasBlob(c,"image/jpeg",.7); DB.setBlob("cache",key,b); }
+  img.src=URL.createObjectURL(b);
+}
+function markThumbs(){ document.querySelectorAll("#thumbs .th").forEach(t=>{const p=+t.dataset.p;t.classList.toggle("on",p===pageNo);
+  const has=!!t.querySelector("i"); if(state.done[p]&&!has) t.insertAdjacentHTML("beforeend","<i>✓</i>"); if(!state.done[p]&&has) t.querySelector("i").remove(); });
+  const on=document.querySelector("#thumbs .th.on"); on&&on.scrollIntoView({block:"nearest"}); }
+let renderTask=null, curPage=null;
+async function showPage(p){
+  pageNo=p; state.page=p; saveState(); sel=null;
+  curPage=await doc.getPage(p); const v1=curPage.getViewport({scale:1}); pageSize={w:v1.width,h:v1.height};
+  layout(); await paintPage(); drawInk(); renderStickers(); fillDrawer(); markThumbs();
+  $("pgLabel").textContent=`${p} / ${doc.numPages}`; $("doneBtn").classList.toggle("on",!!state.done[p]);
+  $("prev").disabled=pageList.indexOf(p)<=0; $("next").disabled=pageList.indexOf(p)>=pageList.length-1;
+}
+function layout(){
+  const view=$("view"), aw=view.clientWidth-24, ah=view.clientHeight-24;
+  const fit=Math.min(aw/pageSize.w, ah/pageSize.h), fitW=aw/pageSize.w;
+  const s=zoom===0?fit:zoom===1?fitW:fitW*1.6;
+  const W=Math.round(pageSize.w*s),H=Math.round(pageSize.h*s); vp={s,W,H};
+  const w=$("pageWrap"); w.style.width=W+"px"; w.style.height=H+"px";
+  $("zoomBtn").textContent=["🔍 Fit","🔍 Wide","🔍 Big"][zoom];
+}
+async function paintPage(){
+  const c=$("pg"),dpr=Math.min(window.devicePixelRatio||1,2.5),scale=vp.s*dpr;
+  const max=4096/Math.max(pageSize.w,pageSize.h); const sc=Math.min(scale,max);
+  const v=curPage.getViewport({scale:sc}); c.width=Math.round(v.width); c.height=Math.round(v.height);
+  if(renderTask) try{renderTask.cancel();}catch(e){}
+  renderTask=curPage.render({canvasContext:c.getContext("2d"),viewport:v});
+  try{ await renderTask.promise; }catch(e){ if(e.name!=="RenderingCancelledException") console.error(e); }
+  const ink=$("ink"); ink.width=Math.round(vp.W*dpr); ink.height=Math.round(vp.H*dpr);
+}
+/* ---------- ink (strokes in PDF points, saved per page) ---------- */
+const COLORS=["#1d1d1f","#e5484d","#f76b15","#ffd43b","#30a46c","#0090ff","#8e4ec6","#ff7eb6"];
+let cleared={}; let tool="pen",color=COLORS[1],size=3,redoStack=[];
+function inkList(){ return state.ink[pageNo]||(state.ink[pageNo]=[]); }
+function strokeWidth(st){ return st.t==="marker"?st.w*5:st.t==="eraser"?st.w*6:st.w; }
+function drawStroke(x,st){
+  const k=x.canvas.width/pageSize.w; x.save(); x.lineCap=x.lineJoin="round"; x.lineWidth=strokeWidth(st)*k;
+  if(st.t==="eraser"){ x.globalCompositeOperation="destination-out"; x.strokeStyle="#000"; }
+  else { x.strokeStyle=st.c; if(st.t==="marker"){ x.globalAlpha=.38; x.lineCap="butt"; } }
+  const P=st.p; x.beginPath(); x.moveTo(P[0]*k,P[1]*k);
+  if(P.length===2) x.lineTo(P[0]*k+.01,P[1]*k);
+  for(let i=2;i<P.length-2;i+=2){ const mx=(P[i]+P[i+2])/2,my=(P[i+1]+P[i+3])/2; x.quadraticCurveTo(P[i]*k,P[i+1]*k,mx*k,my*k); }
+  if(P.length>2) x.lineTo(P[P.length-2]*k,P[P.length-1]*k);
+  x.stroke(); x.restore();
+}
+function drawInk(extra){ const c=$("ink"),x=c.getContext("2d"); x.clearRect(0,0,c.width,c.height); for(const st of inkList()) drawStroke(x,st); if(extra) drawStroke(x,extra); }
+let live=null, sawPencil=false;
+function ptFromEvent(e){ const r=$("ink").getBoundingClientRect(); return [ (e.clientX-r.left)/r.width*pageSize.w, (e.clientY-r.top)/r.height*pageSize.h ]; }
+const ink=$("ink");
+ink.addEventListener("pointerdown",e=>{
+  if(e.pointerType==="pen" && !sawPencil){ sawPencil=true; document.body.classList.add("pencil"); toast("Apple Pencil draws · finger scrolls"); }
+  if(sawPencil && e.pointerType==="touch") return;  // palm/finger: let it scroll
+  if(tool==="hand") return;
+  e.preventDefault(); try{ink.setPointerCapture(e.pointerId);}catch(_){} sel=null; renderStickers();
+  const [x,y]=ptFromEvent(e); live={t:tool,c:color,w:size,p:[+x.toFixed(1),+y.toFixed(1)],id:e.pointerId}; drawInk(live);
+});
+ink.addEventListener("pointermove",e=>{ if(!live||e.pointerId!==live.id) return; e.preventDefault();
+  const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e]; for(const ev of evs){ const [x,y]=ptFromEvent(ev); live.p.push(+x.toFixed(1),+y.toFixed(1)); } drawInk(live); });
+const endStroke=e=>{ if(!live||e.pointerId!==live.id) return; const s=live; live=null; delete s.id; inkList().push(s); redoStack=[]; drawInk(); saveState(); };
+ink.addEventListener("pointerup",endStroke); ink.addEventListener("pointercancel",e=>{ if(live&&e.pointerId===live.id){live=null;drawInk();} });
+// finger on the page while Pencil mode: block accidental drawing but keep scrolling (touch-action pan)
+function setTool(t){ tool=t; document.querySelectorAll("[data-tool]").forEach(b=>b.classList.toggle("on",b.dataset.tool===t)); document.body.classList.toggle("handTool",t==="hand"); }
+document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
+COLORS.forEach(c=>{ const b=document.createElement("button"); b.className="sw"+(c===color?" on":""); b.style.background=c; b.dataset.color=c; b.onclick=()=>{color=c;document.querySelectorAll(".sw").forEach(s=>s.classList.toggle("on",s===b)); if(tool==="eraser"||tool==="hand") setTool("pen");}; $("colors").append(b); });
+$("size").oninput=e=>size=+e.target.value;
+$("undo").onclick=()=>{ const L=inkList(); if(!L.length && cleared[pageNo]){ state.ink[pageNo]=cleared[pageNo]; delete cleared[pageNo]; redoStack=[]; drawInk(); saveState(); return; } if(L.length){ redoStack.push(L.pop()); drawInk(); saveState(); } };
+$("redo").onclick=()=>{ if(redoStack.length){ inkList().push(redoStack.pop()); drawInk(); saveState(); } };
+$("clear").onclick=()=>{ if(!inkList().length) return; $("modalBox").innerHTML=`<h2 style="margin:0 0 8px">Clear this page’s drawing?</h2><p>Stickers stay.</p><div style="display:flex;gap:10px;justify-content:center"><button id="cNo">Keep it</button><button id="cYes" class="on">Clear</button></div>`;
+  $("modal").classList.remove("hide"); $("cNo").onclick=()=>$("modal").classList.add("hide"); $("cYes").onclick=()=>{ cleared[pageNo]=inkList().slice(); redoStack=[]; state.ink[pageNo]=[]; drawInk(); saveState(); $("modal").classList.add("hide"); }; };
+
+/* ---------- stickers on the page ---------- */
+let sel=null;
+function placedOnPage(){ return Object.entries(state.placed).filter(([id,p])=>p.page===pageNo); }
+function stickerDef(id){ return book.stickers.find(s=>s.id===id); }
+async function renderStickers(){
+  const box=$("stk"); box.innerHTML=""; const k=vp.W/pageSize.w;
+  for(const [id,p] of placedOnPage()){ const s=stickerDef(id); if(!s) continue;
+    const el=document.createElement("div"); el.className="st"+(p.snap?" snapped":"")+(sel===id?" sel":""); el.dataset.id=id;
+    const w=s.w*p.sc*k,h=s.h*p.sc*k; el.style.width=w+"px"; el.style.height=h+"px";
+    el.style.transform=`translate(${p.cx*k-w/2}px,${p.cy*k-h/2}px) rotate(${p.rot}deg)`;
+    el.innerHTML=`<img alt=""><div class="h rz">⤡</div><div class="h pl" title="Peel off">↩</div>`;
+    el.querySelector("img").src=await stickerURL(s); box.append(el); bindSticker(el,id);
+  }
+}
+function applyEl(el,id){ const s=stickerDef(id),p=state.placed[id],k=vp.W/pageSize.w,w=s.w*p.sc*k,h=s.h*p.sc*k;
+  el.style.width=w+"px"; el.style.height=h+"px"; el.style.transform=`translate(${p.cx*k-w/2}px,${p.cy*k-h/2}px) rotate(${p.rot}deg)`; el.classList.toggle("snapped",!!p.snap); }
+function bindSticker(el,id){
+  el.addEventListener("pointerdown",e=>{
+    if(e.target.classList.contains("pl")){ e.preventDefault(); delete state.placed[id]; sel=null; saveState(); renderStickers(); fillDrawer(); toast("Peeled back to the drawer"); return; }
+    e.preventDefault(); e.stopPropagation(); try{el.setPointerCapture(e.pointerId);}catch(_){}
+    if(sel!==id){ sel=id; document.querySelectorAll(".st").forEach(x=>x.classList.toggle("sel",x===el)); }
+    const p=state.placed[id], start=ptFromEvent(e), o={...p}; p.snap=false;
+    const rz=e.target.classList.contains("rz");
+    const c0=[o.cx,o.cy], d0=Math.hypot(start[0]-c0[0],start[1]-c0[1]), a0=Math.atan2(start[1]-c0[1],start[0]-c0[0]);
+    const mv=ev=>{ const q=ptFromEvent(ev);
+      if(rz){ const d=Math.hypot(q[0]-c0[0],q[1]-c0[1]),a=Math.atan2(q[1]-c0[1],q[0]-c0[0]); p.sc=Math.max(.25,Math.min(4,o.sc*d/Math.max(d0,1))); p.rot=(o.rot+(a-a0)*180/Math.PI+360)%360; }
+      else { p.cx=o.cx+q[0]-start[0]; p.cy=o.cy+q[1]-start[1]; }
+      applyEl(el,id); };
+    const up=()=>{ el.removeEventListener("pointermove",mv); el.removeEventListener("pointerup",up); el.removeEventListener("pointercancel",up); trySnap(id); applyEl(el,id); saveState(); };
+    el.addEventListener("pointermove",mv); el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
+  });
+}
+function targetsFor(s){ // where this sticker may snap on the current page
+  if(s.target && !(book.anyTarget||[]).includes(s.group)) return s.target.page===pageNo?[{...s.target,w:s.w}]:[];
+  if((book.anyTarget||[]).includes(s.group)) return book.stickers.filter(o=>o.group===s.group&&o.target&&o.target.page===pageNo).map(o=>({...o.target,w:o.w}));
+  const sl=(book.slots||{})[s.group]; return sl?sl.filter(t=>t.page===pageNo).map(t=>({...t,w:t.size})):[];
+}
+function trySnap(id){
+  const s=stickerDef(id),p=state.placed[id]; let best=null,bd=1e9;
+  for(const t of targetsFor(s)){
+    const taken=Object.entries(state.placed).some(([oid,o])=>oid!==id&&o.snap&&o.page===pageNo&&Math.hypot(o.cx-t.cx,o.cy-t.cy)<2);
+    if(taken) continue; const d=Math.hypot(p.cx-t.cx,p.cy-t.cy); if(d<bd){bd=d;best=t;} }
+  if(best && bd<Math.max(22,best.w*0.55)){
+    p.cx=best.cx; p.cy=best.cy; p.sc=best.w/s.w;
+    if(s.shape==="circle"||(book.slots||{})[s.group]) p.rot=best.rot||0;
+    else { const step=s.shape==="hex"?60:s.shape==="rect"?90:360; let r=best.rot; // nearest equivalent turn of the shape
+      if(step<360 && (book.anyTarget||[]).includes(s.group)){ const turns=Math.round(((p.rot-r)%360+360)%360/step)%(360/step); r=(r+turns*step)%360; } p.rot=r; }
+    p.snap=true; if(navigator.vibrate) navigator.vibrate(15); toast("✨ It fits!",1200);
+  }
+}
+/* ---------- drawer ---------- */
+function groupsForPage(){ const g=(book.pageGroups||{})[pageNo]; return g?[...new Set([...g,...book.defaultGroups])]:book.defaultGroups; }
+async function fillDrawer(){
+  const L=$("drawerList"); L.innerHTML=""; const gs=groupsForPage();
+  const list=book.stickers.filter(s=>gs.includes(s.group)&&!state.placed[s.id]);
+  // page-specific puzzle pieces first
+  list.sort((a,b)=>(gs.indexOf(a.group)-gs.indexOf(b.group)));
+  const puz=list.filter(s=>s.target&&s.target.page===pageNo).length;
+  $("drawerNote").textContent=puz?` · ${puz} puzzle piece${puz>1?"s":""} for this page`:` · ${list.length} left`;
+  if(!list.length){ L.innerHTML=`<div class="empty">All used! Peel one off (↩) to get it back.</div>`; return; }
+  for(const s of list){ const d=document.createElement("div"); d.className="di"; d.dataset.id=s.id; d.innerHTML=`<img alt="">`; d.querySelector("img").src=await stickerURL(s); L.append(d); bindDrawer(d,s); }
+}
+function bindDrawer(d,s){
+  d.addEventListener("pointerdown",e=>{
+    e.preventDefault(); const sx=e.clientX,sy=e.clientY; let ghost=null,moved=false;
+    const mv=ev=>{ if(!moved && Math.abs(ev.clientY-sy)<12 && Math.abs(ev.clientX-sx)>12){ // horizontal = scroll drawer
+        $("drawerList").scrollLeft-=ev.movementX||0; return; }
+      if(!moved && Math.hypot(ev.clientX-sx,ev.clientY-sy)<8) return; moved=true;
+      if(!ghost){ ghost=d.querySelector("img").cloneNode(); ghost.style.cssText="position:fixed;z-index:40;pointer-events:none;width:90px;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 3px 6px #0006)"; document.body.append(ghost); d.classList.add("ghost"); }
+      ghost.style.left=ev.clientX+"px"; ghost.style.top=ev.clientY+"px"; };
+    const up=ev=>{ window.removeEventListener("pointermove",mv); window.removeEventListener("pointerup",up); window.removeEventListener("pointercancel",up);
+      if(ghost) ghost.remove(); d.classList.remove("ghost");
+      const r=$("ink").getBoundingClientRect(); let pt;
+      if(moved && ev.clientX>=r.left&&ev.clientX<=r.right&&ev.clientY>=r.top&&ev.clientY<=r.bottom) pt=ptFromEvent(ev);
+      else if(!moved){ const v=$("view").getBoundingClientRect(); pt=ptFromEvent({clientX:(Math.max(r.left,v.left)+Math.min(r.right,v.right))/2,clientY:(Math.max(r.top,v.top)+Math.min(r.bottom,v.bottom))/2}); }
+      if(!pt) return;
+      const maxW=pageSize.w*0.28, sc=s.target?1:Math.min(1,maxW/s.w);
+      state.placed[s.id]={page:pageNo,cx:pt[0],cy:pt[1],rot:0,sc,snap:false}; sel=s.id; trySnap(s.id); saveState(); renderStickers(); fillDrawer(); };
+    window.addEventListener("pointermove",mv); window.addEventListener("pointerup",up); window.addEventListener("pointercancel",up);
+  });
+}
+$("stickBtn").onclick=()=>{ $("drawer").classList.toggle("closed"); $("stickBtn").classList.toggle("on",!$("drawer").classList.contains("closed")); document.body.classList.toggle("drawerOpen",!$("drawer").classList.contains("closed")); document.body.style.setProperty("--dh",$("drawer").offsetHeight+"px"); setTimeout(()=>{layout();paintPage().then(()=>{drawInk();renderStickers();});},60); };
+$("drawerClose").onclick=$("stickBtn").onclick;
+$("stk").addEventListener("pointerdown",()=>{});
+$("view").addEventListener("pointerdown",e=>{ if(sel && !e.target.closest(".st")){ sel=null; document.querySelectorAll(".st").forEach(x=>x.classList.remove("sel")); } },true);
+
+/* ---------- navigation ---------- */
+function step(d){ const i=pageList.indexOf(pageNo)+d; if(i>=0&&i<pageList.length){ showPage(pageList[i]); $("view").scrollTop=0; } }
+$("prev").onclick=()=>step(-1); $("next").onclick=()=>step(1);
+$("doneBtn").onclick=()=>{ if(state.done[pageNo]) delete state.done[pageNo]; else { state.done[pageNo]=Date.now(); toast("⭐ Page done!"); } $("doneBtn").classList.toggle("on",!!state.done[pageNo]); markThumbs(); saveState(); };
+$("zoomBtn").onclick=()=>{ zoom=(zoom+1)%3; layout(); paintPage().then(()=>{drawInk();renderStickers();}); };
+$("shelfBtn").onclick=closeBook;
+let rsT=0; window.addEventListener("resize",()=>{ if(!book) return; clearTimeout(rsT); rsT=setTimeout(()=>{ layout(); paintPage().then(()=>{drawInk();renderStickers();}); },150); });
+document.addEventListener("keydown",e=>{ if(!book||e.target.tagName==="INPUT") return; if(e.key==="ArrowRight") step(1); if(e.key==="ArrowLeft") step(-1); });
+
+/* ---------- shelf buttons ---------- */
+holdGuard($("grownBtn"),()=>$("grownPanel").classList.toggle("hide"));
+holdGuard($("exitBtn"),()=>{ try{ parent.postMessage({mmb:"exit-workbook"},location.origin); }catch(e){} if(parent===window) location.href="../index.html?workbook=off"; });
+$("loadBtn").onclick=()=>$("file").click();
+$("file").onchange=e=>{ const f=e.target.files[0]; e.target.value=""; if(f) importPdf(f); };
+window.WB={importPdf,DB,get state(){return state},get pageSize(){return pageSize},get book(){return book},showPage,trySnap,openBook};
+loadCfg().then(async()=>{ await renderShelf(); const last=localStorage.getItem("mmb_workbook_last"); if(last && new URLSearchParams(location.search).get("shelf")!=="1" && await DB.get("pdfs",last+":meta")) openBook(last); });
+</script>
+</body>
+</html>

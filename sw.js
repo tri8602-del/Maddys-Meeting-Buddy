@@ -3,11 +3,13 @@
    The file list is worked out from index.html, sunday/index.html and the week
    folders named in weeks/current.js, so a weekly update needs no edits here:
    changing weeks/current.js makes the browser install a fresh copy. */
-const SW_VERSION = 'mmb-sw-2026-10-13';
+const SW_VERSION = 'mmb-sw-2026-10-24-wb';
 importScripts('weeks/current.js');
 const CACHE = SW_VERSION + '|' + self.MMB_WEEK.midweek + '|' + self.MMB_WEEK.sunday;
 const CORE = ['./', 'index.html', 'weeks/current.js', 'sunday/index.html', 'sunday/engine.js',
-  'sunday/brutus.png', 'songs/songs.js'];
+  'sunday/brutus.png', 'songs/songs.js',
+  // Workbook mode: app + sticker coordinates + pdf.js. The workbook PDFs themselves live in IndexedDB, never here.
+  'workbook/index.html', 'workbook/stickers.json', 'workbook/vendor/pdf.min.js', 'workbook/vendor/pdf.worker.min.js'];
 const SLOW_MS = 3000;
 
 async function text(url){

@@ -695,6 +695,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       <div class="pre-row">
         <button class="ghosty" id="openShopWelcome" type="button">★ Star shop</button>
         <button class="ghosty" id="openSongWelcome" type="button">🎵 Song</button>
+        <button class="ghosty" id="openWorkbook" type="button">📒 Workbook</button>
       </div>
       <div class="week-chip" id="weekChip">Jeremiah 38–39 · September 28–October 4, 2026</div>
     </div>
@@ -844,6 +845,9 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
     </div>
   </section>
 </main>
+<!-- WORKBOOK MODE: workbook/index.html full-screen. While on, it replaces this home (remembered on this iPad);
+     leaving needs a grown-up (hold + a quick sum inside the workbook). -->
+<div id="workbookScreen" hidden style="position:fixed;inset:0;z-index:1000;background:#efe9f7"><iframe id="workbookFrame" title="Workbook" style="width:100%;height:100%;border:0;display:block"></iframe></div>
 
 
 <div class="overlay" id="songOverlay">
@@ -2528,6 +2532,19 @@ $("songFinder").addEventListener("click",e=>{ if(e.target===$("songFinder")) clo
 if("serviceWorker" in navigator){
   window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).catch(()=>{}); });
 }
+
+/* WORKBOOK MODE switch (see workbook/index.html). localStorage "mmb_workbook_mode" = "1" while on.
+   ?workbook=off turns it off (used by the workbook page when opened on its own). */
+(function(){
+  const KEY="mmb_workbook_mode", scr=document.getElementById("workbookScreen"), fr=document.getElementById("workbookFrame");
+  function on(){ try{localStorage.setItem(KEY,"1");}catch(e){} if(!fr.getAttribute("src")) fr.setAttribute("src","workbook/index.html"); scr.hidden=false; document.documentElement.dataset.workbook="on"; }
+  function off(){ try{localStorage.removeItem(KEY);}catch(e){} scr.hidden=true; delete document.documentElement.dataset.workbook; if(typeof showScreen==="function") showScreen("welcomeScreen"); }
+  window.addEventListener("message",e=>{ if(e.origin===location.origin && e.data && e.data.mmb==="exit-workbook") off(); });
+  const b=document.getElementById("openWorkbook"); if(b) b.addEventListener("click",e=>{e.preventDefault();on();});
+  const q=new URLSearchParams(location.search).get("workbook");
+  if(q==="off") off(); else if(q==="on" || localStorage.getItem(KEY)==="1") on();
+  window.mmbWorkbook={on,off};
+})();
 </script>
 </body>
 </html>

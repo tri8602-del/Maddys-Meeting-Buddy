@@ -1,0 +1,7 @@
+# Workbook PDFs and any page/sticker images are licensed for one household — never commit them.
+workbook-*.pdf
+workbook/**/*.pdf
+workbook/**/*.png
+workbook/**/*.jpg
+workbook/**/*.webp
+workbook/shots/
