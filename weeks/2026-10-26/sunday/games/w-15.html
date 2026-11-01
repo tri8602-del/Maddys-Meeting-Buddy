@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶16 · What will you do?</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶16 · What will you do?",
+ "sub": "What will you do?",
+ "done": "You can share the good news too!",
+ "doneEmoji": "📖",
+ "rounds": [
+  {
+   "type": "find",
+   "img": "../wt-pages/p16.jpg",
+   "q": "Look at the pictures. Find these:",
+   "spots": [
+    {
+     "t": "Sisters preaching at a door",
+     "x": 0,
+     "y": 8,
+     "w": 44,
+     "h": 90,
+     "why": "Found them! They share a tract."
+    },
+    {
+     "t": "A brother witnessing at work",
+     "x": 57,
+     "y": 5,
+     "w": 30,
+     "h": 42,
+     "why": "Found him! He talks during his break."
+    },
+    {
+     "t": "A sister talking to her class",
+     "x": 68,
+     "y": 52,
+     "w": 16,
+     "h": 46,
+     "why": "Found her! She explains creation at school."
+    }
+   ]
+  },
+  {
+   "type": "sort",
+   "bins": [
+    "Ways I can preach",
+    "Not a good way"
+   ],
+   "cards": [
+    {
+     "t": "Offer a tract at the door",
+     "b": 0,
+     "why": "Yes!"
+    },
+    {
+     "t": "Tell a classmate about creation",
+     "b": 0,
+     "why": "Yes — like the sister in the picture."
+    },
+    {
+     "t": "Share a Bible verse with a neighbor",
+     "b": 0,
+     "why": "Yes!"
+    },
+    {
+     "t": "Argue and be rude",
+     "b": 1,
+     "why": "Right — we preach kindly."
+    },
+    {
+     "t": "Stay quiet and never tell anyone",
+     "b": 1,
+     "why": "Right — the good news is for sharing!"
+    }
+   ],
+   "q": "Tap a card, then its box."
+  }
+ ],
+ "id": "w-15"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>

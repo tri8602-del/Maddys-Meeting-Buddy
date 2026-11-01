@@ -1,11 +1,13 @@
 /* Maddy's Meeting Buddy — offline copy (Midweek + Sunday).
    Network first (fresh content when online), cached copy when offline or slow.
    The file list is worked out from index.html, sunday/index.html and the week
-   folders named in weeks/current.js, so a weekly update needs no edits here:
+   folders named in weeks/current.js (the midweek folder and every listed Sunday folder), so a weekly update needs no edits here:
    changing weeks/current.js makes the browser install a fresh copy. */
-const SW_VERSION = 'mmb-sw-2026-11-01';
+const SW_VERSION = 'mmb-sw-2026-11-01b';
 importScripts('weeks/current.js');
-const CACHE = SW_VERSION + '|' + self.MMB_WEEK.midweek + '|' + self.MMB_WEEK.sunday;
+// Every listed Sunday study is cached, so the switch from one Sunday to the next works offline.
+const SUNDAYS = (self.MMB_WEEK.sundays || [{path: self.MMB_WEEK.sunday}]).map(s => s.path);
+const CACHE = SW_VERSION + '|' + self.MMB_WEEK.midweek + '|' + SUNDAYS.join('|');
 const CORE = ['./', 'index.html', 'weeks/current.js', 'sunday/index.html', 'sunday/engine.js',
   'sunday/brutus.png', 'songs/songs.js',
   // Workbook mode: app + sticker coordinates + pdf.js. The workbook PDFs themselves live in IndexedDB, never here.
@@ -22,17 +24,19 @@ async function fileList(){
   grab(await text('index.html'), MEDIA, m => m[1], out);
   grab(await text('sunday/index.html'), /\.\.\/(media\/[\w.\-]+)/g, m => m[1], out);
   grab(await text('songs/songs.js'), /"(\d{3}-\d+\.png)"/g, m => 'songs/' + m[1], out);   // whole songbook, once
-  const mw = self.MMB_WEEK.midweek, sd = self.MMB_WEEK.sunday;
+  const mw = self.MMB_WEEK.midweek;
   out.add(mw + '/week.js');
   grab(await text(mw + '/week.js'), MEDIA, m => m[1], out);
-  out.add(sd + '/data.js');
-  const data = await text(sd + '/data.js');
-  grab(data, /\bwt:\s*'([^']+)'/g, m => sd + '/' + m[1], out);
-  grab(data, /\bimg:\s*'([^']+)'/g, m => sd + '/' + m[1], out);
-  const games = new Set(); grab(data, /\bgame:\s*'([\w\-]+)'/g, m => m[1], games);
-  for(const g of games){
-    const url = sd + '/games/' + g + '.html'; out.add(url);
-    grab(await text(url), /["'(]\.\.\/([\w\-]+\/[\w.\-]+\.(?:jpe?g|png|webp|gif|svg))/g, m => sd + '/' + m[1], out);
+  for(const sd of SUNDAYS){
+    out.add(sd + '/data.js');
+    const data = await text(sd + '/data.js');
+    grab(data, /\bwt:\s*'([^']+)'/g, m => sd + '/' + m[1], out);
+    grab(data, /\bimg:\s*'([^']+)'/g, m => sd + '/' + m[1], out);
+    const games = new Set(); grab(data, /\bgame:\s*'([\w\-]+)'/g, m => m[1], games);
+    for(const g of games){
+      const url = sd + '/games/' + g + '.html'; out.add(url);
+      grab(await text(url), /["'(]\.\.\/([\w\-]+\/[\w.\-]+\.(?:jpe?g|png|webp|gif|svg))/g, m => sd + '/' + m[1], out);
+    }
   }
   return [...out];
 }

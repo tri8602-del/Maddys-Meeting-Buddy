@@ -37,11 +37,18 @@ weeks/<Monday>/sunday/<issue>.pdf  the Watchtower issue PDF (Page button)
 3. **Sunday:** copy last week’s `sunday/` folder into `weeks/2026-10-12/sunday/` and edit it:
    - In `data.js`, update `meta`. That means `id`, which is the Sunday date and the key Sunday progress is saved under, plus `range`, `title`, `short`, `theme`, `wt`, the opening/closing songs and `about`. Also update `wtPage()` (paragraph → PDF page), `pTexts`, `easy`, `questions` and `units`. Each unit’s `game:'w-XX'` must match a file in `games/`.
    - Replace the files in `games/w-XX.html`, the `wt-pages/` pictures and the Watchtower PDF.
-4. Edit `weeks/current.js` to point at the new folders:
+4. Edit `weeks/current.js`: point `midweek` at the new midweek folder and add the new Sunday study to `sundays` with the Sunday it is studied on (`meta.id`). Keep the previous entry until that Sunday has passed:
    ```js
-   self.MMB_WEEK = { midweek: "weeks/2026-10-12/midweek", sunday: "weeks/2026-10-12/sunday" };
+   self.MMB_WEEK = {
+     midweek: "weeks/2026-11-02/midweek",
+     sundays: [
+       {date: "2026-11-01", path: "weeks/2026-10-26/sunday"},
+       {date: "2026-11-08", path: "weeks/2026-11-02/sunday"}
+     ]
+   };
    ```
-5. Upload. Nothing else needs to change. Editing `current.js` makes the offline copy refresh by itself. The service worker builds its file list from `index.html`, `sunday/index.html` and the two week folders.
+   Sunday mode shows the first study whose date is today or later, so on a Sunday it shows that day's study, and from Monday on it shows the next one. An update uploaded over the weekend never shows next week's Watchtower early.
+5. Upload. Nothing else needs to change. Editing `current.js` makes the offline copy refresh by itself. The service worker builds its file list from `index.html`, `sunday/index.html` the midweek folder and every listed Sunday folder.
 
 Keep last week’s folders (and the pictures they use) for one more week, then delete them (git history keeps them). Devices that still have last week’s offline copy may briefly open it while the new copy downloads. If last week’s files are already gone at that moment, the Sunday page can fail to load until the next refresh.
 
