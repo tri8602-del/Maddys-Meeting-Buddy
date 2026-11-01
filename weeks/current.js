@@ -4,6 +4,6 @@
    Changing this file also refreshes the offline copy (sw.js re-reads it).
    ============================================================ */
 self.MMB_WEEK = {
-  midweek: "weeks/2026-10-12/midweek",
-  sunday:  "weeks/2026-10-12/sunday"
+  midweek: "weeks/2026-11-02/midweek",
+  sunday:  "weeks/2026-11-02/sunday"
 };
