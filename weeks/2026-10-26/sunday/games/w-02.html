@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶2 · The powerful savior</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶2 · The powerful savior",
+ "sub": "Jesus is the powerful savior.",
+ "done": "Jesus is the Messiah!",
+ "doneEmoji": "👑",
+ "rounds": [
+  {
+   "type": "quiz",
+   "q": "Who is the “powerful savior” from the house of David?",
+   "opts": [
+    {
+     "t": "Jesus, the Messiah",
+     "e": "👑",
+     "ok": 1,
+     "why": "Yes! Jesus came from King David’s family."
+    },
+    {
+     "t": "Zechariah",
+     "e": "👴",
+     "why": null
+    },
+    {
+     "t": "King Herod",
+     "e": "🏰",
+     "why": null
+    }
+   ],
+   "ref": "Luke 1:69"
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "God promised his people a gift: salvation.",
+     "ok": true,
+     "why": "True!"
+    },
+    {
+     "t": "Jesus became the Messiah when he was baptized at age 30.",
+     "ok": true,
+     "why": "True — Jehovah anointed him with holy spirit."
+    },
+    {
+     "t": "Mary’s baby would be called “God’s Son.”",
+     "ok": true,
+     "why": "True — the angel Gabriel said so (Luke 1:35)."
+    }
+   ]
+  }
+ ],
+ "id": "w-02"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶13 · A brand-new day</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶13 · A brand-new day",
+ "sub": "A brand-new day!",
+ "done": "The good news is for everyone!",
+ "doneEmoji": "🌅",
+ "rounds": [
+  {
+   "type": "quiz",
+   "q": "Zechariah said the Messiah’s coming would be like…",
+   "opts": [
+    {
+     "t": "A daybreak — the sun rising",
+     "e": "🌅",
+     "ok": 1,
+     "why": "Yes! The dawn of a new era."
+    },
+    {
+     "t": "A thunderstorm",
+     "e": "⛈️",
+     "why": null
+    },
+    {
+     "t": "Bedtime",
+     "e": "🌙",
+     "why": null
+    }
+   ],
+   "ref": "Luke 1:78"
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "John could tell everyone in the world by himself.",
+     "ok": false,
+     "why": "Right — more witnesses were needed."
+    },
+    {
+     "t": "The news about the Messiah deserved to be told everywhere.",
+     "ok": true,
+     "why": "True!"
+    }
+   ]
+  }
+ ],
+ "id": "w-12"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>
