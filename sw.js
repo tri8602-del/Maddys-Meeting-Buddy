@@ -3,7 +3,7 @@
    The file list is worked out from index.html, sunday/index.html and the week
    folders named in weeks/current.js (the midweek folder and every listed Sunday folder), so a weekly update needs no edits here:
    changing weeks/current.js makes the browser install a fresh copy. */
-const SW_VERSION = 'mmb-sw-2026-11-01b';
+const SW_VERSION = 'mmb-sw-2026-11-09';
 importScripts('weeks/current.js');
 // Every listed Sunday study is cached, so the switch from one Sunday to the next works offline.
 const SUNDAYS = (self.MMB_WEEK.sundays || [{path: self.MMB_WEEK.sunday}]).map(s => s.path);
