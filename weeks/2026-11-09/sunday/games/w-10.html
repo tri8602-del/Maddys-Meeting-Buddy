@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶12 · A treasure store</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶12 · A treasure store",
+ "sub": "Build your Bible treasure store.",
+ "done": "New Bible truths make us stronger!",
+ "doneEmoji": "💎",
+ "rounds": [
+  {
+   "type": "quiz",
+   "q": "What made Jehoshaphat’s prayer strong?",
+   "opts": [
+    {
+     "t": "He knew the Bible well",
+     "e": "📚",
+     "ok": 1,
+     "why": "Yes. His knowledge helped him trust and obey Jehovah."
+    },
+    {
+     "t": "He used fancy words no one knew",
+     "e": "✨",
+     "why": null
+    },
+    {
+     "t": "He shouted very loudly",
+     "e": "📢",
+     "why": null
+    }
+   ]
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "We should keep adding new things we learn from the Bible to our “treasure store.”",
+     "ok": true,
+     "why": "True! Matthew 13:52."
+    },
+    {
+     "t": "Once we know a few Bible stories, we are done learning.",
+     "ok": false,
+     "why": "False. We keep building our knowledge."
+    }
+   ]
+  },
+  {
+   "type": "unscramble",
+   "word": "KNOWLEDGE",
+   "q": "Unscramble: Bible ___ makes our trust stronger.",
+   "hint": "Matthew 13:52",
+   "why": "KNOWLEDGE from the Bible is a treasure!"
+  }
+ ],
+ "id": "w-10"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>

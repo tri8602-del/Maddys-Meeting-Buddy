@@ -40,10 +40,10 @@ weeks/<Monday>/sunday/<issue>.pdf  the Watchtower issue PDF (Page button)
 4. Edit `weeks/current.js`: point `midweek` at the new midweek folder and add the new Sunday study to `sundays` with the Sunday it is studied on (`meta.id`). Keep the previous entry until that Sunday has passed:
    ```js
    self.MMB_WEEK = {
-     midweek: "weeks/2026-11-02/midweek",
+     midweek: "weeks/2026-11-09/midweek",
      sundays: [
-       {date: "2026-11-01", path: "weeks/2026-10-26/sunday"},
-       {date: "2026-11-08", path: "weeks/2026-11-02/sunday"}
+       {date: "2026-11-08", path: "weeks/2026-11-02/sunday"},
+       {date: "2026-11-15", path: "weeks/2026-11-09/sunday"}
      ]
    };
    ```
