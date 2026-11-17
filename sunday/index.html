@@ -354,7 +354,7 @@ const HOST=(()=>{try{return window.parent!==window&&typeof window.parent.earnSta
 const STORE='mmb2_sunday_'+WK.id;
 // Brutus art + shop items (same as the shell's shop) so Brutus looks the same here.
 const BUDDY_ART='../media/img-004.jpg';
-const ACC_LAYERS={bow:"../media/img-042.webp",party:"../media/img-043.webp",glasses:"../media/img-044.webp",starsticker:"../media/img-045.webp",heart:"../media/img-046.webp",daisy:"../media/img-047.webp",bamboo:"../media/img-048.webp"};
+const ACC_LAYERS={bow:"../media/img-042.webp",party:"../media/img-043.webp",glasses:"../media/img-044.webp",starsticker:"../media/img-045.webp",heart:"../media/img-046.webp",daisy:"../media/img-047.webp",bamboo:"../media/img-048.webp",mane:"../media/img-092.webp"};
 const SHOP=[
   {id:"bow", slot:"hat", name:"Ribbon bow", ico:"🎀", src:'../media/img-084.png', cost:5, blurb:"A bow for meeting nights."},
   {id:"daisy", slot:"hat", name:"Daisy crown", ico:"🌼", src:'../media/img-085.png', cost:8, blurb:"Tiny flowers on top."},
@@ -367,7 +367,8 @@ const SHOP=[
   {id:"crown", slot:"hat", name:"Tiny crown", ico:"👑", cost:12, blurb:"A little queen look."},
   {id:"cape", slot:"held", name:"Red cape", ico:"🦸", cost:10, blurb:"Flies behind you."},
   {id:"glow", slot:"frame", name:"Sunshine glow", ico:"🌟", cost:15, blurb:"A hidden warm glow.", secret:true, code:"shine"},
-  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"}
+  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"},
+  {id:"mane", slot:"hat", name:"Lion mane", ico:"🦁", cost:15, blurb:"A hidden brave look for Brutus.", secret:true, code:"brave"}
 ];
 const DEFAULT={shopV:2,screen:'setup',talk:'',opening:'',unit:0,view:'actual',stars:0,earned:{},activityStars:{},materialAwarded:{},attempts:{},test:false,meetingStarted:null,wtUnlocked:false,talkDone:false,talkNotes:{},questionAnswers:{},game:{},marks:{},hl:'y',chat:[],owned:[],wear:{items:[]},theme:'lavender',font:'system',bg:'plain',readAt:{}};
 let state={...DEFAULT};
@@ -1128,13 +1129,14 @@ function finish(){
 function wearing(){if(HOST) try{return HOST.wearing()}catch(e){} return []}
 function isWearing(id){return wearing().includes(id)}
 function accessoryHTML(){
-  const order=["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
+  const order=["cape","mane","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
   return order.filter(isWearing).map(id=>{
     if(id==="frame") return '<div class="acc-frame" aria-hidden="true"></div>';
     if(id==="crown") return '<div class="acc-crown" aria-hidden="true">👑</div>';
     if(id==="glow") return '<div class="acc-glow" aria-hidden="true"></div>';
     if(id==="cape") return '<div class="acc-cape" aria-hidden="true"></div>';
     if(id==="sparkles") return '<div class="acc-sparkles" aria-hidden="true"></div>';
+    if(id==="mane") return ACC_LAYERS.mane?'<img class="acc-overlay acc-mane" alt="" src="'+ACC_LAYERS.mane+'">':'';
     return ACC_LAYERS[id]?'<img class="acc-overlay" alt="" src="'+ACC_LAYERS[id]+'">':'';
   }).join('');
 }

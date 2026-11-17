@@ -141,6 +141,9 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 #welcomeScreen{align-items:center}
 .brutus-card{width:min(280px,70vw);margin:18px auto 22px;background:#fff;border-radius:24px;padding:12px 12px 10px;box-shadow:0 12px 32px rgba(80,50,120,.12);text-align:center}
 .brutus-card img{width:100%;border-radius:18px;display:block}
+.welcome-face{position:relative;border-radius:18px;overflow:hidden}
+.welcome-face img{width:100%;border-radius:18px;display:block;position:relative;z-index:1}
+.welcome-face img.acc-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;border-radius:18px;z-index:2;pointer-events:none}
 .brutus-name{font-family:var(--kid-display,Fredoka,sans-serif);font-size:22px;margin-top:8px}
 .welcome{
   width:min(980px,100%);
@@ -684,7 +687,9 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       <h1>Maddy’s Meeting Buddy</h1>
       <p class="subtitle">Brutus is ready to sit with you at the Kingdom Hall.</p>
       <div class="brutus-card">
-        <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
+        <div class="welcome-face" id="welcomeFace">
+          <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
+        </div>
         <div class="brutus-name">Brutus</div>
       </div>
       <div class="mode-switch" role="group" aria-label="Which meeting?">
@@ -1015,7 +1020,7 @@ if(!Array.isArray(shopWear.items)){
   shopWear={items:[...new Set(legacy.filter(Boolean))]};
 }
 
-const LAYERS = {spider:{bow:"media/img-028.webp",party:"media/img-029.webp",glasses:"media/img-030.webp",starsticker:"media/img-031.webp",heart:"media/img-032.webp",daisy:"media/img-033.webp",bamboo:"media/img-034.webp"},panda:{bow:"media/img-035.webp",party:"media/img-036.webp",glasses:"media/img-037.webp",starsticker:"media/img-038.webp",heart:"media/img-039.webp",daisy:"media/img-040.webp",bamboo:"media/img-041.webp"},shepherd:{bow:"media/img-042.webp",party:"media/img-043.webp",glasses:"media/img-044.webp",starsticker:"media/img-045.webp",heart:"media/img-046.webp",daisy:"media/img-047.webp",bamboo:"media/img-048.webp"},axolotl:{bow:"media/img-049.webp",party:"media/img-050.webp",glasses:"media/img-051.webp",starsticker:"media/img-052.webp",heart:"media/img-053.webp",daisy:"media/img-054.webp",bamboo:"media/img-055.webp"},bunny:{bow:"media/img-056.webp",party:"media/img-057.webp",glasses:"media/img-058.webp",starsticker:"media/img-059.webp",heart:"media/img-060.webp",daisy:"media/img-061.webp",bamboo:"media/img-062.webp"},capybara:{bow:"media/img-063.webp",party:"media/img-064.webp",glasses:"media/img-065.webp",starsticker:"media/img-066.webp",heart:"media/img-067.webp",daisy:"media/img-068.webp",bamboo:"media/img-069.webp"},kitty:{bow:"media/img-070.webp",party:"media/img-071.webp",glasses:"media/img-072.webp",starsticker:"media/img-073.webp",heart:"media/img-074.webp",daisy:"media/img-075.webp",bamboo:"media/img-076.webp"},koala:{bow:"media/img-077.webp",party:"media/img-078.webp",glasses:"media/img-079.webp",starsticker:"media/img-080.webp",heart:"media/img-081.webp",daisy:"media/img-082.webp",bamboo:"media/img-083.webp"}};
+const LAYERS = {spider:{bow:"media/img-028.webp",party:"media/img-029.webp",glasses:"media/img-030.webp",starsticker:"media/img-031.webp",heart:"media/img-032.webp",daisy:"media/img-033.webp",bamboo:"media/img-034.webp"},panda:{bow:"media/img-035.webp",party:"media/img-036.webp",glasses:"media/img-037.webp",starsticker:"media/img-038.webp",heart:"media/img-039.webp",daisy:"media/img-040.webp",bamboo:"media/img-041.webp"},shepherd:{bow:"media/img-042.webp",party:"media/img-043.webp",glasses:"media/img-044.webp",starsticker:"media/img-045.webp",heart:"media/img-046.webp",daisy:"media/img-047.webp",bamboo:"media/img-048.webp",mane:"media/img-092.webp"},axolotl:{bow:"media/img-049.webp",party:"media/img-050.webp",glasses:"media/img-051.webp",starsticker:"media/img-052.webp",heart:"media/img-053.webp",daisy:"media/img-054.webp",bamboo:"media/img-055.webp"},bunny:{bow:"media/img-056.webp",party:"media/img-057.webp",glasses:"media/img-058.webp",starsticker:"media/img-059.webp",heart:"media/img-060.webp",daisy:"media/img-061.webp",bamboo:"media/img-062.webp"},capybara:{bow:"media/img-063.webp",party:"media/img-064.webp",glasses:"media/img-065.webp",starsticker:"media/img-066.webp",heart:"media/img-067.webp",daisy:"media/img-068.webp",bamboo:"media/img-069.webp"},kitty:{bow:"media/img-070.webp",party:"media/img-071.webp",glasses:"media/img-072.webp",starsticker:"media/img-073.webp",heart:"media/img-074.webp",daisy:"media/img-075.webp",bamboo:"media/img-076.webp"},koala:{bow:"media/img-077.webp",party:"media/img-078.webp",glasses:"media/img-079.webp",starsticker:"media/img-080.webp",heart:"media/img-081.webp",daisy:"media/img-082.webp",bamboo:"media/img-083.webp"}};
 const SHOP = [
   {id:"bow", slot:"hat", name:"Ribbon bow", ico:"🎀", src:'media/img-084.png', cost:5, blurb:"A bow for meeting nights."},
   {id:"daisy", slot:"hat", name:"Daisy crown", ico:"🌼", src:'media/img-085.png', cost:8, blurb:"Tiny flowers on top."},
@@ -1029,7 +1034,8 @@ const SHOP = [
   {id:"crown", slot:"hat", name:"Tiny crown", ico:"👑", cost:12, blurb:"A little queen look."},
   {id:"cape", slot:"held", name:"Red cape", ico:"🦸", cost:10, blurb:"Flies behind you."},
   {id:"glow", slot:"frame", name:"Sunshine glow", ico:"🌟", cost:15, blurb:"A hidden warm glow.", secret:true, code:"shine"},
-  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"}
+  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"},
+  {id:"mane", slot:"hat", name:"Lion mane", ico:"🦁", cost:15, blurb:"A hidden brave look for Brutus.", secret:true, code:"brave"}
 ];
 
 const themeKey="mmb2_shop_theme";
@@ -1100,13 +1106,17 @@ function wearing(){
 function isWearing(id){ return wearing().includes(id); }
 function accessoryHTML(){
   const animal = selectedAnimal;
-  const order = ["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
+  const order = ["cape","mane","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
   return order.filter(isWearing).map(id=>{
     if(id==="frame") return '<div class="acc-frame" aria-hidden="true"></div>';
     if(id==="crown") return '<div class="acc-crown" aria-hidden="true">👑</div>';
     if(id==="glow") return '<div class="acc-glow" aria-hidden="true"></div>';
     if(id==="cape") return '<div class="acc-cape" aria-hidden="true"></div>';
     if(id==="sparkles") return '<div class="acc-sparkles" aria-hidden="true"></div>';
+    if(id==="mane") {
+      const src = LAYERS[animal] && LAYERS[animal].mane;
+      return src ? '<img class="acc-overlay acc-mane" alt="" src="'+src+'">' : "";
+    }
     const src = LAYERS[animal] && LAYERS[animal][id];
     return src ? '<img class="acc-overlay" alt="" src="'+src+'">' : "";
   }).join("");
@@ -1116,6 +1126,7 @@ function paintShop(){
   if($("shopBuddyPreview") && selectedAnimal){
     $("shopBuddyPreview").innerHTML = animalArt(selectedAnimal)+accessoryHTML();
   }
+  try{ paintWelcomeBuddy(); }catch(e){}
   if(!$("shopGrid")) return;
   $("shopGrid").innerHTML = SHOP.filter(item=>!item.secret).map(item=>{
     const owned = shopOwned.includes(item.id);
@@ -1320,11 +1331,18 @@ if(selectedAnimal) chooseAnimal(selectedAnimal);
 const nameInput=$("buddyNameInput");
 if(nameInput) nameInput.addEventListener("input", updateStart);
 
+function paintWelcomeBuddy(){
+  const face=$("welcomeFace");
+  if(!face) return;
+  [...face.querySelectorAll(".acc-mane,.acc-frame,.acc-crown,.acc-glow,.acc-cape,.acc-sparkles,.acc-overlay")].forEach(n=>n.remove());
+  face.insertAdjacentHTML("beforeend", accessoryHTML());
+}
 function paintBuddy(){
   const html = animalArt(selectedAnimal) + accessoryHTML();
-  $("meetingBuddy").innerHTML = html;
+  if($("meetingBuddy")) $("meetingBuddy").innerHTML = html;
   if($("buddyEmoji")) $("buddyEmoji").innerHTML = html;
   if($("buddyName")) $("buddyName").textContent = selectedName;
+  try{ paintWelcomeBuddy(); }catch(e){}
 }
 
 function showMeeting(){
@@ -1715,9 +1733,30 @@ function loadSecretPrize(){
   if(saved.all===true) return {code:null, all:true};
   return secretChestItems().some(it=>it.code===saved.code) ? {code:saved.code, all:false} : null;
 }
+function featuredChestItem(){
+  const raw=((WEEK && WEEK.chestCode) || "").toString().trim().toLowerCase();
+  if(!raw) return null;
+  return secretChestItems().find(it=>it.code===raw) || null;
+}
 function awardSecretPrize(){
+  const featured=featuredChestItem();
+  const featuredOpen=!!(featured && !shopOwned.includes(featured.id));
   const have=loadSecretPrize();
-  if(have) return have;
+  if(have){
+    /* This week's featured chest code wins if it is not unlocked yet, so tonight
+       always whispers the new word even if an earlier recap saved a random one. */
+    if(featuredOpen && have.code!==featured.code){
+      const prize={code:featured.code, all:false};
+      store.set(secretPrizeKey, JSON.stringify(prize));
+      return prize;
+    }
+    return have;
+  }
+  if(featuredOpen){
+    const prize={code:featured.code, all:false};
+    store.set(secretPrizeKey, JSON.stringify(prize));
+    return prize;
+  }
   const open=secretChestItems().filter(it=>!shopOwned.includes(it.id));
   const prize = open.length ? {code:open[Math.floor(Math.random()*open.length)].code, all:false} : {code:null, all:true};
   store.set(secretPrizeKey, JSON.stringify(prize));

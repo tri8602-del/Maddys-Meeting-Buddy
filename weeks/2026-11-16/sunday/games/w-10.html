@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¶12 · A Bible we can share</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Data for the shared engine (engine.js). Based only on the paragraph and the scriptures it cites. */
+window.GAME={
+ "title": "¶12 · A Bible we can share",
+ "sub": "A clear Bible helps us know Jehovah.",
+ "done": "We can all learn the same message!",
+ "doneEmoji": "📘",
+ "rounds": [
+  {
+   "type": "quiz",
+   "q": "What did an elder in Nepal say about the New World Translation?",
+   "opts": [
+    {
+     "t": "It made Jehovah more real to him and strengthened his faith",
+     "e": "🇳🇵",
+     "ok": 1,
+     "why": "Yes. Reading it in his language helped him draw closer to God."
+    },
+    {
+     "t": "It was too hard to understand",
+     "e": "🧱",
+     "why": null
+    }
+   ]
+  },
+  {
+   "type": "tf",
+   "items": [
+    {
+     "t": "The New World Translation is available, in whole or in part, in well over 300 languages.",
+     "ok": true,
+     "why": "True. That helps us think and speak in agreement."
+    },
+    {
+     "t": "Bible translation is a brand-new idea from last year.",
+     "ok": false,
+     "why": "False. Translators have worked at this for a very long time."
+    }
+   ]
+  },
+  {
+   "type": "unscramble",
+   "word": "FAITH",
+   "q": "Unscramble: The elder said this translation strengthened his ______.",
+   "hint": "Paragraph 12",
+   "why": "Yes — it strengthened his FAITH!"
+  }
+ ],
+ "id": "w-10"
+};
+</script>
+<script src="../../../../sunday/engine.js"></script>
+</body>
+</html>
