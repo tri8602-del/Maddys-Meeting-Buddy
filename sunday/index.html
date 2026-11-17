@@ -309,7 +309,42 @@ button,input,textarea{font:inherit}button{border:0;cursor:pointer}button:disable
 .acc-sparkles{position:absolute;inset:0;pointer-events:none;font-size:18px}
 .acc-sparkles::before{content:"✨";position:absolute;top:6px;left:6px}
 .acc-sparkles::after{content:"✨";position:absolute;bottom:10px;right:8px}
+.acc-mane{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:
+    radial-gradient(ellipse 28% 34% at 2% 28%, #c45e0a 0 72%, transparent 73%),
+    radial-gradient(ellipse 24% 32% at 10% 10%, #e07a12 0 70%, transparent 71%),
+    radial-gradient(ellipse 26% 30% at 22% 0%, #f0a020 0 72%, transparent 73%),
+    radial-gradient(ellipse 30% 28% at 38% -2%, #d97814 0 74%, transparent 75%),
+    radial-gradient(ellipse 32% 30% at 50% -4%, #ea9a1c 0 76%, transparent 77%),
+    radial-gradient(ellipse 30% 28% at 62% -2%, #d97814 0 74%, transparent 75%),
+    radial-gradient(ellipse 26% 30% at 78% 0%, #f0a020 0 72%, transparent 73%),
+    radial-gradient(ellipse 24% 32% at 90% 10%, #e07a12 0 70%, transparent 71%),
+    radial-gradient(ellipse 28% 34% at 98% 28%, #c45e0a 0 72%, transparent 73%),
+    radial-gradient(ellipse 20% 28% at 0% 52%, #b8500c 0 70%, transparent 71%),
+    radial-gradient(ellipse 20% 28% at 100% 52%, #b8500c 0 70%, transparent 71%);
+  filter:drop-shadow(0 1px 1px rgba(80,30,0,.35));
+}
+.acc-mane::before{
+  content:"🦁";
+  position:absolute;
+  top:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:34px;
+  filter:drop-shadow(0 2px 0 #fff);
+}
+.acc-mane::after{
+  content:"🏅";
+  position:absolute;
+  left:8%;
+  bottom:8%;
+  font-size:32px;
+  filter:drop-shadow(0 2px 2px rgba(80,40,0,.4));
+}
 .brutusDock.buddy-face .acc-crown{font-size:14px}.brutusDock.buddy-face .acc-frame{border-width:3px}.brutusDock.buddy-face .acc-sparkles{font-size:9px}
+.brutusDock.buddy-face .acc-mane::before{font-size:12px;top:-1px;}
+.brutusDock.buddy-face .acc-mane::after{font-size:11px;bottom:4%;left:8%;}
 .finishBuddy{width:96px;height:96px;border-radius:50%;margin:0 auto;background:#fff}
 html,body{background:transparent}
 /* inside Meeting Buddy the shell bar sits above: keep this row slim on phones */
@@ -367,7 +402,8 @@ const SHOP=[
   {id:"crown", slot:"hat", name:"Tiny crown", ico:"👑", cost:12, blurb:"A little queen look."},
   {id:"cape", slot:"held", name:"Red cape", ico:"🦸", cost:10, blurb:"Flies behind you."},
   {id:"glow", slot:"frame", name:"Sunshine glow", ico:"🌟", cost:15, blurb:"A hidden warm glow.", secret:true, code:"shine"},
-  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"}
+  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"},
+  {id:"mane", slot:"hat", name:"Lion mane", ico:"🦁", cost:15, blurb:"A hidden brave look for Brutus.", secret:true, code:"brave"}
 ];
 const DEFAULT={shopV:2,screen:'setup',talk:'',opening:'',unit:0,view:'actual',stars:0,earned:{},activityStars:{},materialAwarded:{},attempts:{},test:false,meetingStarted:null,wtUnlocked:false,talkDone:false,talkNotes:{},questionAnswers:{},game:{},marks:{},hl:'y',chat:[],owned:[],wear:{items:[]},theme:'lavender',font:'system',bg:'plain',readAt:{}};
 let state={...DEFAULT};
@@ -1128,13 +1164,14 @@ function finish(){
 function wearing(){if(HOST) try{return HOST.wearing()}catch(e){} return []}
 function isWearing(id){return wearing().includes(id)}
 function accessoryHTML(){
-  const order=["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
+  const order=["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","mane","frame"];
   return order.filter(isWearing).map(id=>{
     if(id==="frame") return '<div class="acc-frame" aria-hidden="true"></div>';
     if(id==="crown") return '<div class="acc-crown" aria-hidden="true">👑</div>';
     if(id==="glow") return '<div class="acc-glow" aria-hidden="true"></div>';
     if(id==="cape") return '<div class="acc-cape" aria-hidden="true"></div>';
     if(id==="sparkles") return '<div class="acc-sparkles" aria-hidden="true"></div>';
+    if(id==="mane") return '<div class="acc-mane" aria-hidden="true"></div>';
     return ACC_LAYERS[id]?'<img class="acc-overlay" alt="" src="'+ACC_LAYERS[id]+'">':'';
   }).join('');
 }

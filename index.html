@@ -141,6 +141,8 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 #welcomeScreen{align-items:center}
 .brutus-card{width:min(280px,70vw);margin:18px auto 22px;background:#fff;border-radius:24px;padding:12px 12px 10px;box-shadow:0 12px 32px rgba(80,50,120,.12);text-align:center}
 .brutus-card img{width:100%;border-radius:18px;display:block}
+.welcome-face{position:relative;border-radius:18px;overflow:visible}
+.welcome-face img{width:100%;border-radius:18px;display:block;position:relative;z-index:1}
 .brutus-name{font-family:var(--kid-display,Fredoka,sans-serif);font-size:22px;margin-top:8px}
 .welcome{
   width:min(980px,100%);
@@ -235,6 +237,39 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 .acc-sparkles{position:absolute;inset:0;pointer-events:none;font-size:18px}
 .acc-sparkles::before{content:"✨";position:absolute;top:6px;left:6px}
 .acc-sparkles::after{content:"✨";position:absolute;bottom:10px;right:8px}
+.acc-mane{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:
+    radial-gradient(ellipse 28% 34% at 2% 28%, #c45e0a 0 72%, transparent 73%),
+    radial-gradient(ellipse 24% 32% at 10% 10%, #e07a12 0 70%, transparent 71%),
+    radial-gradient(ellipse 26% 30% at 22% 0%, #f0a020 0 72%, transparent 73%),
+    radial-gradient(ellipse 30% 28% at 38% -2%, #d97814 0 74%, transparent 75%),
+    radial-gradient(ellipse 32% 30% at 50% -4%, #ea9a1c 0 76%, transparent 77%),
+    radial-gradient(ellipse 30% 28% at 62% -2%, #d97814 0 74%, transparent 75%),
+    radial-gradient(ellipse 26% 30% at 78% 0%, #f0a020 0 72%, transparent 73%),
+    radial-gradient(ellipse 24% 32% at 90% 10%, #e07a12 0 70%, transparent 71%),
+    radial-gradient(ellipse 28% 34% at 98% 28%, #c45e0a 0 72%, transparent 73%),
+    radial-gradient(ellipse 20% 28% at 0% 52%, #b8500c 0 70%, transparent 71%),
+    radial-gradient(ellipse 20% 28% at 100% 52%, #b8500c 0 70%, transparent 71%);
+  filter:drop-shadow(0 1px 1px rgba(80,30,0,.35));
+}
+.acc-mane::before{
+  content:"🦁";
+  position:absolute;
+  top:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:34px;
+  filter:drop-shadow(0 2px 0 #fff);
+}
+.acc-mane::after{
+  content:"🏅";
+  position:absolute;
+  left:8%;
+  bottom:8%;
+  font-size:32px;
+  filter:drop-shadow(0 2px 2px rgba(80,40,0,.4));
+}
 .shop-chest{margin:12px 0 18px;background:#fff;border:2px dashed #d7c7ee;border-radius:18px;padding:12px}
 .shop-chest input{width:100%;border:2px solid var(--line);border-radius:12px;padding:10px;margin:6px 0;font:inherit}
 
@@ -684,7 +719,9 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       <h1>Maddy’s Meeting Buddy</h1>
       <p class="subtitle">Brutus is ready to sit with you at the Kingdom Hall.</p>
       <div class="brutus-card">
-        <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
+        <div class="welcome-face" id="welcomeFace">
+          <img id="buddyBase" class="animal-art" data-animal="shepherd" alt="Brutus" src="media/img-004.jpg"/>
+        </div>
         <div class="brutus-name">Brutus</div>
       </div>
       <div class="mode-switch" role="group" aria-label="Which meeting?">
@@ -1029,7 +1066,8 @@ const SHOP = [
   {id:"crown", slot:"hat", name:"Tiny crown", ico:"👑", cost:12, blurb:"A little queen look."},
   {id:"cape", slot:"held", name:"Red cape", ico:"🦸", cost:10, blurb:"Flies behind you."},
   {id:"glow", slot:"frame", name:"Sunshine glow", ico:"🌟", cost:15, blurb:"A hidden warm glow.", secret:true, code:"shine"},
-  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"}
+  {id:"sparkles", slot:"badge", name:"Sparkles", ico:"✨", cost:12, blurb:"A hidden twinkle.", secret:true, code:"sparkle"},
+  {id:"mane", slot:"hat", name:"Lion mane", ico:"🦁", cost:15, blurb:"A hidden brave look for Brutus.", secret:true, code:"brave"}
 ];
 
 const themeKey="mmb2_shop_theme";
@@ -1100,13 +1138,14 @@ function wearing(){
 function isWearing(id){ return wearing().includes(id); }
 function accessoryHTML(){
   const animal = selectedAnimal;
-  const order = ["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","frame"];
+  const order = ["cape","bamboo","heart","starsticker","glasses","bow","daisy","party","glow","sparkles","crown","mane","frame"];
   return order.filter(isWearing).map(id=>{
     if(id==="frame") return '<div class="acc-frame" aria-hidden="true"></div>';
     if(id==="crown") return '<div class="acc-crown" aria-hidden="true">👑</div>';
     if(id==="glow") return '<div class="acc-glow" aria-hidden="true"></div>';
     if(id==="cape") return '<div class="acc-cape" aria-hidden="true"></div>';
     if(id==="sparkles") return '<div class="acc-sparkles" aria-hidden="true"></div>';
+    if(id==="mane") return '<div class="acc-mane" aria-hidden="true"></div>';
     const src = LAYERS[animal] && LAYERS[animal][id];
     return src ? '<img class="acc-overlay" alt="" src="'+src+'">' : "";
   }).join("");
@@ -1116,6 +1155,7 @@ function paintShop(){
   if($("shopBuddyPreview") && selectedAnimal){
     $("shopBuddyPreview").innerHTML = animalArt(selectedAnimal)+accessoryHTML();
   }
+  try{ paintWelcomeBuddy(); }catch(e){}
   if(!$("shopGrid")) return;
   $("shopGrid").innerHTML = SHOP.filter(item=>!item.secret).map(item=>{
     const owned = shopOwned.includes(item.id);
@@ -1193,7 +1233,7 @@ function buyOrWear(id){
   const item = SHOP.find(i=>i.id===id);
   if(!item) return;
   const animal = selectedAnimal;
-  const cssAcc=["frame","crown","glow","cape","sparkles"];
+  const cssAcc=["frame","crown","glow","cape","sparkles","mane"];
   if(!cssAcc.includes(id) && !(LAYERS[animal] && LAYERS[animal][id])){
     starToast("That piece is still missing for this buddy");
     return;
@@ -1320,11 +1360,18 @@ if(selectedAnimal) chooseAnimal(selectedAnimal);
 const nameInput=$("buddyNameInput");
 if(nameInput) nameInput.addEventListener("input", updateStart);
 
+function paintWelcomeBuddy(){
+  const face=$("welcomeFace");
+  if(!face) return;
+  [...face.querySelectorAll(".acc-mane,.acc-frame,.acc-crown,.acc-glow,.acc-cape,.acc-sparkles,.acc-overlay")].forEach(n=>n.remove());
+  face.insertAdjacentHTML("beforeend", accessoryHTML());
+}
 function paintBuddy(){
   const html = animalArt(selectedAnimal) + accessoryHTML();
-  $("meetingBuddy").innerHTML = html;
+  if($("meetingBuddy")) $("meetingBuddy").innerHTML = html;
   if($("buddyEmoji")) $("buddyEmoji").innerHTML = html;
   if($("buddyName")) $("buddyName").textContent = selectedName;
+  try{ paintWelcomeBuddy(); }catch(e){}
 }
 
 function showMeeting(){
@@ -1715,9 +1762,30 @@ function loadSecretPrize(){
   if(saved.all===true) return {code:null, all:true};
   return secretChestItems().some(it=>it.code===saved.code) ? {code:saved.code, all:false} : null;
 }
+function featuredChestItem(){
+  const raw=((WEEK && WEEK.chestCode) || "").toString().trim().toLowerCase();
+  if(!raw) return null;
+  return secretChestItems().find(it=>it.code===raw) || null;
+}
 function awardSecretPrize(){
+  const featured=featuredChestItem();
+  const featuredOpen=!!(featured && !shopOwned.includes(featured.id));
   const have=loadSecretPrize();
-  if(have) return have;
+  if(have){
+    /* This week's featured chest code wins if it is not unlocked yet, so tonight
+       always whispers the new word even if an earlier recap saved a random one. */
+    if(featuredOpen && have.code!==featured.code){
+      const prize={code:featured.code, all:false};
+      store.set(secretPrizeKey, JSON.stringify(prize));
+      return prize;
+    }
+    return have;
+  }
+  if(featuredOpen){
+    const prize={code:featured.code, all:false};
+    store.set(secretPrizeKey, JSON.stringify(prize));
+    return prize;
+  }
   const open=secretChestItems().filter(it=>!shopOwned.includes(it.id));
   const prize = open.length ? {code:open[Math.floor(Math.random()*open.length)].code, all:false} : {code:null, all:true};
   store.set(secretPrizeKey, JSON.stringify(prize));

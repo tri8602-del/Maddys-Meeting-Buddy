@@ -34,6 +34,7 @@ const WEEK = {
   secretChoices: ["Courage","Chariot","Scroll","Tent"],
   secretHint: "Listen in the Congregation Bible Study. Jael showed this when she chose to help Jehovah’s people.",
   secretFoundBlurb: "Jael showed courage when she chose to help Jehovah’s people. We can be courageous too!",
+  chestCode: "brave",
   prizeText: "Congratulations — you had a perfect meeting! Mommy and Daddy will take you to get one thing from Sheetz!"
 };
 
