@@ -36,6 +36,8 @@ h1{font-size:22px;margin:0 0 2px}
 .slots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0 14px}.slot{width:46px;height:54px;border-radius:10px;border-bottom:4px solid var(--accent);background:#fff;font-size:28px;font-weight:900;display:flex;align-items:center;justify-content:center}
 .tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.tiles .btn{width:58px;font-size:26px;padding:0}
 .pic{position:relative;border-radius:14px;overflow:hidden;border:2px solid #d7dcea;touch-action:manipulation}.pic img{width:100%;display:block}
+.cover{margin:0 0 10px;border-radius:14px;overflow:hidden;border:2px solid #d7dcea}
+.cover img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover;background:#efe7da}
 .hot{position:absolute;border:4px solid var(--ok);border-radius:12px;background:rgba(31,157,91,.15);pointer-events:none}
 .find{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.find span{background:#fff;border:2px solid #d7dcea;border-radius:999px;padding:6px 12px;font-weight:800}.find span.got{background:#e7f8ee;border-color:var(--ok);text-decoration:line-through}
 .reset{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:#efeaff;color:#4c43b8;font-weight:900;font-size:17px}
@@ -50,6 +52,7 @@ const WAIT=1500;
 const HINT={quiz:'Tap the right answer.',tf:'True or false? Think about the paragraph.',sort:'Tap a card, then tap the box it belongs in.',order:'Tap them in the right order.',fill:'Tap the missing word.',match:'Tap one on the left, then its partner on the right.',unscramble:'Tap the letters in the right order.',find:'Tap each thing in the picture.'};
 let R=0, S={}, busy=false, sent=false;
 app.innerHTML=`<div class="wrap"><h1>${esc(G.title)}</h1><div class="sub">${esc(G.sub||'')}</div>
+${G.img?`<div class="cover" id="gameCover"><img src="${esc(G.img)}" alt=""></div>`:''}
 <div class="dots" id="dots"></div><div class="hold" id="hold"></div><div id="stage"></div>
 <button class="reset" id="reset">↺ Reset</button></div>`;
 const $=id=>document.getElementById(id);
@@ -62,6 +65,8 @@ function finished(){
   if(!sent&&window.parent!==window){sent=true;setTimeout(()=>{try{window.parent.postMessage({type:'smb-game-complete',game:G.id},'*')}catch(e){}},1200)}
 }
 function draw(){
+  const cover=$('gameCover');
+  if(cover) cover.hidden = (R>=G.rounds.length) || !!(G.rounds[R] && G.rounds[R].img);
   dots(); if(R>=G.rounds.length) return finished();
   const r=G.rounds[R]; hold(r.hint||HINT[r.type]||'Read the paragraph, then tap.');
   ({quiz,tf,sort,order,fill,match,unscramble,find})[r.type](r,$('stage'));
