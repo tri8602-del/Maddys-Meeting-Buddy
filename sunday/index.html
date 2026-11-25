@@ -183,6 +183,8 @@ button,input,textarea{font:inherit}button{border:0;cursor:pointer}button:disable
 .chipAsk{background:#f3f1ff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px;color:#4c43b8}
 .chatForm{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--line)}
 .chatForm input{flex:1;border:1px solid #cfd6e2;border-radius:12px;padding:10px}
+.bubble .src{display:block;margin-top:4px;font-size:11px;font-weight:800;color:#6b5fb0}
+.chips .chipAsk.q{background:#fff6d9;color:#7a5200}
 
 /* Draw */
 .drawOverlay,.pop{position:fixed;inset:0;background:rgba(17,24,39,.55);z-index:100;display:none;padding:10px}
@@ -340,6 +342,7 @@ html,body{background:transparent}
 </div>
 <div id="pop" class="pop"><div class="popCard" id="popCard"></div></div>
 <script src="../weeks/current.js"></script>
+<script src="../ask-brutus.js"></script>
 <script>document.write('<script src="../'+MMB_WEEK.sunday+'/data.js"><\/script>');</script>
 <script>
 /* Sunday mode of Maddy's Meeting Buddy. Runs in an iframe of ../index.html (same origin).
@@ -797,7 +800,7 @@ function attemptResult(key,correct,keepPlay){
 }
 
 function bind(){
-  document.getElementById('openChat')?.addEventListener('click',()=>document.getElementById('chat').classList.add('open'));
+  document.getElementById('openChat')?.addEventListener('click',openChat);
   document.getElementById('openShop')?.addEventListener('click',openShop);
   document.getElementById('start')?.addEventListener('click',()=>{
     const jump=+document.getElementById('setupJump')?.value||0;
@@ -1183,19 +1186,44 @@ function brutusReply(q){
   for(const [re,ans] of lines){if(re.test(s)) return ans}
   return ['Woof. Look at the paragraph, then play.','I heard you. I still do not have thumbs.','Try Maddy words.'][Math.floor(Math.random()*3)];
 }
+/* Ask Brutus: this week's question bank (weeks/<Monday>/sunday/ask-brutus.json, see ../ask-brutus.js).
+   With a bank, Brutus answers this week's questions ONLY from it (with the source), keeps his app help
+   (shop, draw, bored…) and otherwise says "Let's ask Mom or Dad". Without a bank, he works as before. */
+let ASK_BANK=null;
+const AB=window.AskBrutus||null;
+function askedIds(){return new Set(state.chat.filter(m=>m.qid).map(m=>m.qid))}
+const APP_HELP=/shop|dress|\bbow\b|\bhat\b|bored|wiggle|draw|good boy|hi brutus|hello|don’t get|dont get|timer/;
+function brutusAnswer(text){
+  if(ASK_BANK&&AB){
+    const hit=AB.answer(ASK_BANK,text);
+    if(hit) return {t:hit.a,src:hit.src,qid:hit.id};
+    if(APP_HELP.test(text.toLowerCase())) return {t:brutusReply(text)};
+    return {t:ASK_BANK.noMatch||AB.NO_MATCH};
+  }
+  return {t:brutusReply(text)};
+}
 function paintChat(){
   const log=document.getElementById('chatLog'); const chips=document.getElementById('chatChips'); if(!log) return;
-  log.innerHTML=(state.chat.length?state.chat:[{who:'dog',t:'Hi. I am Brutus. Shop is up top if you want a bow.'}]).map(m=>`<div class="bubble ${m.who==='me'?'me':'dog'}">${esc(m.t)}</div>`).join('');
+  const hello=ASK_BANK?'Hi! I’m Brutus. Ask me about this week’s Watchtower, or tap a question.':'Hi. I am Brutus. Shop is up top if you want a bow.';
+  log.innerHTML=(state.chat.length?state.chat:[{who:'dog',t:hello}]).map(m=>`<div class="bubble ${m.who==='me'?'me':'dog'}">${esc(m.t)}${m.src?`<span class="src">📖 ${esc(m.src)}</span>`:''}</div>`).join('');
   log.scrollTop=log.scrollHeight;
-  chips.innerHTML=CHIPS.map(c=>`<button class="chipAsk" data-chip="${esc(c)}">${esc(c)}</button>`).join('');
+  if(ASK_BANK&&AB){
+    const qs=AB.suggestions(ASK_BANK,askedIds(),5);
+    chips.innerHTML=qs.map(e=>`<button class="chipAsk q" data-chip="${esc(e.q)}">${esc(e.q)}</button>`).join('')+`<button class="chipAsk" data-chip="Where is the shop?">Where is the shop?</button>`;
+  } else chips.innerHTML=CHIPS.map(c=>`<button class="chipAsk" data-chip="${esc(c)}">${esc(c)}</button>`).join('');
   chips.querySelectorAll('[data-chip]').forEach(b=>b.onclick=()=>askBrutus(b.dataset.chip));
 }
 function askBrutus(text){
   text=String(text||'').trim(); if(!text) return;
-  state.chat.push({who:'me',t:text}, {who:'dog',t:brutusReply(text)});
+  const r=brutusAnswer(text);
+  state.chat.push({who:'me',t:text}, {who:'dog',t:r.t,src:r.src||'',qid:r.qid||''});
   if(state.chat.length>24) state.chat=state.chat.slice(-24);
   save(); paintChat();
 }
+function openChat(){document.getElementById('chat').classList.add('open'); paintChat();}
+window.openBrutusChat=openChat;
+if(AB) AB.load('../'+MMB_WEEK.sunday).then(b=>{ASK_BANK=b; window.askBrutusReady=true; paintChat();});
+else window.askBrutusReady=true;
 document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('chatInput');askBrutus(i.value);i.value=''});
 document.getElementById('closeChat').addEventListener('click',()=>document.getElementById('chat').classList.remove('open'));
 

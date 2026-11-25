@@ -14,6 +14,14 @@ The 🎵 Song button is on the start screen, in the Midweek meeting and on the S
 - Songs 1–151 come from `songs/`. These are page images of the whole *“Sing Out Joyfully”* lead-sheet book (`sjjsm_E.pdf`), plus `songs/songs.js`, which maps each song number to its title and pages. The map was built from the PDF’s own text, so it isn’t guessed. Run `tools/build_songs.py` only if jw.org ever replaces that PDF.
 - Newer songs (152 and up) don’t have a lead-sheet PDF on jw.org yet. Add their sheet image to the week pack’s `SONG_SHEETS` (as song 158 is in `weeks/2026-11-23/midweek/`, from the jw.org original-song lead sheet), and the Song button will show it.
 
+## 🐶 Ask Brutus
+
+Maddy can ask Brutus about this week's meeting. On Sunday, tap **🐶 Ask Brutus** on the top bar, or tap Brutus's face. In Midweek, tap **Ask Buddy**. Brutus answers **only** from that week's question bank, and each answer shows its source (e.g. "📖 Watchtower par. 5"). Five yellow question chips can be tapped, and an asked chip is swapped for a new one. Typed questions are matched by keywords offline, with one typo allowed on longer words. There's no AI and no network. With no good match, Brutus says "Great question! Let's ask Mom or Dad after the meeting!" On Sunday he still helps with the app (shop, draw, bored…).
+
+- Bank files: `weeks/<Monday>/sunday/ask-brutus.json` and `weeks/<Monday>/midweek/ask-brutus.json`. The matcher is `ask-brutus.js`. The service worker caches the banks for offline use.
+- Schema: `{"week","mode","title","source","noMatch","suggested":[ids],"qa":[{"id","q","keys":[...],"a","src"}]}`
+- No bank for a week = the old behavior (Sunday's original Brutus chat, Midweek's `BUDDY_FACTS`).
+
 ## Folder layout
 
 ```
@@ -25,6 +33,8 @@ media/                     Brutus, shop art, Midweek pictures and song sheets
 weeks/current.js           ← THE weekly switch: which week folders to use
 weeks/<Monday>/midweek/week.js     Midweek week pack (WEEK, meetingParts, checks, games, songs, buddy answers)
 weeks/<Monday>/sunday/data.js      Sunday week pack (meta, paragraph text, Maddy text, questions, units)
+weeks/<Monday>/*/ask-brutus.json   Ask Brutus question bank for that meeting (optional)
+ask-brutus.js              Ask Brutus offline matcher (shared by both modes)
 weeks/<Monday>/sunday/games/w-XX.html   one game per unit (data only; loads ../../../../sunday/engine.js)
 weeks/<Monday>/sunday/wt-pages/    Watchtower pictures used by paragraphs and games
 weeks/<Monday>/sunday/<issue>.pdf  the Watchtower issue PDF (Page button)
