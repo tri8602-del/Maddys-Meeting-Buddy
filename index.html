@@ -600,6 +600,10 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 #sendBuddyQuestion{width:100%;margin-top:10px;border:0;border-radius:16px;padding:13px;background:var(--lilac);color:#fff;font-weight:800}
 #buddyAnswer{margin-top:14px;background:var(--wash);border-radius:16px;padding:14px;text-align:left;line-height:1.45;display:none}
 #buddyAnswer.show{display:block}
+#buddyAnswer .ab-src{display:block;margin-top:8px;font-size:13px;font-weight:800;color:#6b5fb0}
+.ab-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 12px}
+.ab-chips:empty{display:none}
+.ab-chip{border:0;border-radius:999px;padding:9px 13px;background:#fff6d9;color:#7a5200;font-weight:800;font-size:14px;line-height:1.2}
 
 #drawScreen{background:#ece4f7}
 .draw-bar{
@@ -816,6 +820,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
       <button class="ghost" id="sundayShop" type="button">★ Shop</button>
       <button class="ghost" id="sundayDraw" type="button">Draw</button>
       <button class="ghost" id="sundaySong" type="button">🎵 Song</button>
+      <button class="ghost" id="sundayAsk" type="button">🐶 Ask Brutus</button>
     </div>
     <iframe id="sundayFrame" title="Sunday meeting"></iframe>
   </section>
@@ -906,6 +911,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
     <div class="mini" id="buddyEmoji"></div>
     <h2 id="buddyDialogTitle">Ask Buddy</h2>
     <p class="subtitle" id="buddyDialogIntro" style="margin-top:0"></p>
+    <div class="ab-chips" id="buddyChips"></div>
     <textarea id="buddyQuestion" rows="3" placeholder="What do you want to know?"></textarea>
     <button id="sendBuddyQuestion" type="button">Ask Buddy</button>
     <div id="buddyAnswer"></div>
@@ -914,6 +920,7 @@ html[data-font="tidy"]{--kid-font:"Quicksand",system-ui,sans-serif;--kid-display
 
 <script src="weeks/current.js"></script>
 <script src="songs/songs.js"></script>
+<script src="ask-brutus.js"></script>
 <script>document.write('<script src="'+MMB_WEEK.midweek+'/week.js"><\/script><script src="'+MMB_WEEK.sunday+'/data.js"><\/script>');</script>
 <script>
 const $ = id => document.getElementById(id);
@@ -1581,6 +1588,33 @@ function burstStars(el){
 function updateHeardButton(){ updateStarChip(); }
 
 
+/* ASK BRUTUS (Midweek): with weeks/<Monday>/midweek/ask-brutus.json, the buddy answers typed questions
+   ONLY from that bank (answer + source) and shows question chips; no match = "Let's ask Mom or Dad".
+   Without a bank this works as before (BUDDY_FACTS). Empty question = hint for the current part. */
+let MW_ASK_BANK=null; const mwAsked=new Set();
+if(window.AskBrutus) AskBrutus.load(MMB_WEEK.midweek).then(b=>{ MW_ASK_BANK=b; window.mwAskReady=true; });
+else window.mwAskReady=true;
+function paintBuddyChips(){
+  const box=$("buddyChips"); if(!box) return;
+  box.innerHTML="";
+  if(!MW_ASK_BANK) return;
+  AskBrutus.suggestions(MW_ASK_BANK, mwAsked, 5).forEach(e=>{
+    const b=document.createElement("button"); b.type="button"; b.className="ab-chip"; b.textContent=e.q;
+    b.addEventListener("click",()=>{ $("buddyQuestion").value=e.q; showBuddyAnswer(); });
+    box.appendChild(b);
+  });
+}
+function showBuddyAnswer(){
+  const box=$("buddyAnswer"), q=$("buddyQuestion").value;
+  box.textContent="";
+  if(MW_ASK_BANK && q.trim()){
+    const hit=AskBrutus.answer(MW_ASK_BANK, q);
+    box.appendChild(document.createTextNode(hit ? hit.a : (MW_ASK_BANK.noMatch||AskBrutus.NO_MATCH)));
+    if(hit){ const s=document.createElement("span"); s.className="ab-src"; s.textContent="📖 "+hit.src; box.appendChild(s); mwAsked.add(hit.id); }
+    paintBuddyChips();
+  } else box.textContent = buddyAnswer(q);
+  box.classList.add("show");
+}
 function buddyAnswer(q){
   const p = meetingParts[currentParagraph];
   const text = (q||"").toLowerCase().trim();
@@ -1598,6 +1632,7 @@ $("buddyButton").addEventListener("click",()=>{
   $("buddyDialogIntro").textContent = (selectedName||"Your buddy")+" knows this week’s meeting and can help in a whisper.";
   $("buddyQuestion").value = "";
   $("buddyAnswer").classList.remove("show");
+  paintBuddyChips();
   $("buddyOverlay").classList.add("show");
 });
 function closeBuddy(){ $("buddyOverlay").classList.remove("show"); }
@@ -1610,11 +1645,7 @@ if($("songDone")) $("songDone").addEventListener("click", function(){
 });
 $("songOverlay").addEventListener("click", e=>{ if(e.target===$("songOverlay")) closeSong(); });
 
-$("sendBuddyQuestion").addEventListener("click",()=>{
-  const box=$("buddyAnswer");
-  box.textContent = buddyAnswer($("buddyQuestion").value);
-  box.classList.add("show");
-});
+$("sendBuddyQuestion").addEventListener("click", showBuddyAnswer);
 
 /* Drawing */
 const canvas=$("drawingCanvas"), ctx=canvas.getContext("2d");
@@ -2477,6 +2508,8 @@ $("sundayHome").addEventListener("click",()=>showScreen("welcomeScreen"));
 $("sundayShop").addEventListener("click",openShop);
 $("sundayStarChip").addEventListener("click",openShop); $("sundayStarChip").style.cursor="pointer";
 $("sundayDraw").addEventListener("click",()=>{ drawReturnScreen="sundayScreen"; prepCanvas(); showScreen("drawScreen"); });
+// Ask Brutus on Sunday = the Sunday page's own Brutus chat (same as tapping his face there).
+$("sundayAsk").addEventListener("click",()=>{ try{ const w=$("sundayFrame").contentWindow; if(w && w.openBrutusChat) w.openBrutusChat(); }catch(e){} });
 paintMode();
 updateStarChip();
 

@@ -3,13 +3,13 @@
    The file list is worked out from index.html, sunday/index.html and the week
    folders named in weeks/current.js (the midweek folder and every listed Sunday folder), so a weekly update needs no edits here:
    changing weeks/current.js makes the browser install a fresh copy. */
-const SW_VERSION = 'mmb-sw-2026-11-23a';
+const SW_VERSION = 'mmb-sw-2026-11-24-ask';
 importScripts('weeks/current.js');
 // Every listed Sunday study is cached, so the switch from one Sunday to the next works offline.
 const SUNDAYS = (self.MMB_WEEK.sundays || [{path: self.MMB_WEEK.sunday}]).map(s => s.path);
 const CACHE = SW_VERSION + '|' + self.MMB_WEEK.midweek + '|' + SUNDAYS.join('|');
 const CORE = ['./', 'index.html', 'weeks/current.js', 'sunday/index.html', 'sunday/engine.js',
-  'sunday/brutus.png', 'songs/songs.js',
+  'sunday/brutus.png', 'songs/songs.js', 'ask-brutus.js',
   // Workbook mode: app + sticker coordinates + pdf.js. The workbook PDFs themselves live in IndexedDB, never here.
   'workbook/index.html', 'workbook/stickers.json', 'workbook/vendor/pdf.min.js', 'workbook/vendor/pdf.worker.min.js'];
 const SLOW_MS = 3000;
@@ -26,9 +26,11 @@ async function fileList(){
   grab(await text('songs/songs.js'), /"(\d{3}-\d+\.png)"/g, m => 'songs/' + m[1], out);   // whole songbook, once
   const mw = self.MMB_WEEK.midweek;
   out.add(mw + '/week.js');
+  out.add(mw + '/ask-brutus.json');   // Ask Brutus bank (a missing one is just skipped)
   grab(await text(mw + '/week.js'), MEDIA, m => m[1], out);
   for(const sd of SUNDAYS){
     out.add(sd + '/data.js');
+    out.add(sd + '/ask-brutus.json');
     const data = await text(sd + '/data.js');
     grab(data, /\bwt:\s*'([^']+)'/g, m => sd + '/' + m[1], out);
     grab(data, /\bimg:\s*'([^']+)'/g, m => sd + '/' + m[1], out);

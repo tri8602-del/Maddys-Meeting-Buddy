@@ -1,0 +1,378 @@
+{
+ "week": "2026-11-29",
+ "mode": "sunday",
+ "title": "How the Priesthood Reveals Jehovah’s Love",
+ "source": "The Watchtower (Study), September 2026, pp. 20–25, study article for November 23–29, 2026",
+ "sourceUrl": "https://wol.jw.org/en/wol/d/r1/lp-e/2026565",
+ "noMatch": "Great question! Let’s ask Mom or Dad after the meeting!",
+ "suggested": [
+  "what-priest",
+  "why-help",
+  "jesus-high-priest",
+  "prayer",
+  "melchizedek",
+  "jesus-tired"
+ ],
+ "qa": [
+  {
+   "id": "about",
+   "q": "What is this week about?",
+   "keys": [
+    "about",
+    "this week",
+    "article",
+    "study",
+    "lesson",
+    "today",
+    "theme"
+   ],
+   "a": "This week is about priests. Jehovah gave us priests because he loves us and wants us to come close to him.",
+   "src": "Watchtower par. 2"
+  },
+  {
+   "id": "what-priest",
+   "q": "What is a priest?",
+   "keys": [
+    "priest",
+    "priests",
+    "priesthood",
+    "what is a priest"
+   ],
+   "a": "A priest helps people come close to God. Priests taught people God’s Law, and they offered sacrifices for people.",
+   "src": "Hebrews 5:1; Watchtower par. 3–5"
+  },
+  {
+   "id": "why-help",
+   "q": "Why do people need help?",
+   "keys": [
+    "need help",
+    "why help",
+    "sin",
+    "sins",
+    "gap",
+    "far away"
+   ],
+   "a": "Because of sin. Sin is like a big gap between people and God, and we can’t cross it by ourselves. Jehovah gave the priesthood to help us.",
+   "src": "Watchtower par. 1–2"
+  },
+  {
+   "id": "bridge",
+   "q": "What does the bridge picture mean?",
+   "keys": [
+    "bridge",
+    "picture",
+    "divide",
+    "cross"
+   ],
+   "a": "Sin made a gap between people and God. The priesthood is like a bridge over that gap.",
+   "src": "Watchtower par. 3, picture"
+  },
+  {
+   "id": "teachers",
+   "q": "How did priests teach people?",
+   "keys": [
+    "teach",
+    "teacher",
+    "taught",
+    "law",
+    "malachi",
+    "explain"
+   ],
+   "a": "Priests were teachers. They taught God’s Law and helped people understand it, so they could obey it and get closer to Jehovah.",
+   "src": "Malachi 2:7; Watchtower par. 4"
+  },
+  {
+   "id": "ezra",
+   "q": "Who helped Ezra?",
+   "keys": [
+    "ezra",
+    "nehemiah",
+    "levites",
+    "13"
+   ],
+   "a": "In Nehemiah’s day, 13 Levites helped the priest Ezra explain the Law to the people, so they could understand what was read.",
+   "src": "Nehemiah 8:2-8; Watchtower par. 4"
+  },
+  {
+   "id": "sacrifices",
+   "q": "What is a sacrifice?",
+   "keys": [
+    "sacrifice",
+    "sacrifices",
+    "offering",
+    "animal",
+    "animals",
+    "altar"
+   ],
+   "a": "A sacrifice was a gift offered to Jehovah. Priests offered sacrifices for the people so their sins could be forgiven.",
+   "src": "Watchtower par. 5, 8"
+  },
+  {
+   "id": "forgiven",
+   "q": "How did people feel when they were forgiven?",
+   "keys": [
+    "forgive",
+    "forgiven",
+    "forgiveness",
+    "relief",
+    "relieved",
+    "sorry"
+   ],
+   "a": "They felt so relieved! When the Israelites were sorry for their sins, it was a relief to know Jehovah forgave them.",
+   "src": "Watchtower par. 5"
+  },
+  {
+   "id": "noah",
+   "q": "What did Noah do after the ark?",
+   "keys": [
+    "noah",
+    "ark",
+    "flood",
+    "thank you"
+   ],
+   "a": "After Noah came out of the ark, he offered sacrifices to say thank you to Jehovah.",
+   "src": "Genesis 8:20; Watchtower par. 6"
+  },
+  {
+   "id": "abraham-job",
+   "q": "Did Abraham and Job offer sacrifices?",
+   "keys": [
+    "abraham",
+    "job",
+    "family head",
+    "family"
+   ],
+   "a": "Yes! Long ago the family head offered sacrifices for his family. Abraham built altars, and Job offered sacrifices for his children.",
+   "src": "Genesis 12:7, 8; Job 1:5; Watchtower par. 6"
+  },
+  {
+   "id": "melchizedek",
+   "q": "Who was Melchizedek?",
+   "keys": [
+    "melchizedek",
+    "first priest",
+    "king and priest",
+    "king too",
+    "melkizedek"
+   ],
+   "a": "Melchizedek was the first person the Bible calls a priest. He was a king too! Jesus is also both a King and a Priest.",
+   "src": "Genesis 14:18; Psalm 110:4; Watchtower par. 7"
+  },
+  {
+   "id": "aaron",
+   "q": "Who was Israel’s first high priest?",
+   "keys": [
+    "aaron",
+    "moses",
+    "brother",
+    "israel",
+    "first high priest"
+   ],
+   "a": "Aaron, Moses’ brother. Aaron and his sons served as priests, and the Levites helped them.",
+   "src": "Exodus 40:12-15; Watchtower par. 8"
+  },
+  {
+   "id": "jesus-high-priest",
+   "q": "Who is our High Priest?",
+   "keys": [
+    "high priest",
+    "jesus",
+    "our priest",
+    "baptism",
+    "baptized"
+   ],
+   "a": "Jesus! He became the High Priest when he got baptized. He helps us and speaks to Jehovah for us.",
+   "src": "Hebrews 8:1; Watchtower par. 9, 12"
+  },
+  {
+   "id": "ransom",
+   "q": "Why is Jesus’ sacrifice special?",
+   "keys": [
+    "ransom",
+    "jesus sacrifice",
+    "gave his life",
+    "died",
+    "better",
+    "special"
+   ],
+   "a": "Jesus gave his perfect life for us. His sacrifice is much better than animal sacrifices. It makes real forgiveness and life forever possible.",
+   "src": "Watchtower par. 9, 14; 1 John 4:10"
+  },
+  {
+   "id": "pleads",
+   "q": "Does Jesus talk to Jehovah about me?",
+   "keys": [
+    "plead",
+    "pleads",
+    "talk to jehovah",
+    "about me",
+    "helper",
+    "speaks",
+    "for me"
+   ],
+   "a": "Yes! Jesus is a helper with the Father. He sees the good things you do and how you try to do better, and Jehovah listens to him.",
+   "src": "1 John 2:1; Hebrews 7:25; Watchtower par. 12"
+  },
+  {
+   "id": "prayer",
+   "q": "Can I talk to Jehovah in prayer?",
+   "keys": [
+    "pray",
+    "prayer",
+    "praying",
+    "talk to god",
+    "hear me"
+   ],
+   "a": "Yes! Because of Jesus, you can talk to Jehovah freely in prayer. Jehovah is happy to hear you, even when you don’t know what to say.",
+   "src": "Hebrews 4:16; Romans 8:26; Watchtower par. 13"
+  },
+  {
+   "id": "life",
+   "q": "Does Jehovah want us to live forever?",
+   "keys": [
+    "live forever",
+    "forever",
+    "everlasting",
+    "life",
+    "live"
+   ],
+   "a": "Yes! Jehovah wants us to have life. Jesus’ sacrifice opens the way for obedient people to live forever.",
+   "src": "Ezekiel 33:11; Watchtower par. 14"
+  },
+  {
+   "id": "144000",
+   "q": "Who will help Jesus as priests?",
+   "keys": [
+    "144000",
+    "144,000",
+    "anointed",
+    "kings and priests",
+    "heaven",
+    "help jesus"
+   ],
+   "a": "144,000 anointed ones will serve with Jesus in heaven as kings and priests. They will help make the earth a paradise.",
+   "src": "1 Peter 2:9; Watchtower par. 9"
+  },
+  {
+   "id": "paradise",
+   "q": "What will happen in the Thousand Year Reign?",
+   "keys": [
+    "paradise",
+    "thousand",
+    "1000",
+    "reign",
+    "perfect",
+    "earth",
+    "new world"
+   ],
+   "a": "During Jesus’ Thousand Year Reign, the priests will help obedient people become perfect, and the earth will be made a paradise.",
+   "src": "Watchtower par. 9–10, 15"
+  },
+  {
+   "id": "jesus-tired",
+   "q": "Did Jesus ever feel tired?",
+   "keys": [
+    "tired",
+    "hungry",
+    "thirsty",
+    "jesus feel",
+    "sleepy"
+   ],
+   "a": "Yes! Jesus lived on earth, so he got tired, hungry and thirsty too. He understands how we feel.",
+   "src": "Hebrews 4:15; John 4:6; Watchtower par. 16"
+  },
+  {
+   "id": "jesus-sad",
+   "q": "Did Jesus ever lose a friend?",
+   "keys": [
+    "sad",
+    "lazarus",
+    "lose a friend",
+    "lost",
+    "friend died"
+   ],
+   "a": "Yes. Jesus’ friend Lazarus died. Jesus lived on earth, so he knows how we feel and cares for us with understanding.",
+   "src": "Watchtower par. 16"
+  },
+  {
+   "id": "anointed-understand",
+   "q": "Do the 144,000 understand us?",
+   "keys": [
+    "understand us",
+    "mistakes",
+    "imperfect",
+    "relate"
+   ],
+   "a": "Yes! They once lived on earth too. They know what it is like to make mistakes and to be sick, so they can understand us.",
+   "src": "Watchtower par. 17"
+  },
+  {
+   "id": "jehovah-like",
+   "q": "What is Jehovah like?",
+   "keys": [
+    "jehovah like",
+    "personality",
+    "love",
+    "loving",
+    "kind",
+    "mercy",
+    "compassion"
+   ],
+   "a": "Jehovah is full of love, mercy and compassion. He wants to be our Friend and is ready to forgive.",
+   "src": "Watchtower par. 18; Psalm 86:5"
+  },
+  {
+   "id": "mistakes",
+   "q": "What if I make a mistake?",
+   "keys": [
+    "mistake",
+    "bad",
+    "naughty",
+    "messed up",
+    "dust",
+    "unworthy"
+   ],
+   "a": "Jehovah knows we are made of dust. He looks past our mistakes and sees the good in us. We can ask him to forgive us.",
+   "src": "Psalm 103:14; 1 John 3:20; Watchtower par. 19"
+  },
+  {
+   "id": "close",
+   "q": "Does Jehovah want to be my friend?",
+   "keys": [
+    "my friend",
+    "be friends",
+    "close",
+    "closer",
+    "near",
+    "relationship"
+   ],
+   "a": "Yes! Jehovah wants to be close to you. That is why he gave us the priesthood and Jesus.",
+   "src": "2 Corinthians 5:18; Watchtower par. 11, 18"
+  },
+  {
+   "id": "theme",
+   "q": "What is the theme scripture?",
+   "keys": [
+    "theme scripture",
+    "hebrews 5",
+    "scripture",
+    "verse"
+   ],
+   "a": "Hebrews 5:1: “Every high priest taken from among men is appointed in their behalf.”",
+   "src": "Hebrews 5:1"
+  },
+  {
+   "id": "songs",
+   "q": "What songs do we sing?",
+   "keys": [
+    "song",
+    "songs",
+    "sing",
+    "107",
+    "16"
+   ],
+   "a": "We start the study with Song 107, “The Divine Pattern of Love.” We end it with Song 16, “Praise Jah for His Son, the Anointed.”",
+   "src": "Watchtower study article (opening and closing songs)"
+  }
+ ]
+}
