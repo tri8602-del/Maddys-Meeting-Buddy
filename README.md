@@ -12,7 +12,7 @@ One app for the whole week. The **📘 Midweek / ☀️ Sunday** switch is on th
 The 🎵 Song button is on the start screen, in the Midweek meeting and on the Sunday bar. Maddy types any song number and its lead sheet appears. This week’s songs show up as quick-tap buttons. Song buttons inside the Sunday flow open the same popup.
 
 - Songs 1–151 come from `songs/`. These are page images of the whole *“Sing Out Joyfully”* lead-sheet book (`sjjsm_E.pdf`), plus `songs/songs.js`, which maps each song number to its title and pages. The map was built from the PDF’s own text, so it isn’t guessed. Run `tools/build_songs.py` only if jw.org ever replaces that PDF.
-- Newer songs (152 and up) don’t have a lead-sheet PDF on jw.org yet. Add their sheet image to the week pack’s `SONG_SHEETS` (as song 161 is now), and the Song button will show it.
+- Newer songs (152 and up) don’t have a lead-sheet PDF on jw.org yet. Add their sheet image to the week pack’s `SONG_SHEETS` (as song 158 is in `weeks/2026-11-23/midweek/`, from the jw.org original-song lead sheet), and the Song button will show it.
 
 ## Folder layout
 
